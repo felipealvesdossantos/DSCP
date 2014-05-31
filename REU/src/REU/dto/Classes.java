@@ -6,14 +6,9 @@
 
 package REU.dto;
 
-/**
- *
- * @author gaoliveira
- */
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,31 +22,28 @@ import javax.persistence.Table;
 
 /**
  *
- * @author gaoliveira
+ * @author GAOliveira
  */
-
 @Entity
-@Table(name = "subArea", schema = "")
-public class Subarea implements Serializable{
+@Table(name = "classe", schema = "")
+public class Classes implements Serializable{
     
     @Id
-    @Basic(optional = false) @Column(name = "idSubarea")
+    @Basic(optional = false) @Column(name = "idClasse")
     @GeneratedValue(strategy=GenerationType.AUTO)
     
-    private int idSubarea;
+    private int idClasse;
     private String descricao;
-    private String codSubarea;
-  
-
-    @ManyToOne
- @JoinColumn(name="idArea", referencedColumnName="idArea")
- private Area area;
+    private String tipo;
     
-    @ManyToMany
-    @JoinTable(name = "subAreaAtividades", joinColumns = @JoinColumn(name = "idSubarea"), inverseJoinColumns = @JoinColumn(name = "IdAtividades"))
-    private List<Atividades> atividades;
-      
-      public Subarea(){
+ @ManyToMany(mappedBy="classe")
+    private List<Docente> docente;
+ 
+ @ManyToMany
+    @JoinTable(name = "classesNiveis", joinColumns = @JoinColumn(name = "idClasse"), inverseJoinColumns = @JoinColumn(name = "IdNiveis"))
+    private List<Niveis> niveis;
+    
+      public Classes(){
         
     }
       

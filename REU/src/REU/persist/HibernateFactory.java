@@ -3,7 +3,7 @@ package REU.persist;
 import REU.dto.Area;
 import REU.dto.Atividades;
 import REU.dto.Docente;
-import REU.dto.Formulas;
+import REU.dto.Formula;
 import REU.dto.Pontos;
 import REU.dto.Subarea;
 import org.hibernate.Session;
@@ -22,7 +22,7 @@ public class HibernateFactory {
         cfg.addAnnotatedClass(Subarea.class);
         cfg.addAnnotatedClass(Atividades.class);
         cfg.addAnnotatedClass(Pontos.class);
-        cfg.addAnnotatedClass(Formulas.class);
+        cfg.addAnnotatedClass(Formula.class);
         cfg.addAnnotatedClass(Docente.class);
         
         factory = cfg.buildSessionFactory();

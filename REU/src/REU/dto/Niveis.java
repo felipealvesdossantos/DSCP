@@ -6,10 +6,6 @@
 
 package REU.dto;
 
-/**
- *
- * @author gaoliveira
- */
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -18,33 +14,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author gaoliveira
+ * @author GAOliveira
  */
-
 @Entity
-@Table(name = "atividades", schema = "")
-public class Atividades implements Serializable{
+@Table(name = "niveis", schema = "")
+public class Niveis implements Serializable{
     
     @Id
-    @Basic(optional = false) @Column(name = "idAtividades")
+    @Basic(optional = false) @Column(name = "idniveis")
     @GeneratedValue(strategy=GenerationType.AUTO)
     
-    private int idAtividades;
-    private String descricao;
-    private String codAtividade;
 
-    @ManyToMany(mappedBy="atividades")
-    private List<Subarea> subarea;
+    private int idNiveis;
+    private String descricao;
+    
+    
+
+    @ManyToMany(mappedBy="niveis")
+    private List<Classes> classe;
  
-      
-      public Atividades(){
+    
+      public Niveis(){
         
     }
       
