@@ -1,4 +1,4 @@
-package REU.persist;
+package persist;
 
 import java.io.Serializable;
 import java.sql.SQLException;

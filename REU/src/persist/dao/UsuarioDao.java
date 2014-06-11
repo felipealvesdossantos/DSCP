@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package REU.persist.dao;
+package persist.dao;
 
-import REU.dto.Usuario;
-import REU.persist.PersistenciaDao;
+import dto.Usuario;
+import persist.PersistenciaDao;
 import java.util.List;
 
 /**

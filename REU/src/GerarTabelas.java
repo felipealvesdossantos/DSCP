@@ -1,5 +1,5 @@
-import REU.dto.Usuario;
-import REU.persist.PersistenciaDao;
+import dto.Usuario;
+import persist.PersistenciaDao;
 import java.util.Date;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;

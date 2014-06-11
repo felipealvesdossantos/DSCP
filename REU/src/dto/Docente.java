@@ -4,12 +4,8 @@
  * and open the template in the editor.
  */
 
-package REU.dto;
+package dto;
 
-/**
- *
- * @author gaoliveira
- */
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -19,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,22 +26,26 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "atividades", schema = "")
-public class Atividades implements Serializable{
+@Table(name = "docente", schema = "")
+public class Docente implements Serializable{
     
     @Id
-    @Basic(optional = false) @Column(name = "idAtividades")
+    @Basic(optional = false) @Column(name = "idDocente")
     @GeneratedValue(strategy=GenerationType.AUTO)
     
-    private int idAtividades;
-    private String descricao;
-    private String codAtividade;
+    private int idDocente;
+    private String nome;
 
-    @ManyToMany(mappedBy="atividades")
-    private List<Subarea> subarea;
- 
+    
+    @ManyToOne(optional=true) @JoinColumn(name = "nomeDocente")
+   private Docente docente;
       
-      public Atividades(){
+    
+    @ManyToMany
+    @JoinTable(name = "docenteClasses", joinColumns = @JoinColumn(name = "idDocente"), inverseJoinColumns = @JoinColumn(name = "IdClasse"))
+    private List<Classes> classe;
+    
+      public Docente(){
         
     }
       

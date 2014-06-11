@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package REU.dto;
+package dto;
 
 import java.io.Serializable;
 import java.util.List;

@@ -4,11 +4,16 @@
  * and open the template in the editor.
  */
 
-package REU.dto;
+package dto;
 
+/**
+ *
+ * @author gaoliveira
+ */
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,26 +31,27 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "docente", schema = "")
-public class Docente implements Serializable{
+@Table(name = "subArea", schema = "")
+public class Subarea implements Serializable{
     
     @Id
-    @Basic(optional = false) @Column(name = "idDocente")
+    @Basic(optional = false) @Column(name = "idSubarea")
     @GeneratedValue(strategy=GenerationType.AUTO)
     
-    private int idDocente;
-    private String nome;
+    private int idSubarea;
+    private String descricao;
+    private String codSubarea;
+  
 
-    
-    @ManyToOne(optional=true) @JoinColumn(name = "nomeDocente")
-   private Docente docente;
-      
+    @ManyToOne
+ @JoinColumn(name="idArea", referencedColumnName="idArea")
+ private Area area;
     
     @ManyToMany
-    @JoinTable(name = "docenteClasses", joinColumns = @JoinColumn(name = "idDocente"), inverseJoinColumns = @JoinColumn(name = "IdClasse"))
-    private List<Classes> classe;
-    
-      public Docente(){
+    @JoinTable(name = "subAreaAtividades", joinColumns = @JoinColumn(name = "idSubarea"), inverseJoinColumns = @JoinColumn(name = "IdAtividades"))
+    private List<Atividades> atividades;
+      
+      public Subarea(){
         
     }
       

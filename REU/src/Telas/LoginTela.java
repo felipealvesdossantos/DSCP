@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package REU.Telas;
+package Telas;
 
-import REU.dto.Usuario;
-import REU.persist.dao.UsuarioDao;
+import dto.Usuario;
+import persist.dao.UsuarioDao;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
