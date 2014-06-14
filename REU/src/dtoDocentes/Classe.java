@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package dto;
+package dtoDocentes;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "classe", schema = "")
-public class Classes implements Serializable{
+public class Classe implements Serializable{
     
     @Id
     @Basic(optional = false) @Column(name = "idClasse")
@@ -41,9 +41,9 @@ public class Classes implements Serializable{
  
  @ManyToMany
     @JoinTable(name = "classesNiveis", joinColumns = @JoinColumn(name = "idClasse"), inverseJoinColumns = @JoinColumn(name = "IdNiveis"))
-    private List<Niveis> niveis;
+    private List<Nivel> niveis;
     
-      public Classes(){
+      public Classe(){
         
     }
       

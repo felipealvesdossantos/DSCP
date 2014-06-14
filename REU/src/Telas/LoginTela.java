@@ -4,7 +4,7 @@
  */
 package Telas;
 
-import dto.Usuario;
+import dtoDocentes.Usuario;
 import persist.dao.UsuarioDao;
 import java.util.List;
 import java.util.logging.Level;

@@ -4,15 +4,15 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect </property>
     <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://lti-02-go/sysimob
+    <property name="hibernate.connection.url">jdbc:mysql://mysql02.site31270.hospedagemdesites.ws/site312701
     </property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.connection.username">site312701</property>
+    <property name="hibernate.connection.password">ab123789</property>
     <mapping class="REU.dto.Area"/>
-    <mapping class="REU.dto.Subarea"/>
-    <mapping class="REU.dto.Atividades"/>
-    <mapping class="REU.dto.Pontos"/>
-    <mapping class="REU.dto.Formulas"/>
+    <mapping class="REU.dto.Atividade"/>
+    <mapping class="REU.dto.Formula"/>
     <mapping class="REU.dto.Docente"/>
+    <mapping class="REU.dto.Classe"/>
+    <mapping class="REU.dto.Nivel"/>
   </session-factory>
 </hibernate-configuration>

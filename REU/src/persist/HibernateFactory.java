@@ -1,10 +1,12 @@
+
 package persist;
 
-import dto.Area;
-import dto.Atividades;
-import dto.Docente;
-import dto.Formula;
-import dto.Subarea;
+import dtoAtividades.Area;
+import dtoAtividades.Atividade;
+import dtoDocentes.Docente;
+import dtoAtividades.Formula;
+import dtoDocentes.Classe;
+import dtoDocentes.Nivel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -18,10 +20,11 @@ public class HibernateFactory {
         cfg.configure();
         
         cfg.addAnnotatedClass(Area.class);
-        cfg.addAnnotatedClass(Subarea.class);
-        cfg.addAnnotatedClass(Atividades.class);
+        cfg.addAnnotatedClass(Atividade.class);
         cfg.addAnnotatedClass(Formula.class);
         cfg.addAnnotatedClass(Docente.class);
+        cfg.addAnnotatedClass(Classe.class);
+        cfg.addAnnotatedClass(Nivel.class);
         
         factory = cfg.buildSessionFactory();
     }

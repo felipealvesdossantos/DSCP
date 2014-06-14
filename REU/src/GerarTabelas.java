@@ -1,4 +1,4 @@
-import dto.Usuario;
+import dtoDocentes.Usuario;
 import persist.PersistenciaDao;
 import java.util.Date;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -18,9 +18,9 @@ public class GerarTabelas {
         se.create(true, true);
      
         
-        Usuario usuario = new Usuario();
-        usuario.setLogin("admin");
-        usuario.setSenha("12345");
+//        Usuario usuario = new Usuario();
+//        usuario.setLogin("admin");
+//        usuario.setSenha("12345");
         
       
     }

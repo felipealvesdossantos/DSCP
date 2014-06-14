@@ -4,7 +4,7 @@
  */
 package persist.dao;
 
-import dto.Usuario;
+import dtoDocentes.Usuario;
 import persist.PersistenciaDao;
 import java.util.List;
 
