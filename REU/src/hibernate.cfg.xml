@@ -8,11 +8,13 @@
     </property>
     <property name="hibernate.connection.username">site312701</property>
     <property name="hibernate.connection.password">ab123789</property>
-    <mapping class="REU.dto.Area"/>
-    <mapping class="REU.dto.Atividade"/>
-    <mapping class="REU.dto.Formula"/>
-    <mapping class="REU.dto.Docente"/>
-    <mapping class="REU.dto.Classe"/>
-    <mapping class="REU.dto.Nivel"/>
+    
+    <mapping class="dtoAtividades.Area"/>
+    <mapping class="dtoAtividades.Atividade"/>
+    <mapping class="dtoAtividades.Formula"/>
+    <mapping class="dtoDocentes.Docente"/>
+    <mapping class="dtoDocentes.Classe"/>
+    <mapping class="dtoDocentes.Nivel"/>
+    <mapping class="dtoDocentes.Usuario"/>
   </session-factory>
 </hibernate-configuration>

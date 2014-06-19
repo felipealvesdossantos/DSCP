@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,23 +29,64 @@ import javax.persistence.Table;
 @Table(name = "classe", schema = "")
 public class Classe implements Serializable{
     
+    private static final long serialVersionUID = 1L; 
+    
+    public Classe(){}
+    
     @Id
     @Basic(optional = false) @Column(name = "idClasse")
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    
+    @GeneratedValue(strategy=GenerationType.AUTO)    
     private int idClasse;
+    
     private String descricao;
     private String tipo;
     
- @ManyToMany(mappedBy="classe")
-    private List<Docente> docente;
+    @ManyToMany(mappedBy="listaClasse", fetch= FetchType.EAGER)
+    private List<Docente> listaDocente;
  
- @ManyToMany
-    @JoinTable(name = "classesNiveis", joinColumns = @JoinColumn(name = "idClasse"), inverseJoinColumns = @JoinColumn(name = "IdNiveis"))
-    private List<Nivel> niveis;
-    
-      public Classe(){
-        
+    @ManyToMany(fetch= FetchType.EAGER)
+    @JoinTable(name = "classesNiveis", 
+    joinColumns = @JoinColumn(name = "idClasse"), 
+    inverseJoinColumns = @JoinColumn(name = "idNivel"))
+    private List<Nivel> listaNiveis;
+
+    public int getIdClasse() {
+        return idClasse;
     }
-      
+
+    public void setIdClasse(int idClasse) {
+        this.idClasse = idClasse;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<Docente> getListaDocente() {
+        return listaDocente;
+    }
+
+    public void setListaDocente(List<Docente> listaDocente) {
+        this.listaDocente = listaDocente;
+    }
+
+    public List<Nivel> getListaNiveis() {
+        return listaNiveis;
+    }
+
+    public void setListaNiveis(List<Nivel> listaNiveis) {
+        this.listaNiveis = listaNiveis;
+    }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,22 +26,41 @@ import javax.persistence.Table;
 @Table(name = "nivel", schema = "")
 public class Nivel implements Serializable{
     
-    @Id
-    @Basic(optional = false) @Column(name = "idniveis")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    private static final long serialVersionUID = 1L; 
+   
+    public Nivel(){}
     
-
-    private int idNiveis;
+    @Id
+    @Basic(optional = false) @Column(name = "idNivel")
+    @GeneratedValue(strategy=GenerationType.AUTO) 
+    private int idNivel;
+    
     private String descricao;
     
-    
+    @ManyToMany(mappedBy="listaNiveis", fetch= FetchType.EAGER)
+    private List<Classe> listaClasse;
 
-    @ManyToMany(mappedBy="niveis")
-    private List<Classe> classe;
- 
-    
-      public Nivel(){
-        
+    public int getIdNivel() {
+        return idNivel;
     }
-      
+
+    public void setIdNivel(int idNivel) {
+        this.idNivel = idNivel;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<Classe> getListaClasse() {
+        return listaClasse;
+    }
+
+    public void setListaClasse(List<Classe> listaClasse) {
+        this.listaClasse = listaClasse;
+    }
 }

@@ -25,6 +25,8 @@ import javax.persistence.Table;
 @Table(name = "formula", schema = "")
 public class Formula implements Serializable{
    
+    private static final long serialVersionUID = 1L; 
+    
     public Formula(){}
     
     @Id
@@ -33,12 +35,7 @@ public class Formula implements Serializable{
     private int idFormula;
     
     private String descricao;
-    
-    @OneToMany(mappedBy="atividades")
-    private List<Atividade> listaAtividades;
-
-    
-    
+        
     public int getIdFormula() {
         return idFormula;
     }
@@ -55,11 +52,4 @@ public class Formula implements Serializable{
         this.descricao = descricao;
     }
 
-    public List<Atividade> getAtividades() {
-        return listaAtividades;
-    }
-
-    public void setAtividades(List<Atividade> atividades) {
-        this.listaAtividades = atividades;
-    }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,24 +30,55 @@ import javax.persistence.Table;
 @Table(name = "docente", schema = "")
 public class Docente implements Serializable{
     
+    private static final long serialVersionUID = 1L; 
+    
+    public Docente(){}
+    
     @Id
     @Basic(optional = false) @Column(name = "idDocente")
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    
+    @GeneratedValue(strategy=GenerationType.AUTO)    
     private int idDocente;
+    
     private String nome;
-
     
     @ManyToOne(optional=true) @JoinColumn(name = "nomeDocente")
-   private Docente docente;
-      
-    
-    @ManyToMany
-    @JoinTable(name = "docenteClasses", joinColumns = @JoinColumn(name = "idDocente"), inverseJoinColumns = @JoinColumn(name = "IdClasse"))
-    private List<Classe> classe;
-    
-      public Docente(){
-        
+    private Docente docente;
+       
+    @ManyToMany(fetch= FetchType.EAGER)
+    @JoinTable(name = "docenteClasses", 
+    joinColumns = @JoinColumn(name = "idDocente"), 
+    inverseJoinColumns = @JoinColumn(name = "idClasse"))
+    private List<Classe> listaClasse;
+
+    public int getIdDocente() {
+        return idDocente;
     }
-      
+
+    public void setIdDocente(int idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public List<Classe> getListaClasse() {
+        return listaClasse;
+    }
+
+    public void setListaClasse(List<Classe> listaClasse) {
+        this.listaClasse = listaClasse;
+    }  
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +34,8 @@ import javax.persistence.Table;
 @Table(name = "atividade", schema = "")
 public class Atividade implements Serializable{
  
+    private static final long serialVersionUID = 1L; 
+    
     public Atividade(){}
     
     @Id
@@ -46,19 +49,17 @@ public class Atividade implements Serializable{
     
     @ManyToOne
     @JoinColumn(name="idFormula")
-    private Formula fkIdFormula;
+    private Formula idFormula;
 
     @ManyToOne
     @JoinColumn(name="idAtividade")
-    private int fkIdAtividadeMae;
+    private Atividade idAtividadeMae;
     
-    @ManyToMany()
-    @JoinTable(
-    name="atividadeArea",
-    joinColumns={@JoinColumn(name="fkIdAtividade", referencedColumnName="idAtividade")},
-    inverseJoinColumns={@JoinColumn(name="fkIdArea", referencedColumnName="idAtividade")})
+    @ManyToMany(fetch= FetchType.EAGER)
+    @JoinTable(name = "atividadeArea", 
+    joinColumns = @JoinColumn(name = "idAtividade"), 
+    inverseJoinColumns = @JoinColumn(name = "idArea"))
     private List<Area> listaArea;
-
     
     public int getIdAtividade() {
         return idAtividade;
@@ -92,27 +93,27 @@ public class Atividade implements Serializable{
         this.pontos = pontos;
     }
 
-    public Formula getFkIdFormula() {
-        return fkIdFormula;
+    public Formula getIdFormula() {
+        return idFormula;
     }
 
-    public void setFkIdFormula(Formula fkIdFormula) {
-        this.fkIdFormula = fkIdFormula;
+    public void setIdFormula(Formula idFormula) {
+        this.idFormula = idFormula;
     }
 
-    public int getFkIdAtividadeMae() {
-        return fkIdAtividadeMae;
+    public Atividade getIdAtividadeMae() {
+        return idAtividadeMae;
     }
 
-    public void setFkIdAtividadeMae(int fkIdAtividadeMae) {
-        this.fkIdAtividadeMae = fkIdAtividadeMae;
+    public void setIdAtividadeMae(Atividade idAtividadeMae) {
+        this.idAtividadeMae = idAtividadeMae;
     }
 
-    public List<Area> getListaArea() {
-        return listaArea;
-    }
-
-    public void setListaArea(List<Area> listaArea) {
-        this.listaArea = listaArea;
-    }
+//    public List<Area> getListaArea() {
+//        return listaArea;
+//    }
+//
+//    public void setListaArea(List<Area> listaArea) {
+//        this.listaArea = listaArea;
+//    }
 }
