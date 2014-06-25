@@ -37,10 +37,6 @@ public class Area implements Serializable{
     @JoinColumn(name="idAreaMae")
     private Area idAreaMae;
     
-    @ManyToOne
-    @JoinColumn(name="idFormula")
-    private Area idFormula;
-    
     
     @ManyToMany(mappedBy="listaArea",fetch= FetchType.EAGER)
     private List<Atividade> listaAtividade;

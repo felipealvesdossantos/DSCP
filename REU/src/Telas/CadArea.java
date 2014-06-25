@@ -4,10 +4,15 @@
  */
 package Telas;
 
+import dtoAtividades.Area;
+import static java.awt.image.ImageObserver.WIDTH;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+import persist.dao.AreaDao;
+import persist.dao.UsuarioDao;
 
 /**
  *
@@ -32,8 +37,6 @@ public class CadArea extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelAreaCadastrar = new javax.swing.JLabel();
-        jLabelAreaNome = new javax.swing.JLabel();
-        jTextFieldAreaNome = new javax.swing.JTextField();
         jComboBoxAreaMae = new javax.swing.JComboBox();
         jButtonAreaCadastrar = new javax.swing.JButton();
         jButtonAreaEditar = new javax.swing.JButton();
@@ -52,9 +55,6 @@ public class CadArea extends javax.swing.JFrame {
 
         jLabelAreaCadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelAreaCadastrar.setText("Cadastrar Área");
-
-        jLabelAreaNome.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabelAreaNome.setText("Nome:");
 
         jButtonAreaCadastrar.setText("Cadastrar");
         jButtonAreaCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -131,12 +131,7 @@ public class CadArea extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabelAreaNome)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldAreaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,8 +152,6 @@ public class CadArea extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelAreaNome)
-                            .addComponent(jTextFieldAreaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelAreaCod)
                             .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)
@@ -191,7 +184,25 @@ public class CadArea extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAreaAlterarActionPerformed
 
     private void jButtonAreaCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaCadastrarActionPerformed
+        // TODO add your handling code here:
+
+        Area area = new Area();
         
+        area.setCodArea(jTextFieldAreaCod.getText());
+        area.setDescricao(jTextAreaDescriao.getText());
+        
+
+        AreaDao areaDao = new AreaDao();
+        try {
+            areaDao.recebeDto(area);
+        } catch (Exception ex) {
+        //    Logger.getLogger(TipoCreditoTela.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Problema ao inserir a área", "Erro", WIDTH);
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, "Área inserida com sucesso!", "Sucesso", WIDTH);
+        jTextFieldAreaCod.setText("");
+        jTextAreaDescriao.setText("");
     }//GEN-LAST:event_jButtonAreaCadastrarActionPerformed
 
     private void jButtonAreaExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaExcluirActionPerformed
@@ -242,12 +253,10 @@ public class CadArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelAreaCod;
     private javax.swing.JLabel jLabelAreaDescricao;
     private javax.swing.JLabel jLabelAreaMae;
-    private javax.swing.JLabel jLabelAreaNome;
     private javax.swing.JScrollPane jScrollPaneDescricao;
     private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JTable jTableArea;
     private javax.swing.JTextArea jTextAreaDescriao;
     private javax.swing.JTextField jTextFieldAreaCod;
-    private javax.swing.JTextField jTextFieldAreaNome;
     // End of variables declaration//GEN-END:variables
 }
