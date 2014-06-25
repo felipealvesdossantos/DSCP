@@ -44,8 +44,8 @@ public class CadUsuarioTela extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldUsuarioNome = new javax.swing.JTextField();
+        jTextFieldUsuarioCPF = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
@@ -88,9 +88,9 @@ public class CadUsuarioTela extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("LOGIN:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldUsuarioCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldUsuarioCPFActionPerformed(evt);
             }
         });
 
@@ -141,8 +141,8 @@ public class CadUsuarioTela extends javax.swing.JFrame {
                             .addGap(38, 38, 38)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldUsuarioNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldUsuarioCPF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(1, 1, 1)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -169,11 +169,11 @@ public class CadUsuarioTela extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldUsuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldUsuarioCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -221,17 +221,17 @@ public class CadUsuarioTela extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTextFieldUsuarioCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioCPFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTextFieldUsuarioCPFActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 
         Usuario usuario = new Usuario();
 
-        usuario.setNome(jTextField1.getText());
-        usuario.setCpf(jTextField2.getText());
+        usuario.setNome(jTextFieldUsuarioNome.getText());
+        usuario.setCpf(jTextFieldUsuarioCPF.getText());
         
         Integer idade = 0;
         try{
@@ -256,8 +256,8 @@ public class CadUsuarioTela extends javax.swing.JFrame {
         }
         
         JOptionPane.showMessageDialog(rootPane, "Registro inserido com sucesso!", "Sucesso", WIDTH);
-        jTextField1.setText("");
-        jTextField2.setText("");
+        jTextFieldUsuarioNome.setText("");
+        jTextFieldUsuarioCPF.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
@@ -323,12 +323,12 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextFieldUsuarioCPF;
+    private javax.swing.JTextField jTextFieldUsuarioNome;
     // End of variables declaration//GEN-END:variables
 }
