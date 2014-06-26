@@ -52,7 +52,7 @@ public class Atividade implements Serializable{
     private Formula idFormula;
 
     @ManyToOne
-    @JoinColumn(name="idAtividade")
+    @JoinColumn(name="idAtividadeMae")
     private Atividade idAtividadeMae;
     
     @ManyToMany(fetch= FetchType.EAGER)
