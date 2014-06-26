@@ -12,7 +12,6 @@ package dtoAtividades;
  */
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,12 +38,14 @@ public class Atividade implements Serializable{
     public Atividade(){}
     
     @Id
-    @Basic(optional = false) @Column(name = "idAtividade")
+    @Column(name = "idAtividade")
     @GeneratedValue(strategy=GenerationType.AUTO)   
     private int idAtividade;
     
-    private String descricao;
+    @Id
     private String codAtividade;
+    
+    private String descricao;
     private Double pontos;
     
     @ManyToOne
