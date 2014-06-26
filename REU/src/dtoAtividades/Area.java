@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "area", schema = "")
 public class Area implements Serializable{
     
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 2L; 
     
     public Area(){}
     
@@ -35,12 +35,8 @@ public class Area implements Serializable{
     private String descricao;
     
     @ManyToOne
-    @JoinColumn(name="idArea")
+    @JoinColumn(name="idAreaMae")
     private Area idAreaMae;
-    
-    @ManyToOne
-    @JoinColumn(name="idFormula")
-    private Area idFormula;
     
     
     @ManyToMany(mappedBy="listaArea",fetch= FetchType.EAGER)
