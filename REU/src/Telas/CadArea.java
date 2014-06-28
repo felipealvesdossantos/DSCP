@@ -4,7 +4,7 @@
  */
 package Telas;
 
-import dtoAtividades.Area;
+import dtoAtividades.Atividade;
 import static java.awt.image.ImageObserver.WIDTH;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -186,9 +186,9 @@ public class CadArea extends javax.swing.JFrame {
     private void jButtonAreaCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaCadastrarActionPerformed
         // TODO add your handling code here:
 
-        Area area = new Area();
+        Atividade area = new Atividade();
         
-        area.setCodArea(jTextFieldAreaCod.getText());
+        area.setCodigo(jTextFieldAreaCod.getText());
         area.setDescricao(jTextAreaDescriao.getText());
         
 

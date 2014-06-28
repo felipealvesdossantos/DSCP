@@ -40,9 +40,6 @@ public class Docente implements Serializable{
     private int idDocente;
     
     private String nome;
-    
-    @ManyToOne(optional=true) @JoinColumn(name = "nomeDocente")
-    private Docente docente;
        
     @ManyToMany(fetch= FetchType.EAGER)
     @JoinTable(name = "docenteClasses", 
@@ -64,14 +61,6 @@ public class Docente implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Docente getDocente() {
-        return docente;
-    }
-
-    public void setDocente(Docente docente) {
-        this.docente = docente;
     }
 
     public List<Classe> getListaClasse() {

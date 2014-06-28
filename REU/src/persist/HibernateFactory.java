@@ -1,7 +1,6 @@
 
 package persist;
 
-import dtoAtividades.Area;
 import dtoAtividades.Atividade;
 import dtoDocentes.Docente;
 import dtoAtividades.Formula;
@@ -20,7 +19,6 @@ public class HibernateFactory {
         AnnotationConfiguration cfg = new AnnotationConfiguration();
         cfg.configure();
         
-        cfg.addAnnotatedClass(Area.class);
         cfg.addAnnotatedClass(Atividade.class);
         cfg.addAnnotatedClass(Formula.class);
         cfg.addAnnotatedClass(Docente.class);

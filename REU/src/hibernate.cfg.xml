@@ -9,7 +9,6 @@
     <property name="hibernate.connection.username">site312701</property>
     <property name="hibernate.connection.password">ab123789</property>
     
-    <mapping class="dtoAtividades.Area"/>
     <mapping class="dtoAtividades.Atividade"/>
     <mapping class="dtoAtividades.Formula"/>
     <mapping class="dtoDocentes.Docente"/>
