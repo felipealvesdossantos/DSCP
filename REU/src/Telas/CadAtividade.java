@@ -11,19 +11,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
-import persist.dao.AreaDao;
+import persist.dao.AtividadeDao;
 import persist.dao.UsuarioDao;
 
 /**
  *
  * @author alunoinf
  */
-public class CadArea extends javax.swing.JFrame {
+public class CadAtividade extends javax.swing.JFrame {
 
     /**
-     * Creates new form CadArea
+     * Creates new form CadAtividade
      */
-    public CadArea() {
+    public CadAtividade() {
         initComponents();
     }
 
@@ -192,7 +192,7 @@ public class CadArea extends javax.swing.JFrame {
         area.setDescricao(jTextAreaDescriao.getText());
         
 
-        AreaDao areaDao = new AreaDao();
+        AtividadeDao areaDao = new AtividadeDao();
         try {
             areaDao.recebeDto(area);
         } catch (Exception ex) {
@@ -226,20 +226,20 @@ public class CadArea extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadAtividade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadAtividade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadAtividade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadAtividade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadArea().setVisible(true);
+                new CadAtividade().setVisible(true);
             }
         });
     }

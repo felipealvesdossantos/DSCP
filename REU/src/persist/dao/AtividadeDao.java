@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Geovane
  */
-public class AreaDao implements GenericoDao{
+public class AtividadeDao implements GenericoDao{
     
     PersistenciaDao persistencia = new PersistenciaDao();
     

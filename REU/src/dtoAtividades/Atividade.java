@@ -38,6 +38,7 @@ public class Atividade implements Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO)   
     private int idAtividade;
     
+    @Column(unique=true)
     private String codigo;
     
     private String descricao;
