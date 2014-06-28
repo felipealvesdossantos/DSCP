@@ -12,18 +12,29 @@ import java.util.List;
  *
  * @author Geovane
  */
-public class UsuarioDao implements GenericoDao{
-    
-    PersistenciaDao persistencia = new PersistenciaDao();
-    
+public class UsuarioDao implements GenericoDao {
+
     @Override
-    public void recebeDto(Object object) throws Exception{
-            persistencia.salvar(object);
+    public void insert(Object object) throws Exception {
+        PersistenciaDao persistencia = new PersistenciaDao();
+        persistencia.salvar(object);
     }
-    
-    public List listarTodos() throws Exception{
-        PersistenciaDao pdao = new PersistenciaDao();
-        
-        return pdao.listar(Usuario.class);
+
+    @Override
+    public void update(Object object) throws Exception {
+        PersistenciaDao persistencia = new PersistenciaDao();
+        persistencia.alterar(object);
+    }
+
+    @Override
+    public void delete(Object object) throws Exception {
+        PersistenciaDao persistencia = new PersistenciaDao();
+        persistencia.excluir(object);
+    }
+
+    @Override
+    public List list() throws Exception {
+        PersistenciaDao persistencia = new PersistenciaDao();
+        return persistencia.listar(Usuario.class);
     }
 }

@@ -42,6 +42,7 @@ public class Atividade implements Serializable{
     private String codigo;
     
     private String descricao;
+    
     private Double pontos;
     
     @ManyToOne

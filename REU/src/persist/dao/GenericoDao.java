@@ -4,11 +4,17 @@
  */
 package persist.dao;
 
+import java.util.List;
+
 /**
  *
  * @author Geovane
  */
 public interface GenericoDao {
     
-    public void recebeDto(Object object) throws Exception;
+    public void insert(Object object) throws Exception;
+    public void update(Object object) throws Exception;
+    public void delete(Object object) throws Exception;
+    public List list() throws Exception;
+    
 }

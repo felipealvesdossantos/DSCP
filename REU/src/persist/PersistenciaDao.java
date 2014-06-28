@@ -13,66 +13,66 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Expression;
 
-public class PersistenciaDao implements Serializable{
-    
-    public void salvar(Object object) throws Exception, SQLException, ConstraintViolationException{
+public class PersistenciaDao implements Serializable {
 
-       Session session = HibernateFactory.getSession();
-       Transaction transaction = session.beginTransaction();
-       try{
-
-       session.saveOrUpdate(object);
-       session.flush();
-       transaction.commit();
-       }catch(Exception e){
-    	transaction.rollback();
-    	throw new Exception("Houve erros: "+e.getMessage());
-       }finally{
-         session.close();
-       }
-    }
-    
-    public void alterar(Object object) throws Exception, SQLException, ConstraintViolationException{
-
-       Session session = HibernateFactory.getSession();
-       Transaction transaction = session.beginTransaction();
-       try{
-
-       session.update(object);
-       session.flush();
-       transaction.commit();
-       }catch(Exception e){
-    	transaction.rollback();
-    	throw new Exception("Houve erros: "+e.getMessage());
-       }finally{
-         session.close();
-       }
-    }
-    
-    public void excluir(Object object) throws Exception, SQLException, ConstraintViolationException{
+    public void salvar(Object object) throws Exception, SQLException, ConstraintViolationException {
 
         Session session = HibernateFactory.getSession();
         Transaction transaction = session.beginTransaction();
-        try{
+        try {
+
+            session.saveOrUpdate(object);
+            session.flush();
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw new Exception("Houve erros: " + e.getMessage());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void alterar(Object object) throws Exception, SQLException, ConstraintViolationException {
+
+        Session session = HibernateFactory.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+
+            session.update(object);
+            session.flush();
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw new Exception("Houve erros: " + e.getMessage());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void excluir(Object object) throws Exception, SQLException, ConstraintViolationException {
+
+        Session session = HibernateFactory.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.delete(object);
             session.flush();
             transaction.commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             transaction.rollback();
-            throw new Exception("Houve erros: "+e.getMessage());
-        }finally{
-             session.close();
+            throw new Exception("Houve erros: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
-    
-    public List listarFiltro(Class classeEntidade, Map parametros, String orderBy){
+
+    public List listarFiltro(Class classeEntidade, Map parametros, String orderBy) {
 
         Session session = HibernateFactory.getSession();
         Criteria consulta = session.createCriteria(classeEntidade);
 
-        if(orderBy!=null && !orderBy.equals("")){
+        if (orderBy != null && !orderBy.equals("")) {
             String[] ordenadores = orderBy.split(",");
-            for(String order : ordenadores){
+            for (String order : ordenadores) {
                 consulta.addOrder(Order.asc(order));
             }
         }
@@ -82,31 +82,31 @@ public class PersistenciaDao implements Serializable{
             key = (String) it.next();
             consulta.add(Expression.like(key, parametros.get(key)));
         }
-        
+
         List resultado = consulta.list();
         session.close();
         return resultado;
     }
-    
-    public List listarFiltroHql(Class classeEntidade, Map parametros, String orderBy, String order, StringBuilder hql){
+
+    public List listarFiltroHql(Class classeEntidade, Map parametros, String orderBy, String order, StringBuilder hql) {
 
         Session session = HibernateFactory.getSession();
 
         StringBuilder hqlQuery = new StringBuilder("from " + classeEntidade.getName() + " bean where 1=1 ");
         hqlQuery.append(hql);
-        
-        if(orderBy != null && !orderBy.equals("")){
-            hqlQuery.append(" order by " + orderBy  + " " + order);
+
+        if (orderBy != null && !orderBy.equals("")) {
+            hqlQuery.append(" order by " + orderBy + " " + order);
         }
 
         Query query = session.createQuery(hqlQuery.toString());
 
-        if(parametros != null){
+        if (parametros != null) {
             Iterator iter = parametros.keySet().iterator();
             while (iter.hasNext()) {
                 String name = (String) iter.next();
                 Object value = parametros.get(name);
-                query.setParameter(name,value);
+                query.setParameter(name, value);
             }
         }
 
@@ -114,7 +114,7 @@ public class PersistenciaDao implements Serializable{
         session.close();
         return lista;
     }
-    
+
     public List listar(Class clazz) throws Exception, SQLException, ConstraintViolationException {
 
         Session session = HibernateFactory.getSession();
@@ -128,9 +128,9 @@ public class PersistenciaDao implements Serializable{
         session.close();
         return objts;
     }
-    
-    public static Object load(Class<Object> beanClass,Serializable id){
-        try{
+
+    public static Object load(Class<Object> beanClass, Serializable id) {
+        try {
             Object result = null;
             Session session = HibernateFactory.getSession();
 
@@ -139,12 +139,12 @@ public class PersistenciaDao implements Serializable{
             session.flush();
             session.refresh(result);
             session.close();
-            
+
             return result;
-        }catch(Throwable e){
-             e.printStackTrace();
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-        
+
         return null;
     }
 }

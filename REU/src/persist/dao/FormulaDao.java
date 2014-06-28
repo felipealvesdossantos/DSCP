@@ -4,17 +4,18 @@
  */
 package persist.dao;
 
-import dtoAtividades.Atividade;
-import persist.PersistenciaDao;
+import dtoAtividades.Formula;
+import dtoDocentes.Usuario;
 import java.util.List;
+import persist.PersistenciaDao;
 
 /**
  *
- * @author Geovane
+ * @author felipe
  */
-public class AtividadeDao implements GenericoDao {
+public class FormulaDao implements GenericoDao{
 
-    @Override
+     @Override
     public void insert(Object object) throws Exception {
         PersistenciaDao persistencia = new PersistenciaDao();
         persistencia.salvar(object);
@@ -33,8 +34,9 @@ public class AtividadeDao implements GenericoDao {
     }
 
     @Override
-    public List list() throws Exception {      
+    public List list() throws Exception {
         PersistenciaDao persistencia = new PersistenciaDao();
-        return persistencia.listar(Atividade.class);
+        return persistencia.listar(Formula.class);
     }
+    
 }
