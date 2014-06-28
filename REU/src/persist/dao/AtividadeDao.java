@@ -4,15 +4,15 @@
  */
 package persist.dao;
 
-import dtoAtividades.Area;
-import persist.PersistenciaDao;
+import dtoAtividades.Atividade;
 import java.util.List;
+import persist.PersistenciaDao;
 
 /**
  *
  * @author Geovane
  */
-public class AreaDao implements GenericoDao{
+public class AtividadeDao implements GenericoDao{
     
     PersistenciaDao persistencia = new PersistenciaDao();
     
@@ -24,6 +24,6 @@ public class AreaDao implements GenericoDao{
     public List listarTodos() throws Exception{
         PersistenciaDao pdao = new PersistenciaDao();
         
-        return pdao.listar(Area.class);
+        return pdao.listar(Atividade.class);
     }
 }

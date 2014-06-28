@@ -10,8 +10,11 @@ package dtoAtividades;
  *
  * @author gaoliveira
  */
+import dtoDocentes.Docente;
+import dtoDocentes.Nivel;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,9 +34,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "atividade", schema = "")
-public class Atividade implements Serializable{
+public class Atividade implements Serializable {
  
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 2L; 
     
     public Atividade(){}
     
@@ -42,25 +45,22 @@ public class Atividade implements Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO)   
     private int idAtividade;
     
-    @Id
-    private String codAtividade;
+    @Column(unique = true)
+    private String codigo;
     
     private String descricao;
     private Double pontos;
+    
     
     @ManyToOne
     @JoinColumn(name="idFormula")
     private Formula idFormula;
 
-    @ManyToOne
-    @JoinColumn(name="idAtividadeMae")
+    @ManyToOne 
+   
     private Atividade idAtividadeMae;
     
-    @ManyToMany(fetch= FetchType.EAGER)
-    @JoinTable(name = "atividadeArea", 
-    joinColumns = @JoinColumn(name = "idAtividade"), 
-    inverseJoinColumns = @JoinColumn(name = "idArea"))
-    private List<Area> listaArea;
+  
     
     public int getIdAtividade() {
         return idAtividade;
@@ -78,12 +78,12 @@ public class Atividade implements Serializable{
         this.descricao = descricao;
     }
 
-    public String getCodAtividade() {
-        return codAtividade;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodAtividade(String codAtividade) {
-        this.codAtividade = codAtividade;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Double getPontos() {
@@ -101,20 +101,4 @@ public class Atividade implements Serializable{
     public void setIdFormula(Formula idFormula) {
         this.idFormula = idFormula;
     }
-
-    public Atividade getIdAtividadeMae() {
-        return idAtividadeMae;
-    }
-
-    public void setIdAtividadeMae(Atividade idAtividadeMae) {
-        this.idAtividadeMae = idAtividadeMae;
-    }
-
-//    public List<Area> getListaArea() {
-//        return listaArea;
-//    }
-//
-//    public void setListaArea(List<Area> listaArea) {
-//        this.listaArea = listaArea;
-//    }
 }
