@@ -36,7 +36,7 @@ public class CadFormula extends javax.swing.JFrame {
         jScrollPaneFormula = new javax.swing.JScrollPane();
         jTextFormulaDescriao = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelFormulaCadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelFormulaCadastrar.setText("Cadastrar Fórmula");

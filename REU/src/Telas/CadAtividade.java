@@ -53,7 +53,7 @@ public class CadAtividade extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextAreaPontos = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelAreaCadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelAreaCadastrar.setText("Cadastrar Área");

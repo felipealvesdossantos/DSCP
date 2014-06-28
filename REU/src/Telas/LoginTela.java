@@ -172,18 +172,19 @@ private void bt_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:e
         }
     
         boolean temUsuario = false;
- /*       for (Usuario usuario : usuariosLista) {
+        for (Usuario usuario : usuariosLista) {
                 if(usuario.getLogin().equalsIgnoreCase(jTextField_login.getText()) &&
                         usuario.getSenha().equalsIgnoreCase(jPasswordField_senha.getText())){
                     temUsuario = true;
-                    new FramePrincipal Tela().setVisible(true);
+                    new TelaPrincipal().setVisible(true);
+              
                      dispose();
                      return;
                     } else
                     temUsuario = false;
                     
                 
-            }*/
+            }
         if(temUsuario == false){
             JOptionPane.showMessageDialog(rootPane, "Usuário Não Cadastrado!");
                 return;
