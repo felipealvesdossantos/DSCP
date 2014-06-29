@@ -4,6 +4,20 @@
  */
 package Telas;
 
+import dtoAtividades.Atividade;
+import dtoAtividades.Formula;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import persist.PersistenciaDao;
+import persist.dao.AtividadeDao;
+import persist.dao.FormulaDao;
+
 /**
  *
  * @author alunoinf
@@ -28,13 +42,15 @@ public class CadFormula extends javax.swing.JFrame {
 
         jLabelFormulaCadastrar = new javax.swing.JLabel();
         jButtonFormulaCadastrar = new javax.swing.JButton();
-        jButtonFormulaEditar = new javax.swing.JButton();
+        jButtonFormulaExcluir = new javax.swing.JButton();
         jButtonFormulaAlterar = new javax.swing.JButton();
         jScrollPaneTabela = new javax.swing.JScrollPane();
         jTableArea = new javax.swing.JTable();
         jLabelFormulaDescricao = new javax.swing.JLabel();
         jScrollPaneFormula = new javax.swing.JScrollPane();
         jTextFormulaDescriao = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -42,10 +58,25 @@ public class CadFormula extends javax.swing.JFrame {
         jLabelFormulaCadastrar.setText("Cadastrar Fórmula");
 
         jButtonFormulaCadastrar.setText("Cadastrar");
+        jButtonFormulaCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFormulaCadastrarActionPerformed(evt);
+            }
+        });
 
-        jButtonFormulaEditar.setText("Editar");
+        jButtonFormulaExcluir.setText("Excluir");
+        jButtonFormulaExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFormulaExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonFormulaAlterar.setText("Alterar");
+        jButtonFormulaAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFormulaAlterarActionPerformed(evt);
+            }
+        });
 
         jTableArea.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -63,6 +94,20 @@ public class CadFormula extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableArea.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTableAreaAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jTableArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAreaMouseClicked(evt);
+            }
+        });
         jScrollPaneTabela.setViewportView(jTableArea);
 
         jLabelFormulaDescricao.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -72,58 +117,327 @@ public class CadFormula extends javax.swing.JFrame {
         jTextFormulaDescriao.setRows(5);
         jScrollPaneFormula.setViewportView(jTextFormulaDescriao);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabelFormulaCadastrar)
-                .addGap(180, 180, 180))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPaneTabela)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelFormulaDescricao)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelFormulaDescricao)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButtonFormulaEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonFormulaCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jButtonFormulaAlterar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 13, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPaneFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButtonFormulaExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonFormulaCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jButtonFormulaAlterar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(100, 100, 100)
+                                .addComponent(jLabelFormulaCadastrar)))
+                        .addGap(0, 26, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addComponent(jLabelFormulaCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonFormulaCadastrar)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonFormulaCadastrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonFormulaEditar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonFormulaAlterar))
-                            .addComponent(jScrollPaneFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonFormulaExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelFormulaDescricao)
-                        .addGap(66, 66, 66)))
+                        .addComponent(jButtonFormulaAlterar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPaneFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(11, 11, 11)
+                            .addComponent(jLabelFormulaDescricao))))
+                .addGap(33, 33, 33)
                 .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonFormulaCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFormulaCadastrarActionPerformed
+              // TODO add your handling code here:
+
+        Formula formula = new Formula();
+        
+        formula.setDescricao(jTextFormulaDescriao.getText());
+
+        FormulaDao FormulaDao = new FormulaDao();
+        try {
+            FormulaDao.recebeDto(formula);
+        } catch (Exception ex) {
+        //    Logger.getLogger(TipoCreditoTela.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Problema ao inserir a formula", "Erro" + ex.getMessage(), WIDTH);
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, "Formula inserida com sucesso!", "Sucesso", WIDTH);
+        jTextFieldID.setText("");
+        jTextFormulaDescriao.setText("");
+        
+        
+        //Atualizar jtable
+        
+           try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Formula formulaaa : formulas) {
+                     adm.addRow(new Object[]{
+                        formulaaa.getIdFormula(),
+                        formulaaa.getDescricao(),
+                            
+                        });
+            }
+        } catch (Exception e) {
+           
+        }
+        
+    }//GEN-LAST:event_jButtonFormulaCadastrarActionPerformed
+
+    private void jTableAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAreaMouseClicked
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+          //  DefaultTableModel adm = (DefaultTableModel) jTable3.getModel();
+           // adm.setNumRows(0);
+            
+            for (Formula formula : formulas) {
+               int linha_selecionada = jTableArea.getSelectedRow();
+  
+        ///////// Pegar dados da Jtable
+        jTextFieldID.setText(jTableArea.getValueAt(linha_selecionada, 0).toString());
+        jTextFormulaDescriao.setText(jTableArea.getValueAt(linha_selecionada, 1).toString());
+     
+  
+        Object id;
+        id =  jTableArea.getValueAt(linha_selecionada, 0);
+        int resultado=Integer.parseInt(id.toString()); 
+         
+     
+       ///////// Joga os dados da linha selecionada para os Jfield
+       if(formula.getIdFormula() == resultado){
+            jTextFieldID.setText("");
+            jTextFormulaDescriao.setText("");
+       
+       
+            int num = formula.getIdFormula();
+        
+       jTextFieldID.setText(String.valueOf(num));
+       jTextFormulaDescriao.setText(formula.getDescricao());
+
+        }
+       
+            }
+     }catch (Exception e) {
+           
+        }
+    }//GEN-LAST:event_jTableAreaMouseClicked
+
+    private void jButtonFormulaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFormulaAlterarActionPerformed
+       try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+
+            /////////////////////////////////////// CAPTURA VALORES DAS CELULAS DA jTable CLIENTE /////////////////////////////////
+
+            int linha_selecionada = jTableArea.getSelectedRow();
+
+            int id;
+            
+            id =  Integer.parseInt(jTextFieldID.getText());
+           
+            //Object teste = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            
+            
+
+            for (Formula formula : formulas) {
+                if (formula.getIdFormula() == id) {
+                    String descricao = jTextFormulaDescriao.getText();
+                   
+
+
+
+                    //////////////////////////////////////// CELULAS ///////////////////////////////////////////////////////////////////////
+
+
+                    ////////// EDITA descrição
+
+                    if (!(formula.getDescricao().equals(descricao))) {
+                        formula.setDescricao(descricao);
+                        FormulaDao formulaDao = new FormulaDao();
+                        try {
+                            formulaDao.recebeDto(formula);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadFormula.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                    }
+
+
+
+                    JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+
+                }
+            }
+    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar registro!");
+        }
+       
+       //Atualizar jtable
+        
+           try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Formula formulaaa : formulas) {
+                     adm.addRow(new Object[]{
+                        formulaaa.getIdFormula(),
+                        formulaaa.getDescricao(),
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jButtonFormulaAlterarActionPerformed
+
+    private void jTableAreaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableAreaAncestorAdded
+          try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Formula formula : formulas) {
+                     adm.addRow(new Object[]{
+                        formula.getIdFormula(),
+                        formula.getDescricao(),
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jTableAreaAncestorAdded
+
+    private void jButtonFormulaExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFormulaExcluirActionPerformed
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+
+            //  DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
+            //  adm.setNumRows(0);
+
+            int linha_selecionada = jTableArea.getSelectedRow();
+
+            //Object cod = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            int id;
+            id =  Integer.parseInt(jTextFieldID.getText());
+            
+
+            for (Formula formula : formulas) {
+                if (formula.getIdFormula() == id) {
+                    FormulaDao.excluir(formula);
+
+                }
+            
+                jTextFieldID.setText("");
+                jTextFormulaDescriao.setText("");
+                
+                
+            }
+
+            JOptionPane.showMessageDialog(null, "Formula excluida com sucesso!");
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualizar jtable
+        
+           try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Formula formulaaa : formulas) {
+                     adm.addRow(new Object[]{
+                        formulaaa.getIdFormula(),
+                        formulaaa.getDescricao(),
+                            
+                        });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gerar o relatório!");
+        }
+    }//GEN-LAST:event_jButtonFormulaExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,12 +476,14 @@ public class CadFormula extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonFormulaAlterar;
     private javax.swing.JButton jButtonFormulaCadastrar;
-    private javax.swing.JButton jButtonFormulaEditar;
+    private javax.swing.JButton jButtonFormulaExcluir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelFormulaCadastrar;
     private javax.swing.JLabel jLabelFormulaDescricao;
     private javax.swing.JScrollPane jScrollPaneFormula;
     private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JTable jTableArea;
+    private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextArea jTextFormulaDescriao;
     // End of variables declaration//GEN-END:variables
 }

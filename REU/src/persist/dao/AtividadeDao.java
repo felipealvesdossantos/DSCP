@@ -6,6 +6,8 @@ package persist.dao;
 
 import dtoAtividades.Atividade;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import persist.PersistenciaDao;
 
 /**
@@ -20,6 +22,18 @@ public class AtividadeDao implements GenericoDao{
     public void recebeDto(Object object) throws Exception{
             persistencia.salvar(object);
     }
+    
+    /*public List listaTipoSelecionado(int index) {
+        List lista = null;
+        
+            try {
+                lista = persistencia.listar(Atividade.class);
+            } catch (Exception ex) {
+                
+            }
+
+        return lista;
+    }*/
     
     public List listarTodos() throws Exception{
         PersistenciaDao pdao = new PersistenciaDao();
