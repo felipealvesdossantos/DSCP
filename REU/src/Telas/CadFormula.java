@@ -120,6 +120,8 @@ public class CadFormula extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("ID:");
 
+        jTextFieldID.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -435,7 +437,7 @@ public class CadFormula extends javax.swing.JFrame {
                         });
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gerar o relatório!");
+            
         }
     }//GEN-LAST:event_jButtonFormulaExcluirActionPerformed
 

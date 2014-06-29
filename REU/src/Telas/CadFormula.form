@@ -197,6 +197,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldID">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
