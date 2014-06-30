@@ -40,6 +40,9 @@ public class Classe implements Serializable{
     
     private String descricao;
     private String tipo;
+    private String idNiveis;
+
+    
     
     @ManyToMany(mappedBy="listaClasse", fetch= FetchType.EAGER)
     private List<Docente> listaDocente;
@@ -88,5 +91,13 @@ public class Classe implements Serializable{
 
     public void setListaNiveis(List<Nivel> listaNiveis) {
         this.listaNiveis = listaNiveis;
+    }
+    
+    public String getIdNiveis() {
+        return idNiveis;
+    }
+
+    public void setIdNiveis(String idNiveis) {
+        this.idNiveis = idNiveis;
     }
 }
