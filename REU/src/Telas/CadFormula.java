@@ -45,7 +45,7 @@ public class CadFormula extends javax.swing.JFrame {
         jButtonFormulaExcluir = new javax.swing.JButton();
         jButtonFormulaAlterar = new javax.swing.JButton();
         jScrollPaneTabela = new javax.swing.JScrollPane();
-        jTableArea = new javax.swing.JTable();
+        jTableFormula = new javax.swing.JTable();
         jLabelFormulaDescricao = new javax.swing.JLabel();
         jScrollPaneFormula = new javax.swing.JScrollPane();
         jTextFormulaDescriao = new javax.swing.JTextArea();
@@ -78,7 +78,7 @@ public class CadFormula extends javax.swing.JFrame {
             }
         });
 
-        jTableArea.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFormula.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -94,21 +94,21 @@ public class CadFormula extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableArea.addAncestorListener(new javax.swing.event.AncestorListener() {
+        jTableFormula.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jTableAreaAncestorAdded(evt);
+                jTableFormulaAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        jTableArea.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableFormula.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableAreaMouseClicked(evt);
+                jTableFormulaMouseClicked(evt);
             }
         });
-        jScrollPaneTabela.setViewportView(jTableArea);
+        jScrollPaneTabela.setViewportView(jTableFormula);
 
         jLabelFormulaDescricao.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabelFormulaDescricao.setText("Formula:");
@@ -211,7 +211,7 @@ public class CadFormula extends javax.swing.JFrame {
             
             List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
             
-            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            DefaultTableModel adm = (DefaultTableModel) jTableFormula.getModel();
             adm.setNumRows(0);
             
             for (Formula formulaaa : formulas) {
@@ -227,7 +227,7 @@ public class CadFormula extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonFormulaCadastrarActionPerformed
 
-    private void jTableAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAreaMouseClicked
+    private void jTableFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFormulaMouseClicked
         
         try {
             PersistenciaDao persistenciaDao = new PersistenciaDao();
@@ -242,15 +242,15 @@ public class CadFormula extends javax.swing.JFrame {
            // adm.setNumRows(0);
             
             for (Formula formula : formulas) {
-               int linha_selecionada = jTableArea.getSelectedRow();
+               int linha_selecionada = jTableFormula.getSelectedRow();
   
         ///////// Pegar dados da Jtable
-        jTextFieldID.setText(jTableArea.getValueAt(linha_selecionada, 0).toString());
-        jTextFormulaDescriao.setText(jTableArea.getValueAt(linha_selecionada, 1).toString());
+        jTextFieldID.setText(jTableFormula.getValueAt(linha_selecionada, 0).toString());
+        jTextFormulaDescriao.setText(jTableFormula.getValueAt(linha_selecionada, 1).toString());
      
   
         Object id;
-        id =  jTableArea.getValueAt(linha_selecionada, 0);
+        id =  jTableFormula.getValueAt(linha_selecionada, 0);
         int resultado=Integer.parseInt(id.toString()); 
          
      
@@ -271,7 +271,7 @@ public class CadFormula extends javax.swing.JFrame {
      }catch (Exception e) {
            
         }
-    }//GEN-LAST:event_jTableAreaMouseClicked
+    }//GEN-LAST:event_jTableFormulaMouseClicked
 
     private void jButtonFormulaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFormulaAlterarActionPerformed
        try {
@@ -284,7 +284,7 @@ public class CadFormula extends javax.swing.JFrame {
 
             /////////////////////////////////////// CAPTURA VALORES DAS CELULAS DA jTable CLIENTE /////////////////////////////////
 
-            int linha_selecionada = jTableArea.getSelectedRow();
+            int linha_selecionada = jTableFormula.getSelectedRow();
 
             int id;
             
@@ -339,7 +339,7 @@ public class CadFormula extends javax.swing.JFrame {
             
             List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
             
-            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            DefaultTableModel adm = (DefaultTableModel) jTableFormula.getModel();
             adm.setNumRows(0);
             
             for (Formula formulaaa : formulas) {
@@ -354,7 +354,7 @@ public class CadFormula extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonFormulaAlterarActionPerformed
 
-    private void jTableAreaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableAreaAncestorAdded
+    private void jTableFormulaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableFormulaAncestorAdded
           try {
             PersistenciaDao persistenciaDao = new PersistenciaDao();
             Map<String, Object> params = new HashMap<String, Object>();
@@ -364,7 +364,7 @@ public class CadFormula extends javax.swing.JFrame {
             
             List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
             
-            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            DefaultTableModel adm = (DefaultTableModel) jTableFormula.getModel();
             adm.setNumRows(0);
             
             for (Formula formula : formulas) {
@@ -377,7 +377,7 @@ public class CadFormula extends javax.swing.JFrame {
         } catch (Exception e) {
             
         }
-    }//GEN-LAST:event_jTableAreaAncestorAdded
+    }//GEN-LAST:event_jTableFormulaAncestorAdded
 
     private void jButtonFormulaExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFormulaExcluirActionPerformed
         try {
@@ -391,7 +391,7 @@ public class CadFormula extends javax.swing.JFrame {
             //  DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
             //  adm.setNumRows(0);
 
-            int linha_selecionada = jTableArea.getSelectedRow();
+            int linha_selecionada = jTableFormula.getSelectedRow();
 
             //Object cod = (Object) jTable3.getValueAt(linha_selecionada, 0);
             int id;
@@ -426,7 +426,7 @@ public class CadFormula extends javax.swing.JFrame {
             
             List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
             
-            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            DefaultTableModel adm = (DefaultTableModel) jTableFormula.getModel();
             adm.setNumRows(0);
             
             for (Formula formulaaa : formulas) {
@@ -484,7 +484,7 @@ public class CadFormula extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelFormulaDescricao;
     private javax.swing.JScrollPane jScrollPaneFormula;
     private javax.swing.JScrollPane jScrollPaneTabela;
-    private javax.swing.JTable jTableArea;
+    private javax.swing.JTable jTableFormula;
     private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextArea jTextFormulaDescriao;
     // End of variables declaration//GEN-END:variables

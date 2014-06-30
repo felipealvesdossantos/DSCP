@@ -53,10 +53,9 @@
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jButtonAreaEditar" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <Component id="jButtonAreaExcluir" min="-2" pref="94" max="-2" attributes="0"/>
                                       <Component id="jButtonAreaCadastrar" min="-2" pref="94" max="-2" attributes="0"/>
                                       <Component id="jButtonAreaAlterar" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                                      <Component id="jButtonAreaExcluir" min="-2" pref="94" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -99,11 +98,9 @@
                   <Group type="102" attributes="0">
                       <Component id="jButtonAreaCadastrar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonAreaEditar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAreaExcluir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonAreaAlterar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonAreaExcluir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="27" max="32767" attributes="0"/>
@@ -133,6 +130,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jComboBoxAreaMaeAncestorAdded"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxAreaMaeActionPerformed"/>
       </Events>
     </Component>
@@ -144,10 +142,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAreaCadastrarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonAreaEditar">
+    <Component class="javax.swing.JButton" name="jButtonAreaExcluir">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editar"/>
+        <Property name="text" type="java.lang.String" value="Excluir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAreaExcluirActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonAreaAlterar">
       <Properties>
@@ -167,10 +168,9 @@
         <Component class="javax.swing.JTable" name="jTableArea">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="0">
+              <Table columnCount="5" rowCount="0">
                 <Column editable="false" title="Id &#xc1;rea" type="java.lang.Object"/>
                 <Column editable="false" title="Cod. &#xc1;rea" type="java.lang.Object"/>
-                <Column editable="false" title="Nome &#xc1;rea" type="java.lang.Object"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
                 <Column editable="false" title="Cod. M&#xe3;e" type="java.lang.Object"/>
                 <Column editable="false" title="Pontos" type="java.lang.Object"/>
@@ -203,17 +203,16 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jTableAreaAncestorAdded"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableAreaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -257,14 +256,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldAreaCod">
-    </Component>
-    <Component class="javax.swing.JButton" name="jButtonAreaExcluir">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Excluir"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAreaExcluirActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

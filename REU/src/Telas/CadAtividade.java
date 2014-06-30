@@ -5,9 +5,12 @@
 package Telas;
 
 import dtoAtividades.Atividade;
+import dtoAtividades.Formula;
 import dtoDocentes.Usuario;
 import static java.awt.image.ImageObserver.WIDTH;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -15,7 +18,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import persist.PersistenciaDao;
 import persist.dao.AtividadeDao;
+import persist.dao.FormulaDao;
 import persist.dao.UsuarioDao;
 
 /**
@@ -43,7 +49,7 @@ public class CadAtividade extends javax.swing.JFrame {
         jLabelAreaCadastrar = new javax.swing.JLabel();
         jComboBoxAreaMae = new javax.swing.JComboBox();
         jButtonAreaCadastrar = new javax.swing.JButton();
-        jButtonAreaEditar = new javax.swing.JButton();
+        jButtonAreaExcluir = new javax.swing.JButton();
         jButtonAreaAlterar = new javax.swing.JButton();
         jScrollPaneTabela = new javax.swing.JScrollPane();
         jTableArea = new javax.swing.JTable();
@@ -53,7 +59,6 @@ public class CadAtividade extends javax.swing.JFrame {
         jLabelAreaMae = new javax.swing.JLabel();
         jLabelAreaCod = new javax.swing.JLabel();
         jTextFieldAreaCod = new javax.swing.JTextField();
-        jButtonAreaExcluir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextAreaPontos = new javax.swing.JTextField();
 
@@ -62,6 +67,15 @@ public class CadAtividade extends javax.swing.JFrame {
         jLabelAreaCadastrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelAreaCadastrar.setText("Cadastrar Área / Atividade");
 
+        jComboBoxAreaMae.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jComboBoxAreaMaeAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jComboBoxAreaMae.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxAreaMaeActionPerformed(evt);
@@ -75,7 +89,12 @@ public class CadAtividade extends javax.swing.JFrame {
             }
         });
 
-        jButtonAreaEditar.setText("Editar");
+        jButtonAreaExcluir.setText("Excluir");
+        jButtonAreaExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAreaExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonAreaAlterar.setText("Alterar");
         jButtonAreaAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,15 +108,29 @@ public class CadAtividade extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id Área", "Cod. Área", "Nome Área", "Descrição", "Cod. Mãe", "Pontos"
+                "Id Área", "Cod. Área", "Descrição", "Cod. Mãe", "Pontos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableArea.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTableAreaAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jTableArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAreaMouseClicked(evt);
             }
         });
         jScrollPaneTabela.setViewportView(jTableArea);
@@ -114,13 +147,6 @@ public class CadAtividade extends javax.swing.JFrame {
 
         jLabelAreaCod.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabelAreaCod.setText("Cod.:");
-
-        jButtonAreaExcluir.setText("Excluir");
-        jButtonAreaExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAreaExcluirActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Pontos:");
@@ -155,10 +181,9 @@ public class CadAtividade extends javax.swing.JFrame {
                                         .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButtonAreaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButtonAreaExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jButtonAreaCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonAreaAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonAreaExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jButtonAreaAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -188,11 +213,9 @@ public class CadAtividade extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonAreaCadastrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAreaEditar)
+                        .addComponent(jButtonAreaExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAreaAlterar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAreaExcluir)))
+                        .addComponent(jButtonAreaAlterar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxAreaMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,17 +228,142 @@ public class CadAtividade extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAreaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaAlterarActionPerformed
-        // TODO add your handling code here:
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+
+            /////////////////////////////////////// CAPTURA VALORES DAS CELULAS DA jTable CLIENTE /////////////////////////////////
+
+            int linha_selecionada = jTableArea.getSelectedRow();
+
+            String id;
+            
+            id =  jTextFieldAreaCod.getText();
+           
+            //Object teste = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            
+            
+
+            for (Atividade atividade : atividades) {
+                if (atividade.getCodigo().equals(id)) {
+                    String cod = jTextFieldAreaCod.getText();
+                    String descricao = jTextAreaDescriao.getText();
+                    double pontos = Double.parseDouble(jTextAreaPontos.getText());
+                    String codMae = (String)(jComboBoxAreaMae.getSelectedItem().toString());
+                   
+
+
+
+                    //////////////////////////////////////// CELULAS ///////////////////////////////////////////////////////////////////////
+
+
+                    ////////// EDITA codigo
+
+                    if (!(atividade.getCodigo().equals(cod))) {
+                        atividade.setCodigo(cod);
+                        AtividadeDao atividadeDao = new AtividadeDao();
+                        try {
+                            atividadeDao.recebeDto(atividade);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                    }
+                    
+                    ////////// EDITA descrição
+
+                    if (!(atividade.getDescricao().equals(descricao))) {
+                        atividade.setDescricao(descricao);
+                        AtividadeDao atividadeDao = new AtividadeDao();
+                        try {
+                            atividadeDao.recebeDto(atividade);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                    }
+                    
+                    ////////// EDITA pontos
+
+                    if (!(atividade.getPontos().equals(pontos))) {
+                        atividade.setPontos(pontos);
+                        AtividadeDao atividadeDao = new AtividadeDao();
+                        try {
+                            atividadeDao.recebeDto(atividade);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                    }
+
+                    ////////// EDITA codMãe
+
+                    if (!(atividade.getCodigoMae().equals(codMae))) {
+                        atividade.setCodigoMae(codMae);
+                        AtividadeDao atividadeDao = new AtividadeDao();
+                        try {
+                            atividadeDao.recebeDto(atividade);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+
+                }
+            }
+            
+            } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+        }
+        
+        //Atualizar tabela 
+         
+          try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Atividade atividade : atividades) {
+                     adm.addRow(new Object[]{
+                        atividade.getIdAtividade(),
+                        atividade.getCodigo(),
+                        atividade.getDescricao(),
+                        atividade.getCodigoMae(),
+                        atividade.getPontos()
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+       
     }//GEN-LAST:event_jButtonAreaAlterarActionPerformed
 
     private void jButtonAreaCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaCadastrarActionPerformed
         // TODO add your handling code here:
-
+        
+        
         Atividade atividade = new Atividade();
+        
+        String valor = (String)(jComboBoxAreaMae.getSelectedItem().toString());
         
         atividade.setCodigo(jTextFieldAreaCod.getText());
         atividade.setDescricao(jTextAreaDescriao.getText());
         atividade.setPontos(Double.parseDouble(jTextAreaPontos.getText()));
+        atividade.setCodigoMae(valor);
         
 
         AtividadeDao AtividadeDao = new AtividadeDao();
@@ -230,33 +378,265 @@ public class CadAtividade extends javax.swing.JFrame {
         jTextFieldAreaCod.setText("");
         jTextAreaDescriao.setText("");
         jTextAreaPontos.setText("");
+        jComboBoxAreaMae.setSelectedItem("");
+        
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Atividade atividadee : atividades) {
+                     adm.addRow(new Object[]{
+                        atividadee.getIdAtividade(),
+                        atividadee.getCodigo(),
+                        atividadee.getDescricao(),
+                        atividadee.getCodigoMae(),
+                        atividadee.getPontos()
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualiza dados da jcombobox
+        
+        jComboBoxAreaMae.removeAllItems();
+        jComboBoxAreaMae.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            jComboBoxAreaMae.addItem("");
+            
+            for (Atividade atividadeea : atividades) {
+                     
+                jComboBoxAreaMae.addItem(atividadeea.getCodigo() + " - " + atividadeea.getDescricao());
+            }
+            
+        } catch (Exception e) {
+            
+        }
     }//GEN-LAST:event_jButtonAreaCadastrarActionPerformed
 
-    private void jButtonAreaExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaExcluirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonAreaExcluirActionPerformed
-
     private void jComboBoxAreaMaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAreaMaeActionPerformed
-        // TODO add your handling code here:
-    //jComboBoxAreaMae.removeAllItems();
-
-    AtividadeDao atividadeDao = new AtividadeDao();
-    List<Atividade> atividadeLista = null;
-        try {
-            atividadeLista = atividadeDao.listarTodos();
-        } catch (Exception ex) {
-            Logger.getLogger(LoginTela.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-        for (Atividade atividade : atividadeLista) {
-   
-            jComboBoxAreaMae.addItem(atividade.getDescricao());
-            
-                     return;
-           
-            }
         
     }//GEN-LAST:event_jComboBoxAreaMaeActionPerformed
+
+    private void jComboBoxAreaMaeAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jComboBoxAreaMaeAncestorAdded
+         // TODO add your handling code here:
+    //jComboBoxAreaMae.removeAllItems();
+        jComboBoxAreaMae.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            jComboBoxAreaMae.addItem("");
+            
+            for (Atividade atividade : atividades) {
+                     
+                jComboBoxAreaMae.addItem(atividade.getCodigo() + " - " + atividade.getDescricao());
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+            
+    }//GEN-LAST:event_jComboBoxAreaMaeAncestorAdded
+
+    private void jTableAreaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableAreaAncestorAdded
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Atividade atividade : atividades) {
+                     adm.addRow(new Object[]{
+                        atividade.getIdAtividade(),
+                        atividade.getCodigo(),
+                        atividade.getDescricao(),
+                        atividade.getCodigoMae(),
+                        atividade.getPontos()
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jTableAreaAncestorAdded
+
+    private void jButtonAreaExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAreaExcluirActionPerformed
+         try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+
+            //  DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
+            //  adm.setNumRows(0);
+
+            int linha_selecionada = jTableArea.getSelectedRow();
+
+            //Object cod = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            String id;
+            id =  (jTextFieldAreaCod.getText());
+            
+
+            for (Atividade atividade : atividades) {
+                if (atividade.getCodigo().equals(id)) {
+                    AtividadeDao.excluir(atividade);
+
+                }
+            
+                jTextFieldAreaCod.setText("");
+                jTextAreaDescriao.setText("");
+                jTextAreaPontos.setText("");
+                jComboBoxAreaMae.setSelectedItem("");
+                
+                
+            }
+
+            JOptionPane.showMessageDialog(null, "Area excluida com sucesso!");
+        } catch (Exception e) {
+            
+        }
+         
+         //Atualizar tabela 
+         
+          try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableArea.getModel();
+            adm.setNumRows(0);
+            
+            for (Atividade atividade : atividades) {
+                     adm.addRow(new Object[]{
+                        atividade.getIdAtividade(),
+                        atividade.getCodigo(),
+                        atividade.getDescricao(),
+                        atividade.getCodigoMae(),
+                        atividade.getPontos()
+                            
+                        });
+            }
+        } catch (Exception e) {
+            
+        }
+          
+          //Atualiza jcombobox
+          
+         jComboBoxAreaMae.removeAllItems();
+        jComboBoxAreaMae.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+            jComboBoxAreaMae.addItem("");
+            
+            for (Atividade atividadeea : atividades) {
+                     
+                jComboBoxAreaMae.addItem(atividadeea.getCodigo() + " - " + atividadeea.getDescricao());
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jButtonAreaExcluirActionPerformed
+
+    private void jTableAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAreaMouseClicked
+        jComboBoxAreaMae.setSelectedItem("");
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Atividade> atividades = persistenciaDao.listarFiltroHql(Atividade.class, params, null, null, hql);
+            
+          //  DefaultTableModel adm = (DefaultTableModel) jTable3.getModel();
+           // adm.setNumRows(0);
+            
+            for (Atividade atividade : atividades) {
+               int linha_selecionada = jTableArea.getSelectedRow();
+  
+        ///////// Pegar dados da Jtable
+        jTextFieldAreaCod.setText(jTableArea.getValueAt(linha_selecionada, 1).toString());
+        jTextAreaDescriao.setText(jTableArea.getValueAt(linha_selecionada, 2).toString());
+        jTextAreaPontos.setText(jTableArea.getValueAt(linha_selecionada, 4).toString());
+        jComboBoxAreaMae.setSelectedItem(jTableArea.getValueAt(linha_selecionada, 3).toString());
+     
+  
+        Object id;
+        id =  jTableArea.getValueAt(linha_selecionada, 0);
+        String resultado= id.toString(); 
+         
+     
+       ///////// Joga os dados da linha selecionada para os Jfield
+       if(     atividade.getCodigo().equals(resultado)){
+            jTextFieldAreaCod.setText("");
+            jTextAreaDescriao.setText("");
+            jTextAreaPontos.setText("");
+            jComboBoxAreaMae.setSelectedItem("");
+            
+       
+       
+            double pontos = atividade.getPontos();
+        
+       jTextFieldAreaCod.setText(atividade.getCodigo());
+       jTextAreaDescriao.setText(atividade.getDescricao());
+       jTextAreaPontos.setText(String.valueOf(pontos));
+       jComboBoxAreaMae.addItem(atividade.getCodigoMae());
+
+        }
+       
+            }
+     }catch (Exception e) {
+           
+        }
+    }//GEN-LAST:event_jTableAreaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -295,7 +675,6 @@ public class CadAtividade extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAreaAlterar;
     private javax.swing.JButton jButtonAreaCadastrar;
-    private javax.swing.JButton jButtonAreaEditar;
     private javax.swing.JButton jButtonAreaExcluir;
     private javax.swing.JComboBox jComboBoxAreaMae;
     private javax.swing.JLabel jLabel1;

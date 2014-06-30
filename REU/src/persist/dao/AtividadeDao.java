@@ -5,6 +5,7 @@
 package persist.dao;
 
 import dtoAtividades.Atividade;
+import dtoAtividades.Formula;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,5 +40,11 @@ public class AtividadeDao implements GenericoDao{
         PersistenciaDao pdao = new PersistenciaDao();
         
         return pdao.listar(Atividade.class);
+    }
+    
+    public static void excluir(Atividade atividade) throws Exception{
+        PersistenciaDao persistenciaDao = new PersistenciaDao();
+        persistenciaDao.excluir(atividade);
+
     }
 }

@@ -47,7 +47,7 @@ public class Atividade implements Serializable {
     
     @Column(unique = true)
     private String codigo;
-    
+    private String codigoMae;
     private String descricao;
     private Double pontos;
     
@@ -59,7 +59,22 @@ public class Atividade implements Serializable {
     @ManyToOne 
    
     private Atividade idAtividadeMae;
+
+    public Atividade getIdAtividadeMae() {
+        return idAtividadeMae;
+    }
+
+    public void setIdAtividadeMae(Atividade idAtividadeMae) {
+        this.idAtividadeMae = idAtividadeMae;
+    }
     
+    public String getCodigoMae() {
+        return codigoMae;
+    }
+
+    public void setCodigoMae(String codigoMae) {
+        this.codigoMae = codigoMae;
+    }
   
     
     public int getIdAtividade() {
