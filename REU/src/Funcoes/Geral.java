@@ -31,7 +31,7 @@ public class Geral implements Serializable {
         Criteria selectAll = session.createCriteria(classe);
         transaction.commit();
 
-        Query obj = session.createQuery(query);
+        Query obj = session.createQuery(Funcoes.Query.QUERYFORMULA + id);
         lista = obj.list();
         descFormula = lista.get(0).getDescricao();
 
