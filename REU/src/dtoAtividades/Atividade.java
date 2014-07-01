@@ -45,11 +45,14 @@ public class Atividade implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)   
     private int idAtividade;
     
-    @Column(unique = true)
+    @Column()
     private String codigo;
+    
+    
     private String codigoMae;
     private String descricao;
-    private Double pontos;
+    private double pontos;
+    private String formula;
     
     
     @ManyToOne
@@ -101,11 +104,11 @@ public class Atividade implements Serializable {
         this.codigo = codigo;
     }
 
-    public Double getPontos() {
+    public double getPontos() {
         return pontos;
     }
 
-    public void setPontos(Double pontos) {
+    public void setPontos(double pontos) {
         this.pontos = pontos;
     }
 
@@ -115,5 +118,13 @@ public class Atividade implements Serializable {
 
     public void setIdFormula(Formula idFormula) {
         this.idFormula = idFormula;
+    }
+    
+     public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
     }
 }

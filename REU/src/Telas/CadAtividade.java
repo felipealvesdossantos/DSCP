@@ -61,6 +61,9 @@ public class CadAtividade extends javax.swing.JFrame {
         jTextFieldAreaCod = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jTextAreaPontos = new javax.swing.JTextField();
+        jComboBoxFormula = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,11 +111,11 @@ public class CadAtividade extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id Área", "Cod. Área", "Descrição", "Cod. Mãe", "Pontos"
+                "Id Área", "Cod. Área", "Descrição", "Cod. Mãe", "Pontos", "Fórmula"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -135,21 +138,41 @@ public class CadAtividade extends javax.swing.JFrame {
         });
         jScrollPaneTabela.setViewportView(jTableArea);
 
-        jLabelAreaDescricao.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabelAreaDescricao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelAreaDescricao.setText("Descrição:");
 
         jTextAreaDescriao.setColumns(20);
         jTextAreaDescriao.setRows(5);
         jScrollPaneDescricao.setViewportView(jTextAreaDescriao);
 
-        jLabelAreaMae.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabelAreaMae.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelAreaMae.setText("Área Mãe:");
 
-        jLabelAreaCod.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabelAreaCod.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelAreaCod.setText("Cod.:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Pontos:");
+
+        jComboBoxFormula.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jComboBoxFormulaAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Fórmula:");
+
+        jButton1.setText("Novo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,62 +189,77 @@ public class CadAtividade extends javax.swing.JFrame {
                                 .addComponent(jLabelAreaCod)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabelAreaMae)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBoxAreaMae, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabelAreaDescricao)
-                                        .addComponent(jLabel1))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextAreaPontos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabelAreaDescricao)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(15, 15, 15)
+                                            .addComponent(jLabel1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jTextAreaPontos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(429, 429, 429))
+                                        .addComponent(jLabelAreaCadastrar))
                                     .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButtonAreaExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonAreaCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonAreaAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButtonAreaExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                        .addComponent(jButtonAreaCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                        .addComponent(jButtonAreaAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabelAreaMae)
+                                        .addComponent(jLabel2))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jComboBoxAreaMae, 0, 644, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxFormula, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(0, 255, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(256, 256, 256)
-                .addComponent(jLabelAreaCadastrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jLabelAreaCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelAreaCod)
-                    .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelAreaCod)
+                            .addComponent(jTextFieldAreaCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelAreaDescricao)
-                            .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextAreaPontos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAreaCadastrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAreaExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAreaAlterar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(jButtonAreaAlterar)
+                        .addGap(7, 7, 7)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxAreaMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelAreaMae))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -254,6 +292,7 @@ public class CadAtividade extends javax.swing.JFrame {
                     String descricao = jTextAreaDescriao.getText();
                     double pontos = Double.parseDouble(jTextAreaPontos.getText());
                     String codMae = (String)(jComboBoxAreaMae.getSelectedItem().toString());
+                    String formula = (String) (jComboBoxFormula.getSelectedItem().toString());
                    
 
 
@@ -272,6 +311,8 @@ public class CadAtividade extends javax.swing.JFrame {
                             Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
                             JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
                         }
+                        
+                        
                     }
                     
                     ////////// EDITA descrição
@@ -285,11 +326,12 @@ public class CadAtividade extends javax.swing.JFrame {
                             Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
                             JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
                         }
+                        
                     }
                     
                     ////////// EDITA pontos
 
-                    if (!(atividade.getPontos().equals(pontos))) {
+                    if (!(atividade.getPontos() == pontos)) {
                         atividade.setPontos(pontos);
                         AtividadeDao atividadeDao = new AtividadeDao();
                         try {
@@ -298,6 +340,7 @@ public class CadAtividade extends javax.swing.JFrame {
                             Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
                             JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
                         }
+                        
                     }
 
                     ////////// EDITA codMãe
@@ -311,11 +354,27 @@ public class CadAtividade extends javax.swing.JFrame {
                             Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
                             JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
                         }
+                        
+                    }
+                    
+                    ////////// EDITA idformula
+
+                    if (!(atividade.getFormula() == formula)) {
+                        atividade.setFormula(formula);
+                        AtividadeDao atividadeDao = new AtividadeDao();
+                        try {
+                            atividadeDao.recebeDto(atividade);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                        
                     }
 
                     JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
 
                 }
+                
             }
             
             } catch (Exception e) {
@@ -342,9 +401,11 @@ public class CadAtividade extends javax.swing.JFrame {
                         atividade.getCodigo(),
                         atividade.getDescricao(),
                         atividade.getCodigoMae(),
-                        atividade.getPontos()
+                        atividade.getPontos(),
+                        atividade.getFormula()
                             
                         });
+                     
             }
         } catch (Exception e) {
             
@@ -359,11 +420,18 @@ public class CadAtividade extends javax.swing.JFrame {
         Atividade atividade = new Atividade();
         
         String valor = (String)(jComboBoxAreaMae.getSelectedItem().toString());
+        String valor3 = (String)(jComboBoxFormula.getSelectedItem().toString());
         
         atividade.setCodigo(jTextFieldAreaCod.getText());
         atividade.setDescricao(jTextAreaDescriao.getText());
-        atividade.setPontos(Double.parseDouble(jTextAreaPontos.getText()));
         atividade.setCodigoMae(valor);
+        atividade.setFormula(valor3);
+        
+        if (jTextAreaPontos.getText().equals("")){
+            jTextAreaPontos.setText(null);
+        }else{
+        atividade.setPontos(Double.parseDouble(jTextAreaPontos.getText()));
+        }
         
 
         AtividadeDao AtividadeDao = new AtividadeDao();
@@ -379,6 +447,7 @@ public class CadAtividade extends javax.swing.JFrame {
         jTextAreaDescriao.setText("");
         jTextAreaPontos.setText("");
         jComboBoxAreaMae.setSelectedItem("");
+        jComboBoxFormula.setSelectedItem("");
         
         // Atualizar tabela
         
@@ -400,15 +469,17 @@ public class CadAtividade extends javax.swing.JFrame {
                         atividadee.getCodigo(),
                         atividadee.getDescricao(),
                         atividadee.getCodigoMae(),
-                        atividadee.getPontos()
+                        atividadee.getPontos(),
+                        atividade.getFormula()
                             
                         });
+                     
             }
         } catch (Exception e) {
             
         }
         
-        //Atualiza dados da jcombobox
+        //Atualiza dados da jcombobox area mae
         
         jComboBoxAreaMae.removeAllItems();
         jComboBoxAreaMae.setSelectedItem("");
@@ -426,11 +497,41 @@ public class CadAtividade extends javax.swing.JFrame {
             for (Atividade atividadeea : atividades) {
                      
                 jComboBoxAreaMae.addItem(atividadeea.getCodigo() + " - " + atividadeea.getDescricao());
+                
+                
             }
             
         } catch (Exception e) {
             
         }
+        
+        //Atualiza dados da jcombobox formula
+        jComboBoxFormula.removeAllItems();
+        jComboBoxFormula.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            jComboBoxFormula.addItem("");
+            
+            for (Formula formula : formulas) {
+                     
+                jComboBoxFormula.addItem(formula.getDescricao());
+                
+                
+            }
+            
+            
+        } catch (Exception e) {
+            
+        }
+        
     }//GEN-LAST:event_jButtonAreaCadastrarActionPerformed
 
     private void jComboBoxAreaMaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAreaMaeActionPerformed
@@ -485,7 +586,8 @@ public class CadAtividade extends javax.swing.JFrame {
                         atividade.getCodigo(),
                         atividade.getDescricao(),
                         atividade.getCodigoMae(),
-                        atividade.getPontos()
+                        atividade.getPontos(),
+                        atividade.getFormula()
                             
                         });
             }
@@ -516,13 +618,14 @@ public class CadAtividade extends javax.swing.JFrame {
             for (Atividade atividade : atividades) {
                 if (atividade.getCodigo().equals(id)) {
                     AtividadeDao.excluir(atividade);
-
+            
                 }
             
                 jTextFieldAreaCod.setText("");
                 jTextAreaDescriao.setText("");
                 jTextAreaPontos.setText("");
                 jComboBoxAreaMae.setSelectedItem("");
+                jComboBoxFormula.setSelectedItem("");
                 
                 
             }
@@ -552,15 +655,18 @@ public class CadAtividade extends javax.swing.JFrame {
                         atividade.getCodigo(),
                         atividade.getDescricao(),
                         atividade.getCodigoMae(),
-                        atividade.getPontos()
+                        atividade.getPontos(),
+                        atividade.getFormula()
                             
                         });
+                     
+                     
             }
         } catch (Exception e) {
             
         }
           
-          //Atualiza jcombobox
+          //Atualiza jcombobox area mae
           
          jComboBoxAreaMae.removeAllItems();
         jComboBoxAreaMae.setSelectedItem("");
@@ -578,6 +684,33 @@ public class CadAtividade extends javax.swing.JFrame {
             for (Atividade atividadeea : atividades) {
                      
                 jComboBoxAreaMae.addItem(atividadeea.getCodigo() + " - " + atividadeea.getDescricao());
+            
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualiza jcombobox formula
+        jComboBoxFormula.removeAllItems();
+        jComboBoxFormula.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            jComboBoxFormula.addItem("");
+            
+            for (Formula formula : formulas) {
+                     
+                jComboBoxFormula.addItem(formula.getDescricao());
+                
+                
             }
             
         } catch (Exception e) {
@@ -607,6 +740,8 @@ public class CadAtividade extends javax.swing.JFrame {
         jTextAreaDescriao.setText(jTableArea.getValueAt(linha_selecionada, 2).toString());
         jTextAreaPontos.setText(jTableArea.getValueAt(linha_selecionada, 4).toString());
         jComboBoxAreaMae.setSelectedItem(jTableArea.getValueAt(linha_selecionada, 3).toString());
+        jComboBoxFormula.setSelectedItem(jTableArea.getValueAt(linha_selecionada, 5).toString());
+        
      
   
         Object id;
@@ -620,6 +755,7 @@ public class CadAtividade extends javax.swing.JFrame {
             jTextAreaDescriao.setText("");
             jTextAreaPontos.setText("");
             jComboBoxAreaMae.setSelectedItem("");
+            jComboBoxFormula.setSelectedItem("");
             
        
        
@@ -629,6 +765,7 @@ public class CadAtividade extends javax.swing.JFrame {
        jTextAreaDescriao.setText(atividade.getDescricao());
        jTextAreaPontos.setText(String.valueOf(pontos));
        jComboBoxAreaMae.addItem(atividade.getCodigoMae());
+       jComboBoxFormula.addItem(atividade.getFormula());
 
         }
        
@@ -637,6 +774,41 @@ public class CadAtividade extends javax.swing.JFrame {
            
         }
     }//GEN-LAST:event_jTableAreaMouseClicked
+
+    private void jComboBoxFormulaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jComboBoxFormulaAncestorAdded
+         // TODO add your handling code here:
+    //jComboBoxAreaMae.removeAllItems();
+        jComboBoxFormula.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Formula> formulas = persistenciaDao.listarFiltroHql(Formula.class, params, null, null, hql);
+            
+            jComboBoxFormula.addItem("");
+            
+            for (Formula formula : formulas) {
+                     
+                jComboBoxFormula.addItem(formula.getDescricao());
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jComboBoxFormulaAncestorAdded
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jTextFieldAreaCod.setText("");
+        jTextAreaDescriao.setText("");
+        jTextAreaPontos.setText("");
+        jComboBoxAreaMae.setSelectedItem("");
+        jComboBoxFormula.setSelectedItem("");
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -673,11 +845,14 @@ public class CadAtividade extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAreaAlterar;
     private javax.swing.JButton jButtonAreaCadastrar;
     private javax.swing.JButton jButtonAreaExcluir;
     private javax.swing.JComboBox jComboBoxAreaMae;
+    private javax.swing.JComboBox jComboBoxFormula;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAreaCadastrar;
     private javax.swing.JLabel jLabelAreaCod;
     private javax.swing.JLabel jLabelAreaDescricao;
