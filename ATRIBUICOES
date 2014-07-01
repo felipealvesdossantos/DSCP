@@ -1,7 +1,7 @@
 Felipe Alves dos Santos
 -Modelagem
 -Mapeamento JPA
-
+-Implementação
 
 Manoel Henrique
 -Requisitos
@@ -16,7 +16,7 @@ Kelvez Lopes
 Iasmim Ribeiro
 -Requisitos
 -Modelagem
--Mapeamento das Atividades
+-Mapeamento da Resolução(Negocios)
 
 Wylker Moreno
 -Modelagem
@@ -25,7 +25,9 @@ Wylker Moreno
 Eric Kriger
 -Modelagem
 -Telas
+-Implementação
 
 Geovane Alves
 -Modelagem
 -Mapeamento JPA
+-Implementação
