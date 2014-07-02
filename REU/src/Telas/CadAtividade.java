@@ -764,8 +764,8 @@ public class CadAtividade extends javax.swing.JFrame {
        jTextFieldAreaCod.setText(atividade.getCodigo());
        jTextAreaDescriao.setText(atividade.getDescricao());
        jTextAreaPontos.setText(String.valueOf(pontos));
-       jComboBoxAreaMae.addItem(atividade.getCodigoMae());
-       jComboBoxFormula.addItem(atividade.getFormula());
+       jComboBoxAreaMae.setSelectedItem(atividade.getCodigoMae());
+       jComboBoxFormula.setSelectedItem(atividade.getFormula());
 
         }
        

@@ -6,6 +6,21 @@
 
 package Telas;
 
+import dtoAtividades.Atividade;
+import dtoDocentes.Classe;
+import dtoDocentes.Nivel;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import persist.PersistenciaDao;
+import persist.dao.AtividadeDao;
+import persist.dao.ClasseDao;
+
 /**
  *
  * @author GAOliveira
@@ -37,11 +52,12 @@ public class CadClasse extends javax.swing.JFrame {
         btExcluir = new javax.swing.JButton();
         btAlterar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableClasse = new javax.swing.JTable();
         jComboBoxNivel = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldID = new javax.swing.JTextField();
+        btNovo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,12 +71,27 @@ public class CadClasse extends javax.swing.JFrame {
         jLabel3.setText("Descrição:");
 
         btCadastrar.setText("Cadastrar");
+        btCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastrarActionPerformed(evt);
+            }
+        });
 
         btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
 
         btAlterar.setText("Alterar");
+        btAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAlterarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableClasse.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,9 +110,31 @@ public class CadClasse extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jTableClasse.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTableClasseAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jTableClasse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableClasseMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableClasse);
 
-        jComboBoxNivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNivel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jComboBoxNivelAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Nivel:");
@@ -91,14 +144,17 @@ public class CadClasse extends javax.swing.JFrame {
 
         jTextFieldID.setEnabled(false);
 
+        btNovo.setText("Novo");
+        btNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNovoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(231, 231, 231))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -117,26 +173,31 @@ public class CadClasse extends javax.swing.JFrame {
                             .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btExcluir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btCadastrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(btAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(239, 239, 239))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btNovo))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,22 +208,460 @@ public class CadClasse extends javax.swing.JFrame {
                         .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(20, 20, 20))
+                            .addComponent(jLabel4)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btCadastrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btAlterar)
-                        .addGap(35, 35, 35)))
+                        .addGap(5, 5, 5)))
+                .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        jTextFieldID.setText("");
+        jTextFieldTipo.setText("");
+        jTextFieldDescricao.setText("");
+        jComboBoxNivel.setSelectedItem("");
+    }//GEN-LAST:event_btNovoActionPerformed
+
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+         Classe classe = new Classe();
+        
+        String valor = (String)(jComboBoxNivel.getSelectedItem().toString());
+        
+        //classe.setIdClasse(Integer.parseInt(jTextFieldID.getText()));
+        classe.setTipo(jTextFieldTipo.getText());
+        classe.setDescricao(jTextFieldDescricao.getText());
+        classe.setIdNiveis(valor);
+        
+
+        ClasseDao ClasseDao = new ClasseDao();
+        try {
+            ClasseDao.recebeDto(classe);
+        } catch (Exception ex) {
+        //    Logger.getLogger(TipoCreditoTela.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Problema ao inserir a classe", "Erro" + ex.getMessage(), WIDTH);
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, "Classe inserida com sucesso!", "Sucesso", WIDTH);
+        jTextFieldID.setText("");
+        jTextFieldTipo.setText("");
+        jTextFieldDescricao.setText("");
+        jComboBoxNivel.setSelectedItem("");
+
+        
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableClasse.getModel();
+            adm.setNumRows(0);
+            
+            for (Classe classee : classes) {
+                     adm.addRow(new Object[]{
+                        classee.getIdClasse(),
+                        classee.getTipo(),
+                        classee.getDescricao(),
+                        classee.getIdNiveis()
+                                                                         
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualiza dados da jcombobox 
+        
+        jComboBoxNivel.removeAllItems();
+        jComboBoxNivel.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Nivel> niveis = persistenciaDao.listarFiltroHql(Nivel.class, params, null, null, hql);
+            
+                jComboBoxNivel.addItem("");
+            
+            for (Nivel nivel : niveis) {
+                     
+                jComboBoxNivel.addItem(nivel.getDescricao());
+                
+                
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_btCadastrarActionPerformed
+
+    private void jComboBoxNivelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jComboBoxNivelAncestorAdded
+        //Atualiza dados da jcombobox 
+        
+        jComboBoxNivel.removeAllItems();
+        jComboBoxNivel.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Nivel> niveis = persistenciaDao.listarFiltroHql(Nivel.class, params, null, null, hql);
+            
+                jComboBoxNivel.addItem("");
+            
+            for (Nivel nivel : niveis) {
+                     
+                jComboBoxNivel.addItem(nivel.getDescricao());
+                
+                
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jComboBoxNivelAncestorAdded
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+         try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+
+            //  DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
+            //  adm.setNumRows(0);
+
+            int linha_selecionada = jTableClasse.getSelectedRow();
+
+            //Object cod = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            int id;
+            id =  (Integer.parseInt(jTextFieldID.getText()));
+            
+
+            for (Classe classe : classes) {
+                if (classe.getIdClasse() == id) {
+                    ClasseDao.excluir(classe);
+            
+                }
+            
+                jTextFieldID.setText("");
+                jTextFieldTipo.setText("");
+                jTextFieldDescricao.setText("");
+                jComboBoxNivel.setSelectedItem("");
+                
+                
+            }
+
+            JOptionPane.showMessageDialog(null, "Classe excluida com sucesso!");
+        } catch (Exception e) {
+            
+        }
+         
+         // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableClasse.getModel();
+            adm.setNumRows(0);
+            
+            for (Classe classee : classes) {
+                     adm.addRow(new Object[]{
+                        classee.getIdClasse(),
+                        classee.getTipo(),
+                        classee.getDescricao(),
+                        classee.getIdNiveis()
+                                                                         
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualiza dados da jcombobox 
+        
+        jComboBoxNivel.removeAllItems();
+        jComboBoxNivel.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Nivel> niveis = persistenciaDao.listarFiltroHql(Nivel.class, params, null, null, hql);
+            
+                jComboBoxNivel.addItem("");
+            
+            for (Nivel nivel : niveis) {
+                     
+                jComboBoxNivel.addItem(nivel.getDescricao());
+                
+                
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+
+            /////////////////////////////////////// CAPTURA VALORES DAS CELULAS DA jTable CLIENTE /////////////////////////////////
+
+            int linha_selecionada = jTableClasse.getSelectedRow();
+
+            int id;
+            
+            id =  (Integer.parseInt(jTextFieldID.getText()));
+           
+            //Object teste = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            
+            
+
+            for (Classe classe : classes) {
+                if (classe.getIdClasse() == id) {
+                    
+                    String tipo = jTextFieldTipo.getText();
+                    String descricao = jTextFieldDescricao.getText();
+                    String nivel = (String) (jComboBoxNivel.getSelectedItem().toString());
+                   
+
+
+
+                    //////////////////////////////////////// CELULAS ///////////////////////////////////////////////////////////////////////
+
+
+                    ////////// EDITA tipo
+
+                    if (!(classe.getTipo().equals(tipo))) {
+                        classe.setTipo(tipo);
+                        ClasseDao classeDao = new ClasseDao();
+                        try {
+                            classeDao.recebeDto(classe);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                        
+                        
+                    }
+                    
+                    ////////// EDITA descrição
+
+                    if (!(classe.getDescricao().equals(descricao))) {
+                        classe.setDescricao(descricao);
+                        ClasseDao classeDao = new ClasseDao();
+                        try {
+                            classeDao.recebeDto(classe);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                        
+                        
+                    }
+                    
+                    ////////// EDITA nivel
+
+                     if (!(classe.getIdNiveis().equals(nivel))) {
+                        classe.setIdNiveis(nivel);
+                        ClasseDao classeDao = new ClasseDao();
+                        try {
+                            classeDao.recebeDto(classe);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                        
+                        
+                    }
+
+                    
+
+                    JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+
+                }
+                
+            }
+            
+            } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+        }
+        
+        
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableClasse.getModel();
+            adm.setNumRows(0);
+            
+            for (Classe classee : classes) {
+                     adm.addRow(new Object[]{
+                        classee.getIdClasse(),
+                        classee.getTipo(),
+                        classee.getDescricao(),
+                        classee.getIdNiveis()
+                                                                         
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        //Atualiza dados da jcombobox 
+        
+        jComboBoxNivel.removeAllItems();
+        jComboBoxNivel.setSelectedItem("");
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            List<Nivel> niveis = persistenciaDao.listarFiltroHql(Nivel.class, params, null, null, hql);
+            
+                jComboBoxNivel.addItem("");
+            
+            for (Nivel nivel : niveis) {
+                     
+                jComboBoxNivel.addItem(nivel.getDescricao());
+                
+                
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_btAlterarActionPerformed
+
+    private void jTableClasseAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableClasseAncestorAdded
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableClasse.getModel();
+            adm.setNumRows(0);
+            
+            for (Classe classee : classes) {
+                     adm.addRow(new Object[]{
+                        classee.getIdClasse(),
+                        classee.getTipo(),
+                        classee.getDescricao(),
+                        classee.getIdNiveis()
+                                                                         
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jTableClasseAncestorAdded
+
+    private void jTableClasseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClasseMouseClicked
+        jComboBoxNivel.setSelectedItem("");
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Classe> classes = persistenciaDao.listarFiltroHql(Classe.class, params, null, null, hql);
+            
+          //  DefaultTableModel adm = (DefaultTableModel) jTable3.getModel();
+           // adm.setNumRows(0);
+            
+            for (Classe classe : classes) {
+               int linha_selecionada = jTableClasse.getSelectedRow();
+  
+        ///////// Pegar dados da Jtable
+        jTextFieldID.setText(jTableClasse.getValueAt(linha_selecionada, 0).toString());
+        jTextFieldTipo.setText(jTableClasse.getValueAt(linha_selecionada, 1).toString());
+        jTextFieldDescricao.setText(jTableClasse.getValueAt(linha_selecionada, 2).toString());
+        jComboBoxNivel.setSelectedItem(jTableClasse.getValueAt(linha_selecionada, 3).toString());
+       
+        
+     
+  
+        Object id;
+        id =  jTableClasse.getValueAt(linha_selecionada, 0);
+        int resultado = Integer.parseInt(id.toString()); 
+         
+     
+       ///////// Joga os dados da linha selecionada para os Jfield
+       if(     classe.getIdClasse() == resultado){
+           
+            jTextFieldID.setText("");
+            jTextFieldTipo.setText("");
+            jTextFieldDescricao.setText("");
+            jComboBoxNivel.setSelectedItem("");            
+       
+            
+       jTextFieldID.setText(String.valueOf(classe.getIdClasse()));
+       jTextFieldTipo.setText(classe.getTipo());
+       jTextFieldDescricao.setText(classe.getDescricao());
+       jComboBoxNivel.setSelectedItem(classe.getIdNiveis());
+     
+        }
+       
+            }
+     }catch (Exception e) {
+           
+        }
+    }//GEN-LAST:event_jTableClasseMouseClicked
 
     /**
      * @param args the command line arguments
@@ -203,6 +702,7 @@ public class CadClasse extends javax.swing.JFrame {
     private javax.swing.JButton btAlterar;
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btNovo;
     private javax.swing.JComboBox jComboBoxNivel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -210,7 +710,7 @@ public class CadClasse extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableClasse;
     private javax.swing.JTextField jTextFieldDescricao;
     private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextField jTextFieldTipo;
