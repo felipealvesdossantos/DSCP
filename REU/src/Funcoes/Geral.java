@@ -8,12 +8,8 @@ import dtoAtividades.Formula;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import persist.HibernateFactory;
-import org.hibernate.Query;
 import org.hibernate.exception.ConstraintViolationException;
+import persist.PersistenciaDao;
 
 /**
  *
@@ -21,22 +17,17 @@ import org.hibernate.exception.ConstraintViolationException;
  */
 public class Geral implements Serializable {
 
-    public static String listar(Class classe, String query, int id) throws Exception, SQLException, ConstraintViolationException {
+    static PersistenciaDao pers = new PersistenciaDao();
 
-        Session session = HibernateFactory.getSession();
-        Transaction transaction = session.beginTransaction();
-        List<Formula> lista;
-        String descFormula;
-        
-        Criteria selectAll = session.createCriteria(classe);
-        transaction.commit();
+    public static String listaFormulas(int id) throws Exception, SQLException, ConstraintViolationException {
+        String formula = "";
+        List<Formula> lista = pers.listar(Formula.class);
 
-        Query obj = session.createQuery(Funcoes.Query.QUERYFORMULA + id);
-        lista = obj.list();
-        descFormula = lista.get(0).getDescricao();
-
-        session.close();
-
-        return descFormula;
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getIdFormula() == id) {
+                formula = lista.get(i).getDescricao();
+            }
+        }
+        return formula;
     }
 }
