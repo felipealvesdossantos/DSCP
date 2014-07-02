@@ -51,7 +51,10 @@ public class Atividade implements Serializable {
     
     private String codigoMae;
     private String descricao;
-    private double pontos;
+    
+    @Column(nullable = true)
+    private float pontos;
+    
     private String formula;
     
     
@@ -104,11 +107,11 @@ public class Atividade implements Serializable {
         this.codigo = codigo;
     }
 
-    public double getPontos() {
+    public float getPontos() {
         return pontos;
     }
 
-    public void setPontos(double pontos) {
+    public void setPontos(float pontos) {
         this.pontos = pontos;
     }
 

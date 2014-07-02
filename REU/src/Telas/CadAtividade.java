@@ -290,7 +290,7 @@ public class CadAtividade extends javax.swing.JFrame {
                 if (atividade.getCodigo().equals(id)) {
                     String cod = jTextFieldAreaCod.getText();
                     String descricao = jTextAreaDescriao.getText();
-                    double pontos = Double.parseDouble(jTextAreaPontos.getText());
+                    float pontos = Float.parseFloat(jTextAreaPontos.getText());
                     String codMae = (String)(jComboBoxAreaMae.getSelectedItem().toString());
                     String formula = (String) (jComboBoxFormula.getSelectedItem().toString());
                    
@@ -430,7 +430,7 @@ public class CadAtividade extends javax.swing.JFrame {
         if (jTextAreaPontos.getText().equals("")){
             jTextAreaPontos.setText(null);
         }else{
-        atividade.setPontos(Double.parseDouble(jTextAreaPontos.getText()));
+        atividade.setPontos(Float.parseFloat(jTextAreaPontos.getText()));
         }
         
 
@@ -470,7 +470,7 @@ public class CadAtividade extends javax.swing.JFrame {
                         atividadee.getDescricao(),
                         atividadee.getCodigoMae(),
                         atividadee.getPontos(),
-                        atividade.getFormula()
+                        atividadee.getFormula()
                             
                         });
                      

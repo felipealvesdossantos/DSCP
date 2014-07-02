@@ -6,6 +6,21 @@
 
 package Telas;
 
+import dtoAtividades.Atividade;
+import dtoAtividades.Formula;
+import dtoDocentes.Docente;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import persist.PersistenciaDao;
+import persist.dao.AtividadeDao;
+import persist.dao.DocenteDao;
+
 /**
  *
  * @author GAOliveira
@@ -33,13 +48,14 @@ public class CadDocente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jTextFieldMatricula = new javax.swing.JTextField();
+        jTextFieldNome = new javax.swing.JTextField();
+        btCadastrar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
+        btAlterar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableDocente = new javax.swing.JTable();
+        btNovo = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -65,13 +81,30 @@ public class CadDocente extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Matricula:");
 
-        jButton1.setText("Cadastrar");
+        jTextFieldMatricula.setEnabled(false);
 
-        jButton2.setText("Editar");
+        btCadastrar.setText("Cadastrar");
+        btCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastrarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Alterar");
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        btAlterar.setText("Alterar");
+        btAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAlterarActionPerformed(evt);
+            }
+        });
+
+        jTableDocente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -90,27 +123,33 @@ public class CadDocente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jTableDocente.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTableDocenteAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jTableDocente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDocenteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableDocente);
+
+        btNovo.setText("Novo");
+        btNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNovoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(31, 31, 31))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -119,6 +158,23 @@ public class CadDocente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,28 +183,311 @@ public class CadDocente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
-                        .addGap(19, 19, 19)
-                        .addComponent(jButton1)
-                        .addGap(3, 3, 3)
-                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(btNovo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(btCadastrar)
+                        .addGap(3, 3, 3)
+                        .addComponent(btExcluir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAlterar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        jTextFieldMatricula.setText("");
+        jTextFieldNome.setText("");
+        
+    }//GEN-LAST:event_btNovoActionPerformed
+
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        Docente docente = new Docente();
+        
+        
+        //docente.setIdDocente(Integer.parseInt(jTextFieldMatricula.getText()));
+        docente.setNome(jTextFieldNome.getText());
+
+        
+
+        DocenteDao DocenteDao = new DocenteDao();
+        try {
+            DocenteDao.recebeDto(docente);
+        } catch (Exception ex) {
+        //    Logger.getLogger(TipoCreditoTela.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Problema ao inserir a docente", "Erro" + ex.getMessage(), WIDTH);
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, "Docente inserida com sucesso!", "Sucesso", WIDTH);
+        jTextFieldMatricula.setText("");
+        jTextFieldNome.setText("");
+  
+        
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableDocente.getModel();
+            adm.setNumRows(0);
+            
+            for (Docente docentee : docentes) {
+                     adm.addRow(new Object[]{
+                        docentee.getIdDocente(),
+                        docentee.getNome()
+                                                   
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+        
+       
+    }//GEN-LAST:event_btCadastrarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+         try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+
+            //  DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
+            //  adm.setNumRows(0);
+
+            int linha_selecionada = jTableDocente.getSelectedRow();
+
+            //Object cod = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            int id;
+            id =  (Integer.parseInt(jTextFieldMatricula.getText()));
+            
+
+            for (Docente docente : docentes) {
+                if (docente.getIdDocente() == id) {
+                    DocenteDao.excluir(docente);
+            
+                }
+            
+                jTextFieldMatricula.setText("");
+                jTextFieldNome.setText("");
+               
+                
+                
+            }
+
+            JOptionPane.showMessageDialog(null, "Docente excluido com sucesso!");
+        } catch (Exception e) {
+            
+        }
+         
+         // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableDocente.getModel();
+            adm.setNumRows(0);
+            
+            for (Docente docentee : docentes) {
+                     adm.addRow(new Object[]{
+                        docentee.getIdDocente(),
+                        docentee.getNome()
+                                                   
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void jTableDocenteAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableDocenteAncestorAdded
+       // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableDocente.getModel();
+            adm.setNumRows(0);
+            
+            for (Docente docentee : docentes) {
+                     adm.addRow(new Object[]{
+                        docentee.getIdDocente(),
+                        docentee.getNome()
+                                                   
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_jTableDocenteAncestorAdded
+
+    private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            StringBuilder hql = new StringBuilder("");
+
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+
+            /////////////////////////////////////// CAPTURA VALORES DAS CELULAS DA jTable CLIENTE /////////////////////////////////
+
+            int linha_selecionada = jTableDocente.getSelectedRow();
+
+            int id;
+            
+            id =  (Integer.parseInt(jTextFieldMatricula.getText()));
+           
+            //Object teste = (Object) jTable3.getValueAt(linha_selecionada, 0);
+            
+            
+
+            for (Docente docente : docentes) {
+                if (docente.getIdDocente() == id) {
+
+                    String nome = jTextFieldNome.getText();
+                   
+                   
+
+
+
+                    //////////////////////////////////////// CELULAS ///////////////////////////////////////////////////////////////////////
+
+
+                    ////////// EDITA nome
+
+                    if (!(docente.getNome().equals(nome))) {
+                        docente.setNome(nome);
+                        DocenteDao docenteDao = new DocenteDao();
+                        try {
+                            docenteDao.recebeDto(docente);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CadAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Problema ao alterar o registro", "Erro", WIDTH);
+                        }
+                        
+                        
+                    }
+                    
+                    JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+
+                }
+                
+            }
+            
+            } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!");
+        }
+        
+        
+        // Atualizar tabela
+        
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+            
+            DefaultTableModel adm = (DefaultTableModel) jTableDocente.getModel();
+            adm.setNumRows(0);
+            
+            for (Docente docentee : docentes) {
+                     adm.addRow(new Object[]{
+                        docentee.getIdDocente(),
+                        docentee.getNome()
+                                                   
+                        });
+                     
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_btAlterarActionPerformed
+
+    private void jTableDocenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDocenteMouseClicked
+        try {
+            PersistenciaDao persistenciaDao = new PersistenciaDao();
+            Map<String, Object> params = new HashMap<String, Object>();
+            
+            StringBuilder hql = new StringBuilder("");
+            
+            
+            List<Docente> docentes = persistenciaDao.listarFiltroHql(Docente.class, params, null, null, hql);
+            
+          //  DefaultTableModel adm = (DefaultTableModel) jTable3.getModel();
+           // adm.setNumRows(0);
+            
+            for (Docente docente : docentes) {
+               int linha_selecionada = jTableDocente.getSelectedRow();
+  
+        ///////// Pegar dados da Jtable
+        jTextFieldMatricula.setText(jTableDocente.getValueAt(linha_selecionada, 0).toString());
+        jTextFieldNome.setText(jTableDocente.getValueAt(linha_selecionada, 1).toString());
+        
+        
+     
+  
+        Object id;
+        id =  jTableDocente.getValueAt(linha_selecionada, 0);
+        int resultado = Integer.parseInt(id.toString()); 
+         
+     
+       ///////// Joga os dados da linha selecionada para os Jfield
+       if(     docente.getIdDocente() == resultado){
+            jTextFieldMatricula.setText("");
+            jTextFieldNome.setText("");
+         
+            
+       jTextFieldMatricula.setText(String.valueOf(docente.getIdDocente()));
+       jTextFieldNome.setText(docente.getNome());
+    
+
+        }
+       
+            }
+     }catch (Exception e) {
+           
+        }
+    }//GEN-LAST:event_jTableDocenteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -186,17 +525,18 @@ public class CadDocente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btAlterar;
+    private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btNovo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable jTableDocente;
+    private javax.swing.JTextField jTextFieldMatricula;
+    private javax.swing.JTextField jTextFieldNome;
     // End of variables declaration//GEN-END:variables
 }
