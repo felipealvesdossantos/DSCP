@@ -41,41 +41,36 @@ public class Arrays {
         return id;
     }
 
-    public static int id(String codigoMae) {
+    public static int id(int codigoMae) {
         int idMae = 0;
         for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getCodigoMae().equals(codigoMae)) {
+            if (listaAtividade.get(i).getIdAtividadeMae() == codigoMae) {
                 idMae = listaAtividade.get(i).getIdAtividade();
             }
         }
-        return idMae;
+        return 0;
     }
 
     public static void buscaAreaMae(int id) {
         for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getIdAtividade() == id && !listaAtividade.get(i).getCodigoMae().isEmpty()) {
-                //System.out.println(listaAtividade.get(i).getDescricao());
-                
-                int idMae = id(listaAtividade.get(i).getCodigoMae());
-                System.out.println("idMae :" + idMae + " <> " + listaAtividade.get(idMae).getDescricao());
-                buscaAreaMae(idMae);
-            }
-            else{
-                System.out.println("Atv Mae: " + listaAtividade.get(i).getDescricao());
-                break;
-            }
+            if (listaAtividade.get(i).getIdAtividade() == id) {
+                System.out.println("Atv: " + listaAtividade.get(i).getDescricao());
+                buscaAreaMae(id(listaAtividade.get(i).getIdAtividade()));
+            } 
+
         }
 
     }
 
     public static void main(String[] args) {
-
-        buscaAreaMae(1);
+        int b = 0;
+        //buscaAreaMae(1);
 //        for (int i = 0; i < listaAtividade.size(); i++) {
-//            if (listaAtividade.get(i).getCodigoMae().isEmpty()) {
+//            if (!listaAtividade.get(i).getCodigoMae().isEmpty()) {
+//                b++;
 //                System.out.println(listaAtividade.get(i).getDescricao());
 //            }
 //        }
-
+//        System.out.println(b);
     }
 }

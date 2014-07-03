@@ -38,21 +38,20 @@ public class Atividade implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)   
     private int idAtividade;
     
-    @Column(unique = true)
     private String codigo;
     
-    private String codigoMae;
     private String descricao;
+    
+    @Column(nullable = true)
     private Double pontos;
     
+    @Column(nullable = true)
+    private int idAtividadeMae;
     
     @ManyToOne
     @JoinColumn(name="idFormula")
     private Formula idFormula;
-
-    @ManyToOne  
-    private Atividade idAtividadeMae;
-
+ 
     public int getIdAtividade() {
         return idAtividade;
     }
@@ -69,13 +68,6 @@ public class Atividade implements Serializable {
         this.codigo = codigo;
     }
 
-    public String getCodigoMae() {
-        return codigoMae;
-    }
-
-    public void setCodigoMae(String codigoMae) {
-        this.codigoMae = codigoMae;
-    }
 
     public String getDescricao() {
         return descricao;
@@ -100,19 +92,12 @@ public class Atividade implements Serializable {
     public void setIdFormula(Formula idFormula) {
         this.idFormula = idFormula;
     }
-<<<<<<< HEAD
 
-    public Atividade getIdAtividadeMae() {
+    public int getIdAtividadeMae() {
         return idAtividadeMae;
     }
 
-    public void setIdAtividadeMae(Atividade idAtividadeMae) {
+    public void setIdAtividadeMae(int idAtividadeMae) {
         this.idAtividadeMae = idAtividadeMae;
     }
-=======
-    
-    public Atividade getIdAtividadeMae() {
-        return idAtividadeMae;
-    }
->>>>>>> 50f296535517197c34be158b0c32383b00cc7a26
 }

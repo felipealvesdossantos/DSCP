@@ -110,14 +110,14 @@ public class FormulaAlg {
         Atividade atividadeAnterior = atividade;
         boolean isArea = false;
         while (!isArea) {
-            Atividade ativ = atividadeAnterior;
-            if (ativ.getIdAtividadeMae() != null) {
-                isArea = false;
-                atividadeAnterior = getAtividadeBanco(ativ.getIdAtividadeMae().getCodigo());
-            } else {
-                atividadeAnterior = ativ;
-                isArea = true;
-            }
+//            Atividade ativ = atividadeAnterior;
+//            if (ativ.getIdAtividadeMae() != null) {
+//                isArea = false;
+//                atividadeAnterior = getAtividadeBanco(ativ.getIdAtividadeMae().getCodigo());
+//            } else {
+//                atividadeAnterior = ativ;
+//                isArea = true;
+//            }
         }
         return atividadeAnterior;
     }
