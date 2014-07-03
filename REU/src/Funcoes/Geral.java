@@ -46,24 +46,22 @@ public class Geral implements Serializable {
     public static void buscaAreaMae(int id) {
 
         for (int i = 0; i < listaAtividades.size(); i++) {
-            if (listaAtividades.get(i).getIdAtividade() == id) {
+            if (listaAtividades.get(i).getIdAtividade() == id ) {
                 if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
                     System.out.println("Atividade1: " + listaAtividades.get(i).getDescricao());
                     System.out.println("Atv Mae1: " + listaAtividades.get(i).getIdAtividadeMae());
                     break;
                 }
-            }
-            else if (listaAtividades.get(i).getIdAtividade() == id) {
-                if (listaAtividades.get(i).getIdAtividadeMae() != 0) {
+                else{
                     buscaAreaMae(listaAtividades.get(i).getIdAtividadeMae());
-                } 
+                }
             }
         }
     }
 
     public static void main(String[] args) {
 
-        buscaAreaMae(4);
+        buscaAreaMae(100);
 //        int b = 0;
 //        for (int i = 0; i < listaAtividades.size(); i++) {
 //            if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
