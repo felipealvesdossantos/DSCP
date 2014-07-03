@@ -44,14 +44,7 @@ public class Atividade implements Serializable {
     
     @Column(nullable = true)
     private Double pontos;
-    
-    @Column(nullable = true)
-    private int idAtividadeMae;
-    
-    @ManyToOne
-    @JoinColumn(name="idFormula")
-    private Formula idFormula;
- 
+
     public int getIdAtividade() {
         return idAtividade;
     }
@@ -67,7 +60,6 @@ public class Atividade implements Serializable {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
 
     public String getDescricao() {
         return descricao;
@@ -85,14 +77,6 @@ public class Atividade implements Serializable {
         this.pontos = pontos;
     }
 
-    public Formula getIdFormula() {
-        return idFormula;
-    }
-
-    public void setIdFormula(Formula idFormula) {
-        this.idFormula = idFormula;
-    }
-
     public int getIdAtividadeMae() {
         return idAtividadeMae;
     }
@@ -100,4 +84,20 @@ public class Atividade implements Serializable {
     public void setIdAtividadeMae(int idAtividadeMae) {
         this.idAtividadeMae = idAtividadeMae;
     }
+
+    public Formula getIdFormula() {
+        return idFormula;
+    }
+
+    public void setIdFormula(Formula idFormula) {
+        this.idFormula = idFormula;
+    }
+    
+    @Column(nullable = true)
+    private int idAtividadeMae;
+    
+    @ManyToOne
+    @JoinColumn(name="idFormula")
+    private Formula idFormula;
+ 
 }

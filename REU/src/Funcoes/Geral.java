@@ -5,6 +5,7 @@
 package Funcoes;
 
 import dtoAtividades.Formula;
+import static dtoConcorrencia.Arrays.listaAtividades;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,5 +30,47 @@ public class Geral implements Serializable {
             }
         }
         return formula;
+    }
+    
+        public static int buscaId(String codigo) {
+        int id = 0;
+
+        for (int i = 0; i < listaAtividades.size(); i++) {
+            if (listaAtividades.get(i).getCodigo().equals(codigo)) {
+                id = listaAtividades.get(i).getIdAtividade();
+            }
+        }
+        return id;
+    }
+
+    public static void buscaAreaMae(int id) {
+
+        for (int i = 0; i < listaAtividades.size(); i++) {
+            if (listaAtividades.get(i).getIdAtividade() == id) {
+                if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
+                    System.out.println("Atividade1: " + listaAtividades.get(i).getDescricao());
+                    System.out.println("Atv Mae1: " + listaAtividades.get(i).getIdAtividadeMae());
+                    break;
+                }
+            }
+            else if (listaAtividades.get(i).getIdAtividade() == id) {
+                if (listaAtividades.get(i).getIdAtividadeMae() != 0) {
+                    buscaAreaMae(listaAtividades.get(i).getIdAtividadeMae());
+                } 
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        buscaAreaMae(4);
+//        int b = 0;
+//        for (int i = 0; i < listaAtividades.size(); i++) {
+//            if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
+//                b++;
+//                System.out.println(listaAtividades.get(i).getDescricao());
+//            }
+//        }
+//        System.out.println(b);
     }
 }

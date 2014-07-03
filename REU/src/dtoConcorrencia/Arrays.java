@@ -5,6 +5,7 @@
 package dtoConcorrencia;
 
 import dtoAtividades.Atividade;
+import dtoAtividades.Formula;
 import java.util.ArrayList;
 import java.util.List;
 import persist.PersistenciaDao;
@@ -15,7 +16,8 @@ import persist.PersistenciaDao;
  */
 public class Arrays {
 
-    public static List<Atividade> listaAtividade = listaAtv();
+    public static List<Atividade> listaAtividades = listaAtv();
+    public static List<Formula> listaFormulas = listaFor();
     public static ArrayList<Integer> listaAreaMae = new ArrayList<Integer>();
 
     public static List listaAtv() {
@@ -29,52 +31,16 @@ public class Arrays {
         }
         return lista;
     }
+    
+    public static List listaFor() {
+        List<Atividade> lista = null;
 
-    public static int buscaId(String codigo) {
-        int id = 0;
-
-        for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getCodigo().equals(codigo)) {
-                id = listaAtividade.get(i).getIdAtividade();
-            }
+        try {
+            PersistenciaDao pers = new PersistenciaDao();
+            lista = pers.listar(Formula.class);
+        } catch (Exception ex) {
+            System.out.println("Erros ao buscar lista de Formulas: " + ex.getMessage());
         }
-        return id;
-    }
-
-    public static int id(int codigoMae) {
-        int idMae = 0;
-        for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getIdAtividadeMae() == codigoMae) {
-                idMae = listaAtividade.get(i).getIdAtividade();
-            }
-        }
-        return idMae;
-    }
-
-    public static void buscaAreaMae(int id) {
-        for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getIdAtividade() == id && listaAtividade.get(i).getIdAtividadeMae() != 0) {
-                //System.out.println("Atv: " + listaAtividade.get(i).getIdAtividadeMae());
-                buscaAreaMae(id(listaAtividade.get(i).getIdAtividadeMae()));
-            } else{
-                System.out.println("Atv: " + listaAtividade.get(i).getIdAtividadeMae());
-                break;
-            }
-
-        }
-
-    }
-
-    public static void main(String[] args) {
-        
-        buscaAreaMae(48);
-//        int b = 0;
-//        for (int i = 0; i < listaAtividade.size(); i++) {
-//            if (listaAtividade.get(i).getIdAtividadeMae() == 0) {
-//                b++;
-//                System.out.println(listaAtividade.get(i).getDescricao());
-//            }
-//        }
-//        System.out.println(b);
+        return lista;
     }
 }
