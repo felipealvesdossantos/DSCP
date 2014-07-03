@@ -11,9 +11,6 @@
     
     <mapping class="dtoAtividades.Atividade"/>
     <mapping class="dtoAtividades.Formula"/>
-    <mapping class="dtoDocentes.Docente"/>
-    <mapping class="dtoDocentes.Classe"/>
-    <mapping class="dtoDocentes.Nivel"/>
-    <mapping class="dtoDocentes.Usuario"/>
+
   </session-factory>
 </hibernate-configuration>

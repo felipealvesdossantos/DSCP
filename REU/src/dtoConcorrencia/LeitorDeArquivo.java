@@ -1,4 +1,4 @@
-package dtoFormula;
+package dtoConcorrencia;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package dtoFormula;
+package dtoConcorrencia;
 
 import java.util.ArrayList;
 import java.util.List;

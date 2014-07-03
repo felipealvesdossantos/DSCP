@@ -1,7 +1,4 @@
 
-import dtoDocentes.Usuario;
-import persist.PersistenciaDao;
-import java.util.Date;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;

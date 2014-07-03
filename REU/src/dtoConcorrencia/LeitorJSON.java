@@ -1,4 +1,4 @@
-package dtoFormula;
+package dtoConcorrencia;
 
 import java.io.File;
 import java.io.FileNotFoundException;
