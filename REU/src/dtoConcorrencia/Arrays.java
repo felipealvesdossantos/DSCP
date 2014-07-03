@@ -48,25 +48,29 @@ public class Arrays {
                 idMae = listaAtividade.get(i).getIdAtividade();
             }
         }
-        return 0;
+        return idMae;
     }
 
     public static void buscaAreaMae(int id) {
         for (int i = 0; i < listaAtividade.size(); i++) {
-            if (listaAtividade.get(i).getIdAtividade() == id) {
-                System.out.println("Atv: " + listaAtividade.get(i).getDescricao());
-                buscaAreaMae(id(listaAtividade.get(i).getIdAtividade()));
-            } 
+            if (listaAtividade.get(i).getIdAtividade() == id && listaAtividade.get(i).getIdAtividadeMae() != 0) {
+                //System.out.println("Atv: " + listaAtividade.get(i).getIdAtividadeMae());
+                buscaAreaMae(id(listaAtividade.get(i).getIdAtividadeMae()));
+            } else{
+                System.out.println("Atv: " + listaAtividade.get(i).getIdAtividadeMae());
+                break;
+            }
 
         }
 
     }
 
     public static void main(String[] args) {
-        int b = 0;
-        //buscaAreaMae(1);
+        
+        buscaAreaMae(48);
+//        int b = 0;
 //        for (int i = 0; i < listaAtividade.size(); i++) {
-//            if (!listaAtividade.get(i).getCodigoMae().isEmpty()) {
+//            if (listaAtividade.get(i).getIdAtividadeMae() == 0) {
 //                b++;
 //                System.out.println(listaAtividade.get(i).getDescricao());
 //            }
