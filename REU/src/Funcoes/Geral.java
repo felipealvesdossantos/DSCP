@@ -11,14 +11,14 @@ import dtoAtividades.Atividade;
  * @author felipe
  */
 public class Geral {
-    
-     /*
-        Busca uma atividade em especifico atravez do seu codigo
-    */
+    static Atividade atv = new Atividade();
+    /*
+     Busca uma atividade em especifico atravez do seu codigo
+     */
     public static Atividade buscaAtividade(String codigo) {
         int id = 0;
         Atividade atv = null;
-        
+
         for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
             if (Arrays.listaAtividades.get(i).getCodigo().equals(codigo)) {
                 id = Arrays.listaAtividades.get(i).getIdAtividade();
@@ -27,11 +27,11 @@ public class Geral {
         }
         return atv;
     }
-    
+
     /*
-        Busca uma formula em especifico atravez do seu id
-    */
-    public static String buscaFormula(int id){
+     Busca uma formula em especifico atravez do seu id
+     */
+    public static String buscaFormula(int id) {
         String formula = "";
 
         for (int i = 0; i < Arrays.listaFormulas.size(); i++) {
@@ -42,21 +42,18 @@ public class Geral {
         return formula;
     }
 
-     /*
-        Busca uma area mae recursicamente atravez do id de uma atividade
-    */
+    /*
+     Busca uma area mae recursicamente atravez do id de uma atividade
+     */
     public static Atividade buscaAreaMae(int id) {
-        Atividade atv = new Atividade();
-
+        
         for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
             if (Arrays.listaAtividades.get(i).getIdAtividade() == id) {
                 if (Arrays.listaAtividades.get(i).getIdAtividadeMae() == 0) {
-                    System.out.println("Atividade1: " + Arrays.listaAtividades.get(i).getDescricao());
-                    System.out.println("Atv Mae1: " + Arrays.listaAtividades.get(i).getIdAtividadeMae());
                     atv = Arrays.listaAtividades.get(i);
                     break;
                 } else {
-                    buscaAreaMae(Arrays.listaAtividades.get(i).getIdAtividadeMae());
+                    buscaAreaMae(Arrays.listaAtividades.get(i).getIdAtividadeMae());              
                 }
             }
         }
@@ -65,21 +62,20 @@ public class Geral {
 
     public static void main(String[] args) {
 
-        Atividade 
-               atv = buscaAreaMae(165);
+        Atividade a = buscaAreaMae(165);
 
-        System.out.println("Id: " + atv.getIdAtividade());
-        System.out.println("Descrição: " + atv.getDescricao());
-        System.out.println("Codigo: " + atv.getCodigo());
-        System.out.println("Pontos: " + atv.getPontos());
-        System.out.println("idMae: " + atv.getIdAtividadeMae());
-//        int b = 0;
-//        for (int i = 0; i < listaAtividades.size(); i++) {
-//            if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
-//                b++;
-//                System.out.println(listaAtividades.get(i).getDescricao());
-//            }
-//        }
-//        System.out.println(b);
+        System.out.println("Id: " + a.getIdAtividade());
+        System.out.println("Descrição: " + a.getDescricao());
+        System.out.println("Codigo: " + a.getCodigo());
+        System.out.println("Pontos: " + a.getPontos());
+        System.out.println("idMae: " + a.getIdAtividadeMae());
+        
+        Atividade b = buscaAreaMae(4);
+
+        System.out.println("Id: " + b.getIdAtividade());
+        System.out.println("Descrição: " + b.getDescricao());
+        System.out.println("Codigo: " + b.getCodigo());
+        System.out.println("Pontos: " + b.getPontos());
+        System.out.println("idMae: " + b.getIdAtividadeMae());
     }
 }
