@@ -17,7 +17,7 @@ import org.json.simple.parser.ParseException;
  */
 public class LeitorJSON {
 
-    private ArrayList listaAtividadesEVariaveis = new ArrayList<DadosJSON>();
+    private ArrayList listaProfessoresJSON = new ArrayList<DadosJSON>();
 
     public LeitorJSON(File arquivoJSON) {
         JSONObject jsonTotal;
@@ -55,11 +55,11 @@ public class LeitorJSON {
                     JSONArray parametros = new JSONArray();
                     parametros = ((JSONArray) atividadeObjeto.get("param"));                 
                     DadosAtividadeJSON ativ = new DadosAtividadeJSON();
-                    ativ.setIdAtividade((String) atividadeObjeto.get("idAtividade"));
+                    ativ.setCodAtividade((String) atividadeObjeto.get("codAtividade"));
                     ativ.setParametros(parametros);
                     var.listaAtividades.add(ativ);
                 }
-                listaAtividadesEVariaveis.add(var);
+                listaProfessoresJSON.add(var);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class LeitorJSON {
         }
     }
 
-    public ArrayList getListaAtividadesEVariaveis() {
-        return listaAtividadesEVariaveis;
+    public ArrayList getListaProfessoresJSON() {
+        return listaProfessoresJSON;
     }
 }

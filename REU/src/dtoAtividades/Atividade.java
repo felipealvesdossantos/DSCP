@@ -101,4 +101,8 @@ public class Atividade implements Serializable {
     public void setIdFormula(Formula idFormula) {
         this.idFormula = idFormula;
     }
+    
+    public Atividade getIdAtividadeMae() {
+        return idAtividadeMae;
+    }
 }
