@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.script.ScriptEngine;
@@ -31,7 +32,7 @@ public class FormulaAlg {
     /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
      * que receberá todas as fórmulas existentes no banco.
      */
-    static ArrayList<Formula> listaFormulas = new ArrayList<Formula>();
+    //static ArrayList<Formula> listaFormulas = new ArrayList<Formula>();
 
     public static void main(String[] args) throws IOException, ScriptException {
 
@@ -48,7 +49,6 @@ public class FormulaAlg {
 //        } catch (Exception ex) {
 //            System.out.println("Erro:" + ex.getMessage());
 //        }
-
         System.out.println("### JSON ###");
         // Chama o leitor de JSON
         LeitorJSON leitor = new LeitorJSON(new File("json.json"));
@@ -64,46 +64,51 @@ public class FormulaAlg {
             for (int j = 0; j < dadosJson.get(i).getListaAtividades().size(); j++) {
                 String codAtividade = dadosJson.get(i).getListaAtividades().get(j).getCodAtividade();
 
-                // Procura a atividade cadastrada no banco
-                Atividade atividade = getAtividadeBanco(codAtividade);
+                // Procura a atividade cadastrada no banco (como mais de uma pode ter o mesmo id, retorna List)
+                List<Atividade> atividades = getAtividadeBanco(codAtividade);
+                
+                Iterator<Atividade> iterator = atividades.iterator();
+                while (iterator.hasNext()) {
+                    Atividade atividade = iterator.next();
+                    // Busca a formula da atividade, se houver
+                    if (atividade.getIdFormula() != null) {
+                        formula = buscarFormula(atividade);
+                    }
 
-                // Busca a formula da atividade, se houver
-                if (atividade.getIdFormula() != null) {
-                    formula = buscarFormula(atividade);
-                }
+                    // Procura a área da atividade
+                    Atividade area = procuraArea(atividade);
 
-                // Procura a área da atividade
-                Atividade area = procuraArea(atividade);
+                    System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
+                    System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
 
-                System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
-                System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
+                    // Manda calcular a fórmula, se houver.
+                    // Caso contrário, chama o valor da pontuação.
+                    int resultadoCalculoAtividade;
+                    if (!formula.isEmpty()) {
+                        String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
+                        resultadoCalculoAtividade = realizarCalculo(expressao);
+                    } else {
+                        resultadoCalculoAtividade = atividade.getPontos().intValue();
+                    }
+                    System.out.println("Resultado: " + resultadoCalculoAtividade);
 
-                // Manda calcular a fórmula, se houver.
-                // Caso contrário, chama o valor da pontuação.
-                int resultadoCalculoAtividade;  
-                if (!formula.isEmpty()) {
-                String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
-                resultadoCalculoAtividade = realizarCalculo(expressao);
-                } else {
-                    resultadoCalculoAtividade = atividade.getPontos().intValue();
-                }
-                System.out.println("Resultado: " + resultadoCalculoAtividade);
-
-                // Adiciona a pontuação da atividade à sua área
-                if (mapaAreas.containsKey(area.getIdAtividade())) {
-                    mapaAreas.put(area.getIdAtividade(), mapaAreas.get(area.getIdAtividade()) + resultadoCalculoAtividade);
+                    // Adiciona a pontuação da atividade à sua área
+                    if (mapaAreas.containsKey(area.getIdAtividade())) {
+                        mapaAreas.put(area.getIdAtividade(), mapaAreas.get(area.getIdAtividade()) + resultadoCalculoAtividade);
+                    }
                 }
             }
         }
     }
 
-    private static Atividade getAtividadeBanco(String codAtividade) {
+    private static List<Atividade> getAtividadeBanco(String codAtividade) {
+        List<Atividade> lista = new ArrayList<Atividade>();
         for (int i = 0; i < listaAtividades.size(); i++) {
             if (listaAtividades.get(i).getCodigo().equals(codAtividade)) {
-                return listaAtividades.get(i);
+                lista.add(listaAtividades.get(i));
             }
         }
-        return null;
+        return lista;
     }
 
     private static Atividade procuraArea(Atividade atividade) {
@@ -123,9 +128,9 @@ public class FormulaAlg {
     }
 
     private static String buscarFormula(Atividade atividade) {
-        for (int i = 0; i < listaFormulas.size(); i++) {
-            if (listaFormulas.get(i).getIdFormula() == atividade.getIdFormula().getIdFormula()) {
-                return listaFormulas.get(i).getDescricao();
+        for (int i = 0; i < Arrays.listaFormulas.size(); i++) {
+            if (Arrays.listaFormulas.get(i).getIdFormula() == atividade.getIdFormula().getIdFormula()) {
+                return Arrays.listaFormulas.get(i).getDescricao();
             }
         }
         return null;
