@@ -7,15 +7,15 @@ import java.util.List;
  * @author eric
  */
 public class DadosAtividadeJSON {
-    private String idAtividade;
+    private String codAtividade;
     private List<Integer> parametros;
 
-    public String getIdAtividade() {
-        return idAtividade;
+    public String getCodAtividade() {
+        return codAtividade;
     }
 
-    public void setIdAtividade(String idAtividade) {
-        this.idAtividade = idAtividade;
+    public void setCodAtividade(String codAtividade) {
+        this.codAtividade = codAtividade;
     }
 
     public List<Integer> getParametros() {

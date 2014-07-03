@@ -24,13 +24,13 @@ public class GeraJSON {
         for (int i = 0; i < 5; i++) {
             Map dados = new LinkedHashMap();
             dados.put("nome", stringAleatoria());
-            dados.put("id", idAleatorio());
+            dados.put("id", idProfessorAleatorio());
             LinkedList listaAtividades = new LinkedList();
             
             for (int j = 0; j < 3; j++) {
                 LinkedHashMap objetoAtividade = new LinkedHashMap();
                 LinkedList parametrosAtividade = new LinkedList();
-                objetoAtividade.put("idAtividade", idAtividadeAleatorio());
+                objetoAtividade.put("codAtividade", codAtividadeAleatorio());
                 parametrosAtividade.add(parametroAleatorio());
                 parametrosAtividade.add(parametroAleatorio());
                 objetoAtividade.put("param", parametrosAtividade);
@@ -67,13 +67,13 @@ public class GeraJSON {
         return sb.toString();
     }
 
-    private static long idAleatorio() {
+    private static long idProfessorAleatorio() {
         Random rand = new Random();
         long num = rand.nextLong();
         return num;
     }
 
-    private static String idAtividadeAleatorio() {
+    private static String codAtividadeAleatorio() {
         Random rand = new Random();
         char[] letras = "IVX".toCharArray();
 

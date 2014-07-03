@@ -1,10 +1,13 @@
 package dtoConcorrencia;
 
+import dtoAtividades.Atividade;
 import dtoAtividades.Formula;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -17,60 +20,115 @@ import persist.HibernateFactory;
  */
 public class FormulaAlg {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.IOException
-     * @throws javax.script.ScriptException
+    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
+     * que receberá todas as atividades existentes no banco.
      */
+    static ArrayList<Atividade> listaAtividades = new ArrayList<Atividade>();
+    /* Esse HashMap é temporario, para teste. O definitivo será uma variavel global
+     * que receberá todas as áreas (atividades sem mãe) existentes no banco.
+     */
+    static Map<Integer, Integer> mapaAreas = new HashMap<Integer, Integer>();
+    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
+     * que receberá todas as fórmulas existentes no banco.
+     */
+    static ArrayList<Formula> listaFormulas = new ArrayList<Formula>();
+
     public static void main(String[] args) throws IOException, ScriptException {
-        // Pegar o caminho dos arquivos de formula e de variaveis
-        // Esses arquivos foram usados somente para teste.
-        //File arqFormula = new File("/home/eric/formula.txt").getAbsoluteFile();
-        //File arqVariaveis = new File("/home/eric/variaveis.txt").getAbsoluteFile();
+
         String formula = "";
 
-        //Geral geral = new Geral();
-        //PersistenciaDao persistenciaDao = new PersistenciaDao();
-        StringBuilder numId = new StringBuilder("");
-        numId.append(1);
-
-
-        try {
-            List<Formula> formulas = listar(Formula.class, numId);
-            formula = formulas.get(0).getDescricao();
-            System.out.println("Formula: " + formula);
-        } catch (Exception ex) {
-            System.out.println("Erro:" + ex.getMessage());
-        }
+//        StringBuilder numId = new StringBuilder("");
+//        numId.append(1);
+//        /* Não precisamos mais desse método, já que não acessamos mais o banco. */
+//        try {
+//            
+//            List<Formula> formulas = listar(Formula.class, numId);
+//            formula = formulas.get(0).getDescricao();
+//            System.out.println("Formula: " + formula);
+//        } catch (Exception ex) {
+//            System.out.println("Erro:" + ex.getMessage());
+//        }
 
         System.out.println("### JSON ###");
+        // Chama o leitor de JSON
         LeitorJSON leitor = new LeitorJSON(new File("json.json"));
+        // Os dados do JSON são armazenados no ArrayList
         ArrayList<DadosJSON> dadosJson = new ArrayList<DadosJSON>();
-        dadosJson = leitor.getListaAtividadesEVariaveis();
+        dadosJson = leitor.getListaProfessoresJSON();
+        // Para cada professor, há uma iteração
         for (int i = 0; i < dadosJson.size(); i++) {
             System.out.println("Nome: " + dadosJson.get(i).getNomeProfessor());
             System.out.println("Id: " + dadosJson.get(i).getIdProfessor());
             System.out.println("Atividades: ");
+            // Para cada atividade, há uma iteração
             for (int j = 0; j < dadosJson.get(i).getListaAtividades().size(); j++) {
-                System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getIdAtividade());
+                String codAtividade = dadosJson.get(i).getListaAtividades().get(j).getCodAtividade();
+
+                // Procura a atividade cadastrada no banco
+                Atividade atividade = getAtividadeBanco(codAtividade);
+
+                // Busca a formula da atividade, se houver
+                if (atividade.getIdFormula() != null) {
+                    formula = buscarFormula(atividade);
+                }
+
+                // Procura a área da atividade
+                Atividade area = procuraArea(atividade);
+
+                System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
                 System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
+
+                // Manda calcular a fórmula, se houver.
+                // Caso contrário, chama o valor da pontuação.
+                int resultadoCalculoAtividade;  
+                if (!formula.isEmpty()) {
+                String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
+                resultadoCalculoAtividade = realizarCalculo(expressao);
+                } else {
+                    resultadoCalculoAtividade = atividade.getPontos().intValue();
+                }
+                System.out.println("Resultado: " + resultadoCalculoAtividade);
+
+                // Adiciona a pontuação da atividade à sua área
+                if (mapaAreas.containsKey(area.getIdAtividade())) {
+                    mapaAreas.put(area.getIdAtividade(), mapaAreas.get(area.getIdAtividade()) + resultadoCalculoAtividade);
+                }
             }
         }
-        
-        
-        
-        String variaveis = "";
-        // Chama o leitor para o arquivo variaveis.txt
-        //LeitorDeArquivo leitorVariaveis = new LeitorDeArquivo(arqVariaveis);
-        //String variaveis = leitorVariaveis.getConteudo();
-        //System.out.println("Variáveis: " + variaveis);
+    }
 
-        // Junta a formula e as variaveis
-        String expressaoPreparada = preparaCalculo(formula, variaveis);
-        System.out.println("Expressao Preparada: " + expressaoPreparada);
-        
-        int resultado = realizarCalculo(expressaoPreparada);
-        System.out.println("Resultado: "+resultado);
+    private static Atividade getAtividadeBanco(String codAtividade) {
+        for (int i = 0; i < listaAtividades.size(); i++) {
+            if (listaAtividades.get(i).getCodigo().equals(codAtividade)) {
+                return listaAtividades.get(i);
+            }
+        }
+        return null;
+    }
+
+    private static Atividade procuraArea(Atividade atividade) {
+        Atividade atividadeAnterior = atividade;
+        boolean isArea = false;
+        while (!isArea) {
+            Atividade ativ = atividadeAnterior;
+            if (ativ.getIdAtividadeMae() != null) {
+                isArea = false;
+                atividadeAnterior = getAtividadeBanco(ativ.getIdAtividadeMae().getCodigo());
+            } else {
+                atividadeAnterior = ativ;
+                isArea = true;
+            }
+        }
+        return atividadeAnterior;
+    }
+
+    private static String buscarFormula(Atividade atividade) {
+        for (int i = 0; i < listaFormulas.size(); i++) {
+            if (listaFormulas.get(i).getIdFormula() == atividade.getIdFormula().getIdFormula()) {
+                return listaFormulas.get(i).getDescricao();
+            }
+        }
+        return null;
     }
 
     public static String preparaCalculo(String formula, String variaveis) {
@@ -79,8 +137,9 @@ public class FormulaAlg {
         partesFormula = formula.split(" ");
 
         // Split nas variaveis
+        String variaveisPrep = variaveis.substring(1, (variaveis.length()) - 1);
         String[] partesVariaveis = null;
-        partesVariaveis = variaveis.split(",");
+        partesVariaveis = variaveisPrep.split(",");
 
         // Loop para contar as variaveis
         int numVariaveis = 0;
@@ -124,8 +183,8 @@ public class FormulaAlg {
         try {
             // evaluate JavaScript code from String
             Object obj = engine.eval(expressao);
-            System.out.println(obj);
-            System.out.println(obj.getClass());
+            //System.out.println(obj);
+            //System.out.println(obj.getClass());
             double d = ((Number) obj).doubleValue();
             int resultado = (int) Math.round(d);
             return resultado;
@@ -136,17 +195,17 @@ public class FormulaAlg {
         return 0;
     }
 
-    public static List listar(Class classeEntidade, StringBuilder hql) {
-
-        Session session = HibernateFactory.getSession();
-
-        StringBuilder hqlQuery = new StringBuilder("from " + classeEntidade.getName() + " bean where idFormula = ");
-        hqlQuery.append(hql);
-
-        org.hibernate.Query query = session.createQuery(hqlQuery.toString());
-
-        List lista = query.list();
-        session.close();
-        return lista;
-    }
+//    public static List listar(Class classeEntidade, StringBuilder hql) {
+//
+//        Session session = HibernateFactory.getSession();
+//
+//        StringBuilder hqlQuery = new StringBuilder("from " + classeEntidade.getName() + " bean where idFormula = ");
+//        hqlQuery.append(hql);
+//
+//        org.hibernate.Query query = session.createQuery(hqlQuery.toString());
+//
+//        List lista = query.list();
+//        session.close();
+//        return lista;
+//    }
 }

@@ -100,6 +100,7 @@ public class Atividade implements Serializable {
     public void setIdFormula(Formula idFormula) {
         this.idFormula = idFormula;
     }
+<<<<<<< HEAD
 
     public Atividade getIdAtividadeMae() {
         return idAtividadeMae;
@@ -108,4 +109,10 @@ public class Atividade implements Serializable {
     public void setIdAtividadeMae(Atividade idAtividadeMae) {
         this.idAtividadeMae = idAtividadeMae;
     }
+=======
+    
+    public Atividade getIdAtividadeMae() {
+        return idAtividadeMae;
+    }
+>>>>>>> 50f296535517197c34be158b0c32383b00cc7a26
 }
