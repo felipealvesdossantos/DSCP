@@ -4,64 +4,75 @@
  */
 package Funcoes;
 
-import dtoAtividades.Formula;
-import static dtoConcorrencia.Arrays.listaAtividades;
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.List;
-import org.hibernate.exception.ConstraintViolationException;
-import persist.PersistenciaDao;
+import dtoAtividades.Atividade;
 
 /**
  *
  * @author felipe
  */
-public class Geral implements Serializable {
-
-    static PersistenciaDao pers = new PersistenciaDao();
-
-    public static String listaFormulas(int id) throws Exception, SQLException, ConstraintViolationException {
+public class Geral {
+    
+     /*
+        Busca uma atividade em especifico atravez do seu codigo
+    */
+    public static Atividade buscaAtividade(String codigo) {
+        int id = 0;
+        Atividade atv = null;
+        
+        for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
+            if (Arrays.listaAtividades.get(i).getCodigo().equals(codigo)) {
+                id = Arrays.listaAtividades.get(i).getIdAtividade();
+                atv = Arrays.listaAtividades.get(i);
+            }
+        }
+        return atv;
+    }
+    
+    /*
+        Busca uma formula em especifico atravez do seu id
+    */
+    public static String buscaFormula(int id){
         String formula = "";
-        List<Formula> lista = pers.listar(Formula.class);
 
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getIdFormula() == id) {
-                formula = lista.get(i).getDescricao();
+        for (int i = 0; i < Arrays.listaFormulas.size(); i++) {
+            if (Arrays.listaFormulas.get(i).getIdFormula() == id) {
+                formula = Arrays.listaFormulas.get(i).getDescricao();
             }
         }
         return formula;
     }
-    
-        public static int buscaId(String codigo) {
-        int id = 0;
 
-        for (int i = 0; i < listaAtividades.size(); i++) {
-            if (listaAtividades.get(i).getCodigo().equals(codigo)) {
-                id = listaAtividades.get(i).getIdAtividade();
-            }
-        }
-        return id;
-    }
+     /*
+        Busca uma area mae recursicamente atravez do id de uma atividade
+    */
+    public static Atividade buscaAreaMae(int id) {
+        Atividade atv = new Atividade();
 
-    public static void buscaAreaMae(int id) {
-
-        for (int i = 0; i < listaAtividades.size(); i++) {
-            if (listaAtividades.get(i).getIdAtividade() == id ) {
-                if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
-                    System.out.println("Atividade1: " + listaAtividades.get(i).getDescricao());
-                    System.out.println("Atv Mae1: " + listaAtividades.get(i).getIdAtividadeMae());
+        for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
+            if (Arrays.listaAtividades.get(i).getIdAtividade() == id) {
+                if (Arrays.listaAtividades.get(i).getIdAtividadeMae() == 0) {
+                    System.out.println("Atividade1: " + Arrays.listaAtividades.get(i).getDescricao());
+                    System.out.println("Atv Mae1: " + Arrays.listaAtividades.get(i).getIdAtividadeMae());
+                    atv = Arrays.listaAtividades.get(i);
                     break;
-                }
-                else{
-                    buscaAreaMae(listaAtividades.get(i).getIdAtividadeMae());
+                } else {
+                    buscaAreaMae(Arrays.listaAtividades.get(i).getIdAtividadeMae());
                 }
             }
         }
+        return atv;
     }
 
     public static void main(String[] args) {
 
-        buscaAreaMae(100);
+        Atividade 
+               atv = buscaAreaMae(165);
+
+        System.out.println("Id: " + atv.getIdAtividade());
+        System.out.println("Descrição: " + atv.getDescricao());
+        System.out.println("Codigo: " + atv.getCodigo());
+        System.out.println("Pontos: " + atv.getPontos());
+        System.out.println("idMae: " + atv.getIdAtividadeMae());
 //        int b = 0;
 //        for (int i = 0; i < listaAtividades.size(); i++) {
 //            if (listaAtividades.get(i).getIdAtividadeMae() == 0) {

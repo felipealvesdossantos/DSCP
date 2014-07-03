@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dtoAtividades;
 
 /**
@@ -16,34 +15,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
  * @author gaoliveira
  */
-
 @Entity
 @Table(name = "atividade", schema = "")
 public class Atividade implements Serializable {
- 
-    private static final long serialVersionUID = 2L; 
-    
-    public Atividade(){}
-    
+
+    private static final long serialVersionUID = 2L;
+
+    public Atividade() {
+    }
+
     @Id
     @Column(name = "idAtividade")
-    @GeneratedValue(strategy=GenerationType.AUTO)   
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idAtividade;
-    
+
     private String codigo;
-    
+
     private String descricao;
-    
+
     @Column(nullable = true)
     private Double pontos;
+
+    @Column(nullable = true)
+    private int idAtividadeMae;
+
+    private int idFormula;
 
     public int getIdAtividade() {
         return idAtividade;
@@ -85,19 +87,11 @@ public class Atividade implements Serializable {
         this.idAtividadeMae = idAtividadeMae;
     }
 
-    public Formula getIdFormula() {
+    public int getIdFormula() {
         return idFormula;
     }
 
-    public void setIdFormula(Formula idFormula) {
+    public void setIdFormula(int idFormula) {
         this.idFormula = idFormula;
     }
-    
-    @Column(nullable = true)
-    private int idAtividadeMae;
-    
-    @ManyToOne
-    @JoinColumn(name="idFormula")
-    private Formula idFormula;
- 
 }
