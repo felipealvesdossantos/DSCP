@@ -17,7 +17,7 @@ import org.json.simple.parser.ParseException;
  */
 public class LeitorJSON {
 
-    private ArrayList listaProfessoresJSON = new ArrayList<DadosJSON>();
+    private ArrayList listaProfessoresJSON = new ArrayList<ProfessorJSON>();
 
     public LeitorJSON(File arquivoJSON) {
         JSONObject jsonTotal;
@@ -47,7 +47,7 @@ public class LeitorJSON {
                 idProfessor = ((Number) professorObjeto.get("id")).longValue();
                 atividades = ((JSONArray) professorObjeto.get("atividades"));
                 Iterator<JSONObject> iterator = atividades.iterator();
-                DadosJSON var = new DadosJSON();
+                ProfessorJSON var = new ProfessorJSON();
                 var.setNomeProfessor(nome);
                 var.setIdProfessor(idProfessor);
                 while (iterator.hasNext()) {

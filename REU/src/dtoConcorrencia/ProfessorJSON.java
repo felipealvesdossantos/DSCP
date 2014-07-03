@@ -7,15 +7,15 @@ import java.util.List;
  *
  * @author eric
  */
-public class DadosJSON {
+public class ProfessorJSON {
     
     private String nomeProfessor;
     private long idProfessor;
     public List<DadosAtividadeJSON> listaAtividades;
-    private String idAtividade;
-    private List<Integer> parametros;
+//    private String idAtividade;
+//    private List<Integer> parametros;
     
-    public DadosJSON() {
+    public ProfessorJSON() {
         this.listaAtividades = new ArrayList<DadosAtividadeJSON>();    
     }
 
@@ -35,21 +35,21 @@ public class DadosJSON {
         this.idProfessor = idProfessor;
     }
 
-    public String getIdAtividade() {
-        return idAtividade;
-    }
-
-    public void setIdAtividade(String idAtividade) {
-        this.idAtividade = idAtividade;
-    }
-
-    public List<Integer> getParametros() {
-        return parametros;
-    }
-
-    public void setParametros(List<Integer> parametros) {
-        this.parametros = parametros;
-    }
+//    public String getIdAtividade() {
+//        return idAtividade;
+//    }
+//
+//    public void setIdAtividade(String idAtividade) {
+//        this.idAtividade = idAtividade;
+//    }
+//
+//    public List<Integer> getParametros() {
+//        return parametros;
+//    }
+//
+//    public void setParametros(List<Integer> parametros) {
+//        this.parametros = parametros;
+//    }
 
     public List<DadosAtividadeJSON> getListaAtividades() {
         return listaAtividades;
