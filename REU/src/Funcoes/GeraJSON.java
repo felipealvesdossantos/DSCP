@@ -33,11 +33,12 @@ public class GeraJSON {
                 objetoAtividade.put("codAtividade", "II - 1 - 1 - 1.2");
                 //objetoAtividade.put("codAtividade", codAtividadeAleatorio());
                 //if (objetoAtividade.get("codAtividade").equals("I -1 -1") || )
-                parametrosAtividade.add(100);
+                parametrosAtividade.add(new Integer(100));
 //parametrosAtividade.add(parametroAleatorio());
                 //parametrosAtividade.add(parametroAleatorio());
                 objetoAtividade.put("param", parametrosAtividade);
                 listaAtividades.add(objetoAtividade);
+                System.out.println("classe: "+parametrosAtividade.get(j).getClass());
             }
             dados.put("atividades", listaAtividades);
             professores.add(dados);

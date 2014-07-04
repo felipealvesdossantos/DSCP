@@ -21,304 +21,90 @@ import persist.HibernateFactory;
  *
  * @author eric
  */
-public class FormulaAlg {
+public class Pontuador {
 
-    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
-     * que receberá todas as atividades existentes no banco.
-     */
-    static ArrayList<Atividade> listaAtividades = new ArrayList<Atividade>();
-    /* Esse HashMap é temporario, para teste. O definitivo será uma variavel global
-     * que receberá todas as áreas (atividades sem mãe) existentes no banco.
-     */
-    static Map<Integer, Integer> mapaAreas = new HashMap<Integer, Integer>();
-    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
-     * que receberá todas as fórmulas existentes no banco.
-     */
-    //static ArrayList<Formula> listaFormulas = new ArrayList<Formula>();
+    private static final int NUM_VEZES_ATIVIDADE = 0;
 
     public static void main(String[] args) throws IOException, ScriptException {
 
         String formula = "";
 
-//        StringBuilder numId = new StringBuilder("");
-//        numId.append(1);
-//        /* Não precisamos mais desse método, já que não acessamos mais o banco. */
-//        try {
-//            
-//            List<Formula> formulas = listar(Formula.class, numId);
-//            formula = formulas.get(0).getDescricao();
-//            System.out.println("Formula: " + formula);
-//        } catch (Exception ex) {
-//            System.out.println("Erro:" + ex.getMessage());
-//        }
-        System.out.println("### JSON ###");
-        // Chama o leitor de JSON
+        /* Chama o leitor de JSON */
         LeitorJSON leitor = new LeitorJSON(new File("json.json"));
-        // Os dados do JSON são armazenados no ArrayList
+        /* Os dados do JSON são armazenados no ArrayList */
         ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
         dadosJson = leitor.getListaProfessoresJSON();
-        // Para cada professor, há uma iteração
+
+        ProfessorJSON professor;
+        /* Para cada professor, há uma iteração */
         for (int i = 0; i < dadosJson.size(); i++) {
-            System.out.println("Nome: " + dadosJson.get(i).getNomeProfessor());
-            System.out.println("Id: " + dadosJson.get(i).getIdProfessor());
+            professor = new ProfessorJSON();
+            professor = dadosJson.get(i);
+            System.out.println("\nNome: " + professor.getNomeProfessor());
+            System.out.println("Id: " + professor.getIdProfessor());
             System.out.println("Atividades: ");
-            // Para cada atividade, há uma iteração
-            for (int j = 0; j < dadosJson.get(i).getListaAtividades().size(); j++) {
-                String codAtividade = dadosJson.get(i).getListaAtividades().get(j).getCodAtividade();
+            /* Para cada atividade, há uma iteração */
+            for (int j = 0; j < professor.getListaAtividades().size(); j++) {
+                DadosAtividadeJSON dadosAtividadeJSON = professor.getListaAtividades().get(j);
 
-                // Procura a atividade cadastrada no banco (como mais de uma pode ter o mesmo id, retorna List)
+                /* Procura a atividade cadastrada */
                 Atividade at = new Atividade();
-                
-                at = Geral.buscaAtividade(codAtividade);
-                
-//                Iterator<Atividade> iterator = atividades.iterator();
-//                while (iterator.hasNext()) {
-                    //Atividade atividade = iterator.next();
-                    
-                    // Busca a formula da atividade, se houver
-                    if (at.getIdFormula() != 0) {
-                        formula = Geral.buscaFormula(at.getIdFormula());
-                    }
-                    System.out.println("Chegou aqui.");
-                    // Procura a área da atividade
-                    Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
+                at = Geral.buscaAtividade(dadosAtividadeJSON.getCodAtividade());
 
-                    System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
-                    System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
+                /* Busca a formula da atividade, se houver */
+                if (at.getIdFormula() != 0) {
+                    formula = Geral.buscaFormula(at.getIdFormula());
+                }
 
-                    // Manda calcular a fórmula, se houver.
-                    // Caso contrário, chama o valor da pontuação.
-                    int resultadoCalculoAtividade = 0;
-                    if (!formula.isEmpty()) {
-                        String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
-                        resultadoCalculoAtividade = realizarCalculo(expressao);
-                    } else {
-                        System.out.println("ponto:"+at.getPontos());
-                        int pt = at.getPontos().intValue();
-                        System.out.println("param:"+dadosJson.get(i).listaAtividades.get(j).getParametros().get(0));
-                        int p = dadosJson.get(i).listaAtividades.get(j).getParametros().get(0).intValue();
-                        resultadoCalculoAtividade = pt * p;
-                        //resultadoCalculoAtividade = (at.getPontos()).intValue() * dadosJson.get(i).listaAtividades.get(j).getParametros().get(0);
-                    }
-                    System.out.println("Resultado: " + resultadoCalculoAtividade);
+                /* Procura a área da atividade */
+                Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
 
-                    // Adiciona a pontuação da atividade à sua área
-                    //dadosJson.get(i).pontosAreas.put(area.getIdAtividade(), (dadosJson.get(i).pontosAreas.get(area.getIdAtividade()))+resultadoCalculoAtividade);
-//                }
+                System.out.println("\tidAtividade: " + at.getIdAtividade());
+                System.out.println("\tidArea: " + area.getIdAtividade());
+
+                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
+                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
+
+                /* Manda calcular a fórmula, se houver.
+                 * Caso contrário, chama o valor da pontuação e o multiplica pela
+                 * quantidade (primeiro parametro vindo do JSON).
+                 */
+                int resultadoCalculoAtividade = 0;
+                if (!formula.isEmpty()) {
+                    String expressao = preparaCalculo(formula, dadosAtividadeJSON.getParametros().toString());
+                    resultadoCalculoAtividade = realizarCalculo(expressao);
+                } else {
+                    int pontosAtividade = at.getPontos().intValue();
+                    int quantidade = dadosAtividadeJSON.getParametros().get(NUM_VEZES_ATIVIDADE).intValue();
+                    resultadoCalculoAtividade = pontosAtividade * quantidade;
+                }
+                System.out.println("\tResultado: " + resultadoCalculoAtividade);
+
+                /* Adiciona a pontuação da atividade à sua área */
+                int idArea = area.getIdAtividade();
+                if (professor.pontosAreas.containsKey(idArea)) {
+                    System.out.println("\tPontosAreaAntes: " + professor.pontosAreas.get(idArea));
+                } else {
+                    System.out.println("\tErro: Map não contem a chave!");
+                }
+                professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
+                System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
             }
         }
+        return;
     }
-
-    private static List<Atividade> getAtividadeBanco(String codAtividade) {
-        List<Atividade> lista = new ArrayList<Atividade>();
-        for (int i = 0; i < listaAtividades.size(); i++) {
-            if (listaAtividades.get(i).getCodigo().equals(codAtividade)) {
-                lista.add(listaAtividades.get(i));
-            }
-        }
-        return lista;
-    }
-
-    private static Atividade procuraArea(Atividade atividade) {
-        Atividade atividadeAnterior = atividade;
-        boolean isArea = false;
-        while (!isArea) {
-//            Atividade ativ = atividadeAnterior;
-//            if (ativ.getIdAtividadeMae() != null) {
-//                isArea = false;
-//                atividadeAnterior = getAtividadeBanco(ativ.getIdAtividadeMae().getCodigo());
-//=======
-//package dtoConcorrencia;
-//
-//import dtoAtividades.Atividade;
-//import dtoAtividades.Formula;
-//import java.io.File;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//import javax.script.ScriptEngine;
-//import javax.script.ScriptEngineManager;
-//import javax.script.ScriptException;
-//import org.hibernate.Session;
-//import persist.HibernateFactory;
-//
-///**
-// *
-// * @author eric
-// */
-//public class FormulaAlg {
-//
-//    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
-//     * que receberá todas as atividades existentes no banco.
-//     */
-//    static ArrayList<Atividade> listaAtividades = new ArrayList<Atividade>();
-//    /* Esse HashMap é temporario, para teste. O definitivo será uma variavel global
-//     * que receberá todas as áreas (atividades sem mãe) existentes no banco.
-//     */
-//    static Map<Integer, Integer> mapaAreas = new HashMap<Integer, Integer>();
-//    /* Essa ArrayList é temporaria, para teste. A definitiva será uma variavel global
-//     * que receberá todas as fórmulas existentes no banco.
-//     */
-//    static ArrayList<Formula> listaFormulas = new ArrayList<Formula>();
-//
-//    public static void main(String[] args) throws IOException, ScriptException {
-//
-//        String formula = "";
-//
-////        StringBuilder numId = new StringBuilder("");
-////        numId.append(1);
-////        /* Não precisamos mais desse método, já que não acessamos mais o banco. */
-////        try {
-////            
-////            List<Formula> formulas = listar(Formula.class, numId);
-////            formula = formulas.get(0).getDescricao();
-////            System.out.println("Formula: " + formula);
-////        } catch (Exception ex) {
-////            System.out.println("Erro:" + ex.getMessage());
-////        }
-//
-//        System.out.println("### JSON ###");
-//        // Chama o leitor de JSON
-//        LeitorJSON leitor = new LeitorJSON(new File("json.json"));
-//        // Os dados do JSON são armazenados no ArrayList
-//        ArrayList<DadosJSON> dadosJson = new ArrayList<DadosJSON>();
-//        dadosJson = leitor.getListaProfessoresJSON();
-//        // Para cada professor, há uma iteração
-//        for (int i = 0; i < dadosJson.size(); i++) {
-//            System.out.println("Nome: " + dadosJson.get(i).getNomeProfessor());
-//            System.out.println("Id: " + dadosJson.get(i).getIdProfessor());
-//            System.out.println("Atividades: ");
-//            // Para cada atividade, há uma iteração
-//            for (int j = 0; j < dadosJson.get(i).getListaAtividades().size(); j++) {
-//                String codAtividade = dadosJson.get(i).getListaAtividades().get(j).getCodAtividade();
-//
-//                // Procura a atividade cadastrada no banco
-//                Atividade atividade = getAtividadeBanco(codAtividade);
-//
-//                // Busca a formula da atividade, se houver
-//                if (atividade.getIdFormula() != null) {
-//                    formula = buscarFormula(atividade);
-//                }
-//
-//                // Procura a área da atividade
-//                Atividade area = procuraArea(atividade);
-//
-//                System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
-//                System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
-//
-//                // Manda calcular a fórmula, se houver.
-//                // Caso contrário, chama o valor da pontuação.
-//                int resultadoCalculoAtividade;  
-//                if (!formula.isEmpty()) {
-//                String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
-//                resultadoCalculoAtividade = realizarCalculo(expressao);
-//                } else {
-//                    resultadoCalculoAtividade = atividade.getPontos().intValue();
-//                }
-//                System.out.println("Resultado: " + resultadoCalculoAtividade);
-//
-//                // Adiciona a pontuação da atividade à sua área
-//                if (mapaAreas.containsKey(area.getIdAtividade())) {
-//                    mapaAreas.put(area.getIdAtividade(), mapaAreas.get(area.getIdAtividade()) + resultadoCalculoAtividade);
-//                }
-//            }
-//        }
-//    }
-//
-//    private static Atividade getAtividadeBanco(String codAtividade) {
-//        for (int i = 0; i < listaAtividades.size(); i++) {
-//            if (listaAtividades.get(i).getCodigo().equals(codAtividade)) {
-//                return listaAtividades.get(i);
-//            }
-//        }
-//        return null;
-//    }
-//
-//    private static Atividade procuraArea(Atividade atividade) {
-//        Atividade atividadeAnterior = atividade;
-//        boolean isArea = false;
-//        while (!isArea) {
-////            Atividade ativ = atividadeAnterior;
-////            if (ativ.getIdAtividadeMae() != null) {
-////                isArea = false;
-////                atividadeAnterior = getAtividadeBanco(ativ.getIdAtividadeMae().getCodigo());
-////            } else {
-////                atividadeAnterior = ativ;
-////                isArea = true;
-////            }
-//        }
-//        return atividadeAnterior;
-//    }
-//
-//    private static String buscarFormula(Atividade atividade) {
-//        for (int i = 0; i < listaFormulas.size(); i++) {
-//            if (listaFormulas.get(i).getIdFormula() == atividade.getIdFormula().getIdFormula()) {
-//                return listaFormulas.get(i).getDescricao();
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public static String preparaCalculo(String formula, String variaveis) {
-//        // Split na formula
-//        String[] partesFormula = null;
-//        partesFormula = formula.split(" ");
-//
-//        // Split nas variaveis
-//        String variaveisPrep = variaveis.substring(1, (variaveis.length()) - 1);
-//        String[] partesVariaveis = null;
-//        partesVariaveis = variaveisPrep.split(",");
-//
-//        // Loop para contar as variaveis
-//        int numVariaveis = 0;
-//        for (int i = 0; i < partesFormula.length; i++) {
-//            if (Character.isUpperCase(partesFormula[i].charAt(0))) {
-//                numVariaveis++;
-//            }
-//        }
-//
-//        // Loop para substituir as variaveis na formula
-//        char letra = 'A';
-//        for (int i = 0; i < partesVariaveis.length; i++) {
-//            if (numVariaveis == 0) {
-//                break;
-//>>>>>>> d1fd6ea1abb1db5e6216dac7a44d8e9768e7659d
-//            } else {
-//                for (int j = 0; j < partesFormula.length; j++) {
-//                    if (partesFormula[j].contains(String.valueOf(letra))) {
-//                        partesFormula[j] = partesVariaveis[i];
-//                    }
-//                }
-//                letra++;
-//                numVariaveis--;
-//            }
-//<<<<<<< HEAD
-        }
-        return atividadeAnterior;
-    }
-
-//    private static String buscarFormula(Atividade atividade) {
-//        for (int i = 0; i < Arrays.listaFormulas.size(); i++) {
-//            if (Arrays.listaFormulas.get(i).getIdFormula() == atividade.getIdFormula().getIdFormula()) {
-//                return Arrays.listaFormulas.get(i).getDescricao();
-//            }
-//        }
-//        return null;
-//    }
 
     public static String preparaCalculo(String formula, String variaveis) {
-        // Split na formula
+        /* Split na formula */
         String[] partesFormula = null;
         partesFormula = formula.split(" ");
 
-        // Split nas variaveis
+        /* Split nas variaveis */
         String variaveisPrep = variaveis.substring(1, (variaveis.length()) - 1);
         String[] partesVariaveis = null;
         partesVariaveis = variaveisPrep.split(",");
 
-        // Loop para contar as variaveis
+        /* Loop para contar as variaveis */
         int numVariaveis = 0;
         for (int i = 0; i < partesFormula.length; i++) {
             if (Character.isUpperCase(partesFormula[i].charAt(0))) {
@@ -326,7 +112,7 @@ public class FormulaAlg {
             }
         }
 
-        // Loop para substituir as variaveis na formula
+        /* Loop para substituir as variaveis na formula */
         char letra = 'A';
         for (int i = 0; i < partesVariaveis.length; i++) {
             if (numVariaveis == 0) {
@@ -342,7 +128,7 @@ public class FormulaAlg {
             }
         }
 
-        // Juntando as partes da formula em uma so string novamente
+        /* Juntando as partes da formula em uma so string novamente */
         String tudoJunto = "";
         for (String parte : partesFormula) {
             tudoJunto = tudoJunto + parte;
@@ -352,16 +138,14 @@ public class FormulaAlg {
     }
 
     public static int realizarCalculo(String expressao) {
-        // Cria um Script Engine Manager
+        /* Cria um Script Engine Manager */
         ScriptEngineManager factory = new ScriptEngineManager();
-        // Cria um JavaScript Engine
+        /* Cria um JavaScript Engine */
         ScriptEngine engine = factory.getEngineByName("JavaScript");
 
         try {
-            // evaluate JavaScript code from String
+            /* Faz o eval() da String expressao */
             Object obj = engine.eval(expressao);
-            //System.out.println(obj);
-            //System.out.println(obj.getClass());
             double d = ((Number) obj).doubleValue();
             int resultado = (int) Math.round(d);
             return resultado;
@@ -370,65 +154,5 @@ public class FormulaAlg {
             e.printStackTrace();
         }
         return 0;
-    }}
-
-//    public static List listar(Class classeEntidade, StringBuilder hql) {
-//
-//        Session session = HibernateFactory.getSession();
-//
-//        StringBuilder hqlQuery = new StringBuilder("from " + classeEntidade.getName() + " bean where idFormula = ");
-//        hqlQuery.append(hql);
-//
-//        org.hibernate.Query query = session.createQuery(hqlQuery.toString());
-//
-//        List lista = query.list();
-//        session.close();
-//        return lista;
-//=======
-//        }
-//
-//        // Juntando as partes da formula em uma so string novamente
-//        String tudoJunto = "";
-//        for (String parte : partesFormula) {
-//            tudoJunto = tudoJunto + parte;
-//        }
-//
-//        return tudoJunto;
-//    }
-//
-//    public static int realizarCalculo(String expressao) {
-//        // Cria um Script Engine Manager
-//        ScriptEngineManager factory = new ScriptEngineManager();
-//        // Cria um JavaScript Engine
-//        ScriptEngine engine = factory.getEngineByName("JavaScript");
-//
-//        try {
-//            // evaluate JavaScript code from String
-//            Object obj = engine.eval(expressao);
-//            //System.out.println(obj);
-//            //System.out.println(obj.getClass());
-//            double d = ((Number) obj).doubleValue();
-//            int resultado = (int) Math.round(d);
-//            return resultado;
-//        } catch (ScriptException e) {
-//            System.err.println("Erro na validação do cálculo. Verifique a fórmula.");
-//            e.printStackTrace();
-//        }
-//        return 0;
-//>>>>>>> d1fd6ea1abb1db5e6216dac7a44d8e9768e7659d
-//    }
-//
-////    public static List listar(Class classeEntidade, StringBuilder hql) {
-////
-////        Session session = HibernateFactory.getSession();
-////
-////        StringBuilder hqlQuery = new StringBuilder("from " + classeEntidade.getName() + " bean where idFormula = ");
-////        hqlQuery.append(hql);
-////
-////        org.hibernate.Query query = session.createQuery(hqlQuery.toString());
-////
-////        List lista = query.list();
-////        session.close();
-////        return lista;
-////    }
-//}
+    }
+}

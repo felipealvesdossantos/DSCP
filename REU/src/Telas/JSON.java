@@ -6,7 +6,7 @@
 
 package Telas;
 
-import dtoConcorrencia.DadosJSON;
+import dtoConcorrencia.ProfessorJSON;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -125,12 +125,12 @@ public class JSON extends javax.swing.JFrame {
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         
-        insereTabela(atlza.getDadosJSON());
+        //insereTabela(atlza.getPJSON());
         
     }//GEN-LAST:event_btnAvaliarActionPerformed
  
     
-    private void insereTabela(ArrayList<DadosJSON> json){
+    private void insereTabela(ArrayList<ProfessorJSON> json){
          long idProfessor;
          String nomeProfessor;
          

@@ -6,7 +6,7 @@
 
 package Telas;
 
-import dtoConcorrencia.DadosJSON;
+import dtoConcorrencia.ProfessorJSON;
 import dtoConcorrencia.LeitorJSON;
 import java.io.File;
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
  * @author alunoinf
  */
 public class AtualizaTabela {
-     ArrayList<DadosJSON> dadosJSON = new ArrayList<DadosJSON>();
+     ArrayList<ProfessorJSON> dadosJSON = new ArrayList<ProfessorJSON>();
 
-    public ArrayList<DadosJSON> getDadosJSON() {
+    public ArrayList<ProfessorJSON> getDadosJSON() {
         return dadosJSON;
     }
      

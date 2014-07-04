@@ -21,7 +21,8 @@ public class Arrays {
     public static List<Atividade> listaAtividades = listaAtv();
     public static List<Formula> listaFormulas = listaFor();
     public static ArrayList<Integer> listaAreaMae = new ArrayList<Integer>();
-    public static Map<Integer,Integer> mapaAreas = new HashMap<Integer, Integer>();
+    public static final ArrayList<Integer> listaAreas = new ArrayList<Integer>();
+    public static final Map<Integer,Integer> mapaAreas = new HashMap<Integer, Integer>();
 
     public static List listaAtv() {
         List<Atividade> lista = null;
@@ -47,12 +48,30 @@ public class Arrays {
         return lista;
     }
     
-    public static void populasMapaAreas() {
+    public static void popularMapaAreas() {
 
         for (int i = 0; i < listaAtividades.size(); i++) {
             if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
-                mapaAreas.put(listaAtividades.get(i).getIdAtividade(), 0);
+                mapaAreas.put(listaAtividades.get(i).getIdAtividade(), new Integer(0));
             }
         }
     }
+    
+    public static void popularListaAreas() {
+        //ArrayList<Integer> lista = new ArrayList<Integer>();
+ 
+        for (int i = 0; i < listaAtividades.size(); i++) {
+            if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
+                listaAreas.add(listaAtividades.get(i).getIdAtividade());
+            }
+        }
+        //return lista;
+    }
+
+    public static Map<Integer, Integer> getMapaAreas() {
+        popularMapaAreas();
+        return mapaAreas;
+    }
+    
+    
 }

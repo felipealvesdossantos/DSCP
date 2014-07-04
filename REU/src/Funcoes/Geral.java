@@ -11,10 +11,12 @@ import dtoAtividades.Atividade;
  * @author felipe
  */
 public class Geral {
+
     static Atividade atv = new Atividade();
     /*
      Busca uma atividade em especifico atravez do seu codigo
      */
+
     public static Atividade buscaAtividade(String codigo) {
         int id = 0;
         Atividade atv = null;
@@ -45,17 +47,32 @@ public class Geral {
     /*
      Busca uma area mae recursicamente atravez do id de uma atividade
      */
+//    public static Atividade buscaAreaMae(int id) {
+//        
+//        for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
+//            if (Arrays.listaAtividades.get(i).getIdAtividade() == id) {
+//
+//                if (Arrays.listaAtividades.get(i).getIdAtividadeMae() != 0) {
+//                    atv = Arrays.listaAtividades.get(i);
+//                    break;
+//                } else {
+//                    buscaAreaMae(Arrays.listaAtividades.get(i).getIdAtividadeMae());
+//                }     
+//            }
+//        }
+//        return atv;
+//    }
     public static Atividade buscaAreaMae(int id) {
-        
+
         for (int i = 0; i < Arrays.listaAtividades.size(); i++) {
             if (Arrays.listaAtividades.get(i).getIdAtividade() == id) {
 
-                if (Arrays.listaAtividades.get(i).getIdAtividadeMae() != 0) {
+                if (Arrays.listaAtividades.get(i).getIdAtividadeMae() == 0) {
                     atv = Arrays.listaAtividades.get(i);
                     break;
                 } else {
                     buscaAreaMae(Arrays.listaAtividades.get(i).getIdAtividadeMae());
-                }     
+                }
             }
         }
         return atv;
@@ -63,12 +80,12 @@ public class Geral {
 
     public static void main(String[] args) {
 
-
-        Atividade 
-               atv = buscaAreaMae(165);
-        Arrays.populasMapaAreas();
+        Atividade atv = buscaAreaMae(165);
+        Arrays.popularMapaAreas();
         System.out.println("Areas: " + Arrays.mapaAreas.size());
-
+        //Arrays.popularListaAreas();
+        //System.out.println("Lista Areas:" + Arrays.listaAreas.toString());
+        
         Atividade a = buscaAreaMae(165);
 
         System.out.println("Id: " + a.getIdAtividade());
@@ -76,9 +93,8 @@ public class Geral {
         System.out.println("Codigo: " + a.getCodigo());
         System.out.println("Pontos: " + a.getPontos());
         System.out.println("idMae: " + a.getIdAtividadeMae());
-        
-        Atividade b = buscaAreaMae(4);
 
+        Atividade b = buscaAreaMae(4);
 
         System.out.println("Id: " + b.getIdAtividade());
         System.out.println("Descrição: " + b.getDescricao());

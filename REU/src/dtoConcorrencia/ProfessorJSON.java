@@ -1,6 +1,7 @@
 package dtoConcorrencia;
 
 import Funcoes.Arrays;
+import dtoAtividades.Atividade_;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +16,20 @@ public class ProfessorJSON {
     private String nomeProfessor;
     private long idProfessor;
     public List<DadosAtividadeJSON> listaAtividades;
-    public Map<Integer, Integer> pontosAreas = new HashMap<Integer, Integer>();
-//    private String idAtividade;
-//    private List<Integer> parametros;
+    public List<Integer> listaAreas;
+    public Map<Integer, Integer> pontosAreas;
     
     public ProfessorJSON() {
         this.listaAtividades = new ArrayList<DadosAtividadeJSON>();
-        pontosAreas = Arrays.mapaAreas;
+
+        try{
+            Arrays arr = new Arrays();
+            pontosAreas = new HashMap<Integer, Integer>();
+            pontosAreas = arr.getMapaAreas();
+
+        } catch (Exception e) {
+            System.out.println("Erro: "+e.getMessage());
+        }
     }
 
     public String getNomeProfessor() {
@@ -40,23 +48,8 @@ public class ProfessorJSON {
         this.idProfessor = idProfessor;
     }
 
-//    public String getIdAtividade() {
-//        return idAtividade;
-//    }
-//
-//    public void setIdAtividade(String idAtividade) {
-//        this.idAtividade = idAtividade;
-//    }
-//
-//    public List<Integer> getParametros() {
-//        return parametros;
-//    }
-//
-//    public void setParametros(List<Integer> parametros) {
-//        this.parametros = parametros;
-//    }
-
     public List<DadosAtividadeJSON> getListaAtividades() {
         return listaAtividades;
     }
+
 }
