@@ -24,18 +24,20 @@ import persist.HibernateFactory;
 public class Pontuador {
 
     private static final int NUM_VEZES_ATIVIDADE = 0;
+    private String formula = "";
 
-    public static void main(String[] args) throws IOException, ScriptException {
+    /* Chama o leitor de JSON */
+    private static LeitorJSON leitor;
+    /* Os dados do JSON são armazenados no ArrayList */
+    private static ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
 
-        String formula = "";
+    private ProfessorJSON professor;
 
-        /* Chama o leitor de JSON */
-        LeitorJSON leitor = new LeitorJSON(new File("json.json"));
-        /* Os dados do JSON são armazenados no ArrayList */
-        ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
+    public Pontuador(String arquivoJson) {
+        leitor = new LeitorJSON(new File(arquivoJson));
         dadosJson = leitor.getListaProfessoresJSON();
 
-        ProfessorJSON professor;
+        //ProfessorJSON professor;
         /* Para cada professor, há uma iteração */
         for (int i = 0; i < dadosJson.size(); i++) {
             professor = new ProfessorJSON();
@@ -43,6 +45,7 @@ public class Pontuador {
             System.out.println("\nNome: " + professor.getNomeProfessor());
             System.out.println("Id: " + professor.getIdProfessor());
             System.out.println("Atividades: ");
+
             /* Para cada atividade, há uma iteração */
             for (int j = 0; j < professor.getListaAtividades().size(); j++) {
                 DadosAtividadeJSON dadosAtividadeJSON = professor.getListaAtividades().get(j);
@@ -91,9 +94,75 @@ public class Pontuador {
                 System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
             }
         }
-        return;
     }
 
+//    public static void main(String[] args) throws IOException, ScriptException {
+//        String formula = "";
+//
+//        /* Chama o leitor de JSON */
+//        LeitorJSON leitor = new LeitorJSON(new File("json.json"));
+//        /* Os dados do JSON são armazenados no ArrayList */
+//        ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
+//        dadosJson = leitor.getListaProfessoresJSON();
+//
+//        ProfessorJSON professor;
+//        /* Para cada professor, há uma iteração */
+//        for (int i = 0; i < dadosJson.size(); i++) {
+//            professor = new ProfessorJSON();
+//            professor = dadosJson.get(i);
+//            System.out.println("\nNome: " + professor.getNomeProfessor());
+//            System.out.println("Id: " + professor.getIdProfessor());
+//            System.out.println("Atividades: ");
+//            /* Para cada atividade, há uma iteração */
+//            for (int j = 0; j < professor.getListaAtividades().size(); j++) {
+//                DadosAtividadeJSON dadosAtividadeJSON = professor.getListaAtividades().get(j);
+//
+//                /* Procura a atividade cadastrada */
+//                Atividade at = new Atividade();
+//                at = Geral.buscaAtividade(dadosAtividadeJSON.getCodAtividade());
+//
+//                /* Busca a formula da atividade, se houver */
+//                if (at.getIdFormula() != 0) {
+//                    formula = Geral.buscaFormula(at.getIdFormula());
+//                }
+//
+//                /* Procura a área da atividade */
+//                Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
+//
+//                System.out.println("\tidAtividade: " + at.getIdAtividade());
+//                System.out.println("\tidArea: " + area.getIdAtividade());
+//
+//                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
+//                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
+//
+//                /* Manda calcular a fórmula, se houver.
+//                 * Caso contrário, chama o valor da pontuação e o multiplica pela
+//                 * quantidade (primeiro parametro vindo do JSON).
+//                 */
+//                int resultadoCalculoAtividade = 0;
+//                if (!formula.isEmpty()) {
+//                    String expressao = preparaCalculo(formula, dadosAtividadeJSON.getParametros().toString());
+//                    resultadoCalculoAtividade = realizarCalculo(expressao);
+//                } else {
+//                    int pontosAtividade = at.getPontos().intValue();
+//                    int quantidade = dadosAtividadeJSON.getParametros().get(NUM_VEZES_ATIVIDADE).intValue();
+//                    resultadoCalculoAtividade = pontosAtividade * quantidade;
+//                }
+//                System.out.println("\tResultado: " + resultadoCalculoAtividade);
+//
+//                /* Adiciona a pontuação da atividade à sua área */
+//                int idArea = area.getIdAtividade();
+//                if (professor.pontosAreas.containsKey(idArea)) {
+//                    System.out.println("\tPontosAreaAntes: " + professor.pontosAreas.get(idArea));
+//                } else {
+//                    System.out.println("\tErro: Map não contem a chave!");
+//                }
+//                professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
+//                System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
+//            }
+//        }
+//        return;
+//    }
     public static String preparaCalculo(String formula, String variaveis) {
         /* Split na formula */
         String[] partesFormula = null;

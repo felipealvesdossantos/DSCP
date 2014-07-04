@@ -16,26 +16,28 @@ public class GeraJSON {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-    
+
         LinkedList professores = new LinkedList();
 
         FileWriter writeFile = null;
 
-        for (int i = 0; i < 10000; i++) {
+        System.out.println("Gerando JSON...");
+        
+        for (int i = 0; i < 10; i++) {
             Map dados = new LinkedHashMap();
             dados.put("nome", stringAleatoria());
             dados.put("id", idProfessorAleatorio());
             LinkedList listaAtividades = new LinkedList();
-            
-            for (int j = 0; j < 100; j++) {
+
+            for (int j = 0; j < 10000; j++) {
                 LinkedHashMap objetoAtividade = new LinkedHashMap();
                 LinkedList parametrosAtividade = new LinkedList();
-                objetoAtividade.put("codAtividade", "II - 1 - 1 - 1.2");
+                //objetoAtividade.put("codAtividade", "II - 1 - 1 - 1.2");
                 objetoAtividade.put("codAtividade", codAtividadeAleatorio());
-                if (objetoAtividade.get("codAtividade").equals("I -1 -1") ||
-                        objetoAtividade.get("codAtividade").equals("I -1 -2") ||
-                        objetoAtividade.get("codAtividade").equals("I - 2 - 1") ||
-                        objetoAtividade.get("codAtividade").equals("I - 2 - 2")) {
+                if (objetoAtividade.get("codAtividade").equals("I -1 -1")
+                        || objetoAtividade.get("codAtividade").equals("I -1 -2")
+                        || objetoAtividade.get("codAtividade").equals("I - 2 - 1")
+                        || objetoAtividade.get("codAtividade").equals("I - 2 - 2")) {
                     parametrosAtividade.add(new Integer(parametroAleatorio()));
                     parametrosAtividade.add(new Integer(parametroAleatorio()));
                 } else {
@@ -47,12 +49,12 @@ public class GeraJSON {
             dados.put("atividades", listaAtividades);
             professores.add(dados);
         }
-        
+
         Map jsonFinal = new LinkedHashMap();
         jsonFinal.put("JSON", professores);
-        
+
         String jsonTexto = JSONValue.toJSONString(jsonFinal);
-        
+
         try {
             writeFile = new FileWriter("json.json");
             writeFile.write(jsonTexto);
@@ -83,15 +85,9 @@ public class GeraJSON {
 
     private static String codAtividadeAleatorio() {
         Random rand = new Random();
-        //char[] letras = "IVX".toCharArray();
-        int ch = 0;
-        //StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < 3; i++) {
-            ch = rand.nextInt(Arrays.listaAtividades.size());
-//            sb.append(letras[ch]);
-        }
-        
-        return Arrays.listaAtividades.get(ch).getCodigo();//sb.toString();
+        int i = rand.nextInt(Arrays.listaAtividades.size());
+
+        return Arrays.listaAtividades.get(i).getCodigo();
     }
 
     private static int numeroAtividadesAleatorio() {
@@ -99,7 +95,7 @@ public class GeraJSON {
         int num = rand.nextInt(50) + 1;
         return num;
     }
-    
+
     private static int parametroAleatorio() {
         Random rand = new Random();
         int num = rand.nextInt(50) + 1;

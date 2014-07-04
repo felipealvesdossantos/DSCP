@@ -6,6 +6,7 @@
 
 package Telas;
 
+import dtoConcorrencia.Pontuador;
 import dtoConcorrencia.ProfessorJSON;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -122,6 +123,7 @@ public class JSON extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
+        Pontuador pontuador = new Pontuador(txtCaminho.getText());
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         
