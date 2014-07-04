@@ -1,6 +1,7 @@
 //<<<<<<< HEAD
 package dtoConcorrencia;
 
+import Funcoes.Geral;
 import dtoAtividades.Atividade;
 import dtoAtividades.Formula;
 import java.io.File;
@@ -66,38 +67,44 @@ public class FormulaAlg {
                 String codAtividade = dadosJson.get(i).getListaAtividades().get(j).getCodAtividade();
 
                 // Procura a atividade cadastrada no banco (como mais de uma pode ter o mesmo id, retorna List)
-                List<Atividade> atividades = getAtividadeBanco(codAtividade);
+                Atividade at = new Atividade();
                 
-                Iterator<Atividade> iterator = atividades.iterator();
-                while (iterator.hasNext()) {
-                    Atividade atividade = iterator.next();
+                at = Geral.buscaAtividade(codAtividade);
+                
+//                Iterator<Atividade> iterator = atividades.iterator();
+//                while (iterator.hasNext()) {
+                    //Atividade atividade = iterator.next();
+                    
                     // Busca a formula da atividade, se houver
-                    if (atividade.getIdFormula() != 0) {
-                        //formula = buscarFormula(atividade);
+                    if (at.getIdFormula() != 0) {
+                        formula = Geral.buscaFormula(at.getIdFormula());
                     }
-
+                    System.out.println("Chegou aqui.");
                     // Procura a área da atividade
-                    Atividade area = procuraArea(atividade);
+                    Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
 
                     System.out.println("\tId Atividade: " + dadosJson.get(i).getListaAtividades().get(j).getCodAtividade());
                     System.out.println("\tParametros: " + dadosJson.get(i).getListaAtividades().get(j).getParametros());
 
                     // Manda calcular a fórmula, se houver.
                     // Caso contrário, chama o valor da pontuação.
-                    int resultadoCalculoAtividade;
+                    int resultadoCalculoAtividade = 0;
                     if (!formula.isEmpty()) {
                         String expressao = preparaCalculo(formula, dadosJson.get(i).getListaAtividades().get(j).getParametros().toString());
                         resultadoCalculoAtividade = realizarCalculo(expressao);
                     } else {
-                        resultadoCalculoAtividade = atividade.getPontos().intValue();
+                        System.out.println("ponto:"+at.getPontos());
+                        int pt = at.getPontos().intValue();
+                        System.out.println("param:"+dadosJson.get(i).listaAtividades.get(j).getParametros().get(0));
+                        int p = dadosJson.get(i).listaAtividades.get(j).getParametros().get(0).intValue();
+                        resultadoCalculoAtividade = pt * p;
+                        //resultadoCalculoAtividade = (at.getPontos()).intValue() * dadosJson.get(i).listaAtividades.get(j).getParametros().get(0);
                     }
                     System.out.println("Resultado: " + resultadoCalculoAtividade);
 
                     // Adiciona a pontuação da atividade à sua área
-                    if (mapaAreas.containsKey(area.getIdAtividade())) {
-                        mapaAreas.put(area.getIdAtividade(), mapaAreas.get(area.getIdAtividade()) + resultadoCalculoAtividade);
-                    }
-                }
+                    //dadosJson.get(i).pontosAreas.put(area.getIdAtividade(), (dadosJson.get(i).pontosAreas.get(area.getIdAtividade()))+resultadoCalculoAtividade);
+//                }
             }
         }
     }

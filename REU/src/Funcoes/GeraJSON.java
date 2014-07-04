@@ -27,12 +27,15 @@ public class GeraJSON {
             dados.put("id", idProfessorAleatorio());
             LinkedList listaAtividades = new LinkedList();
             
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 1; j++) {
                 LinkedHashMap objetoAtividade = new LinkedHashMap();
                 LinkedList parametrosAtividade = new LinkedList();
-                objetoAtividade.put("codAtividade", codAtividadeAleatorio());
-                parametrosAtividade.add(parametroAleatorio());
-                parametrosAtividade.add(parametroAleatorio());
+                objetoAtividade.put("codAtividade", "II - 1 - 1 - 1.2");
+                //objetoAtividade.put("codAtividade", codAtividadeAleatorio());
+                //if (objetoAtividade.get("codAtividade").equals("I -1 -1") || )
+                parametrosAtividade.add(100);
+//parametrosAtividade.add(parametroAleatorio());
+                //parametrosAtividade.add(parametroAleatorio());
                 objetoAtividade.put("param", parametrosAtividade);
                 listaAtividades.add(objetoAtividade);
             }
@@ -75,14 +78,15 @@ public class GeraJSON {
 
     private static String codAtividadeAleatorio() {
         Random rand = new Random();
-        char[] letras = "IVX".toCharArray();
-
-        StringBuffer sb = new StringBuffer();
+        //char[] letras = "IVX".toCharArray();
+        int ch = 0;
+        //StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 3; i++) {
-            int ch = rand.nextInt(letras.length);
-            sb.append(letras[ch]);
+            ch = rand.nextInt(Arrays.listaAtividades.size());
+//            sb.append(letras[ch]);
         }
-        return sb.toString();
+        
+        return Arrays.listaAtividades.get(ch).getCodigo();//sb.toString();
     }
 
     private static int numeroAtividadesAleatorio() {

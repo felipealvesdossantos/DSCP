@@ -1,7 +1,10 @@
 package dtoConcorrencia;
 
+import Funcoes.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,11 +15,13 @@ public class ProfessorJSON {
     private String nomeProfessor;
     private long idProfessor;
     public List<DadosAtividadeJSON> listaAtividades;
+    public Map<Integer, Integer> pontosAreas = new HashMap<Integer, Integer>();
 //    private String idAtividade;
 //    private List<Integer> parametros;
     
     public ProfessorJSON() {
-        this.listaAtividades = new ArrayList<DadosAtividadeJSON>();    
+        this.listaAtividades = new ArrayList<DadosAtividadeJSON>();
+        pontosAreas = Arrays.mapaAreas;
     }
 
     public String getNomeProfessor() {
