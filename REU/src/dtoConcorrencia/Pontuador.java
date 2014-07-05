@@ -1,47 +1,33 @@
-//<<<<<<< HEAD
 package dtoConcorrencia;
 
-import Funcoes.Geral;
+import Funcoes.ArraysBanco;
 import dtoAtividades.Atividade;
-import dtoAtividades.Formula;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import org.hibernate.Session;
-import persist.HibernateFactory;
 
 /**
- *
+ * Classe responsável por calcular os pontos das atividades de cada professor.
+ * 
  * @author eric
  */
 public class Pontuador {
 
+    /* Constante NUM_VEZES_ATIVIDADE representa o parametro responsável por 
+     * dizer quantas vezes a atividade foi feita (ou seja, o primeiro parametro)
+     */
     private static final int NUM_VEZES_ATIVIDADE = 0;
     private String formula = "";
 
-    /* Chama o leitor de JSON */
-    private static LeitorJSON leitor;
-    /* Os dados do JSON são armazenados no ArrayList */
-    private static ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
-
     private ProfessorJSON professor;
 
-    public Pontuador(String arquivoJson) {
-        leitor = new LeitorJSON(new File(arquivoJson));
-        dadosJson = leitor.getListaProfessoresJSON();
-
-        //ProfessorJSON professor;
+    public Pontuador(List<ProfessorJSON> jsonLido, int inicio, int fim) {
+        
         /* Para cada professor, há uma iteração */
-        for (int i = 0; i < dadosJson.size(); i++) {
+        for (int i = inicio; i < fim; i++) {
             professor = new ProfessorJSON();
-            professor = dadosJson.get(i);
+            professor = jsonLido.get(i);
             System.out.println("\nNome: " + professor.getNomeProfessor());
             System.out.println("Id: " + professor.getIdProfessor());
             System.out.println("Atividades: ");
@@ -52,15 +38,15 @@ public class Pontuador {
 
                 /* Procura a atividade cadastrada */
                 Atividade at = new Atividade();
-                at = Geral.buscaAtividade(dadosAtividadeJSON.getCodAtividade());
+                at = ArraysBanco.buscaAtividade(dadosAtividadeJSON.getCodAtividade());
 
                 /* Busca a formula da atividade, se houver */
                 if (at.getIdFormula() != 0) {
-                    formula = Geral.buscaFormula(at.getIdFormula());
+                    formula = ArraysBanco.buscaFormula(at.getIdFormula());
                 }
 
                 /* Procura a área da atividade */
-                Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
+                Atividade area = ArraysBanco.buscaAreaMae(at.getIdAtividade());
 
                 System.out.println("\tidAtividade: " + at.getIdAtividade());
                 System.out.println("\tidArea: " + area.getIdAtividade());
@@ -95,74 +81,8 @@ public class Pontuador {
             }
         }
     }
-
-//    public static void main(String[] args) throws IOException, ScriptException {
-//        String formula = "";
-//
-//        /* Chama o leitor de JSON */
-//        LeitorJSON leitor = new LeitorJSON(new File("json.json"));
-//        /* Os dados do JSON são armazenados no ArrayList */
-//        ArrayList<ProfessorJSON> dadosJson = new ArrayList<ProfessorJSON>();
-//        dadosJson = leitor.getListaProfessoresJSON();
-//
-//        ProfessorJSON professor;
-//        /* Para cada professor, há uma iteração */
-//        for (int i = 0; i < dadosJson.size(); i++) {
-//            professor = new ProfessorJSON();
-//            professor = dadosJson.get(i);
-//            System.out.println("\nNome: " + professor.getNomeProfessor());
-//            System.out.println("Id: " + professor.getIdProfessor());
-//            System.out.println("Atividades: ");
-//            /* Para cada atividade, há uma iteração */
-//            for (int j = 0; j < professor.getListaAtividades().size(); j++) {
-//                DadosAtividadeJSON dadosAtividadeJSON = professor.getListaAtividades().get(j);
-//
-//                /* Procura a atividade cadastrada */
-//                Atividade at = new Atividade();
-//                at = Geral.buscaAtividade(dadosAtividadeJSON.getCodAtividade());
-//
-//                /* Busca a formula da atividade, se houver */
-//                if (at.getIdFormula() != 0) {
-//                    formula = Geral.buscaFormula(at.getIdFormula());
-//                }
-//
-//                /* Procura a área da atividade */
-//                Atividade area = Geral.buscaAreaMae(at.getIdAtividade());
-//
-//                System.out.println("\tidAtividade: " + at.getIdAtividade());
-//                System.out.println("\tidArea: " + area.getIdAtividade());
-//
-//                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
-//                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
-//
-//                /* Manda calcular a fórmula, se houver.
-//                 * Caso contrário, chama o valor da pontuação e o multiplica pela
-//                 * quantidade (primeiro parametro vindo do JSON).
-//                 */
-//                int resultadoCalculoAtividade = 0;
-//                if (!formula.isEmpty()) {
-//                    String expressao = preparaCalculo(formula, dadosAtividadeJSON.getParametros().toString());
-//                    resultadoCalculoAtividade = realizarCalculo(expressao);
-//                } else {
-//                    int pontosAtividade = at.getPontos().intValue();
-//                    int quantidade = dadosAtividadeJSON.getParametros().get(NUM_VEZES_ATIVIDADE).intValue();
-//                    resultadoCalculoAtividade = pontosAtividade * quantidade;
-//                }
-//                System.out.println("\tResultado: " + resultadoCalculoAtividade);
-//
-//                /* Adiciona a pontuação da atividade à sua área */
-//                int idArea = area.getIdAtividade();
-//                if (professor.pontosAreas.containsKey(idArea)) {
-//                    System.out.println("\tPontosAreaAntes: " + professor.pontosAreas.get(idArea));
-//                } else {
-//                    System.out.println("\tErro: Map não contem a chave!");
-//                }
-//                professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
-//                System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
-//            }
-//        }
-//        return;
-//    }
+    
+    /* Substitui as variáveis vindas do JSON na fórmula */
     public static String preparaCalculo(String formula, String variaveis) {
         /* Split na formula */
         String[] partesFormula = null;
@@ -206,6 +126,7 @@ public class Pontuador {
         return tudoJunto;
     }
 
+    /* Realiza o cálculo da fórmula */
     public static int realizarCalculo(String expressao) {
         /* Cria um Script Engine Manager */
         ScriptEngineManager factory = new ScriptEngineManager();

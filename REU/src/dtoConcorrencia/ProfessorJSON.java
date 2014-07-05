@@ -1,6 +1,6 @@
 package dtoConcorrencia;
 
-import Funcoes.Arrays;
+import Funcoes.ArraysBanco;
 import dtoAtividades.Atividade_;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class ProfessorJSON {
         this.listaAtividades = new ArrayList<DadosAtividadeJSON>();
 
         try{
-            Arrays arr = new Arrays();
+            ArraysBanco arr = new ArraysBanco();
             pontosAreas = new HashMap<Integer, Integer>();
             pontosAreas = arr.getMapaAreas();
 

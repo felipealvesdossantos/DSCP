@@ -3,7 +3,8 @@ package dtoConcorrencia;
 import java.util.List;
 
 /**
- *
+ * Classe que modela os dados atividade que vem do JSON
+ * 
  * @author eric
  */
 public class DadosAtividadeJSON {

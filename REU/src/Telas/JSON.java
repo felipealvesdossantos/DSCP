@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Telas;
 
+import Funcoes.ArraysBanco;
 import dtoConcorrencia.Pontuador;
 import dtoConcorrencia.ProfessorJSON;
 import java.util.ArrayList;
@@ -123,7 +118,9 @@ public class JSON extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
-        Pontuador pontuador = new Pontuador(txtCaminho.getText());
+        ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
+        
+        Pontuador pontuador = new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         
@@ -159,10 +156,10 @@ public class JSON extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-          JSON frame = new JSON ();
-          frame.setSize(400, 300);
-          frame.setLocation(200, 100);
-          frame.setVisible(true);
+//          JSON frame = new JSON ();
+//          frame.setSize(400, 300);
+//          frame.setLocation(200, 100);
+//          frame.setVisible(true);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

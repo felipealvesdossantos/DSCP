@@ -85,9 +85,9 @@ public class GeraJSON {
 
     private static String codAtividadeAleatorio() {
         Random rand = new Random();
-        int i = rand.nextInt(Arrays.listaAtividades.size());
+        int i = rand.nextInt(ArraysBanco.listaAtividades.size());
 
-        return Arrays.listaAtividades.get(i).getCodigo();
+        return ArraysBanco.listaAtividades.get(i).getCodigo();
     }
 
     private static int numeroAtividadesAleatorio() {
