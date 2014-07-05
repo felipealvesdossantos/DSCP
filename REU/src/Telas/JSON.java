@@ -4,6 +4,7 @@ import Funcoes.ArraysBanco;
 import dtoConcorrencia.Pontuador;
 import dtoConcorrencia.ProfessorJSON;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -120,7 +121,8 @@ public class JSON extends javax.swing.JFrame {
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
         ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
         
-        Pontuador pontuador = new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
+        List<ProfessorJSON> list = new ArrayList<ProfessorJSON>();
+        list = (List<ProfessorJSON>) new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         

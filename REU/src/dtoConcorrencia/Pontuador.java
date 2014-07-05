@@ -2,6 +2,7 @@ package dtoConcorrencia;
 
 import Funcoes.ArraysBanco;
 import dtoAtividades.Atividade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -17,12 +18,17 @@ public class Pontuador {
     /* Constante NUM_VEZES_ATIVIDADE representa o parametro responsável por 
      * dizer quantas vezes a atividade foi feita (ou seja, o primeiro parametro)
      */
+    private List<ProfessorJSON> listProf = new ArrayList<ProfessorJSON>();
     private static final int NUM_VEZES_ATIVIDADE = 0;
     private String formula = "";
 
     private ProfessorJSON professor;
 
-    public Pontuador(List<ProfessorJSON> jsonLido, int inicio, int fim) {
+    public Pontuador(List<ProfessorJSON> jsonLido, int i, int size) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<ProfessorJSON> Pontuador(List<ProfessorJSON> jsonLido, int inicio, int fim) {
         
         /* Para cada professor, há uma iteração */
         for (int i = inicio; i < fim; i++) {
@@ -79,7 +85,10 @@ public class Pontuador {
                 professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
                 System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
             }
+            System.out.println("\tSOMA AREAS: "+professor.getSomaAreas());;
+            listProf.add(professor);
         }
+        return listProf;
     }
     
     /* Substitui as variáveis vindas do JSON na fórmula */
