@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -121,10 +122,10 @@ public class JSON extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
-        ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
+        //ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
         
-        List<ProfessorJSON> list = new ArrayList<ProfessorJSON>();
-        list = (List<ProfessorJSON>) new Pontuador();
+       // List<ProfessorJSON> list = new ArrayList<ProfessorJSON>();
+       // list = (List<ProfessorJSON>) new Pontuador();
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         
@@ -181,6 +182,14 @@ public class JSON extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField txtCaminho;
     // End of variables declaration//GEN-END:variables
+
+    public JTextField getTxtCaminho() {
+        return txtCaminho;
+    }
+
+    public void setTxtCaminho(JTextField txtCaminho) {
+        this.txtCaminho = txtCaminho;
+    }
 
     public JButton getBtnAvaliar() {
         return btnAvaliar;

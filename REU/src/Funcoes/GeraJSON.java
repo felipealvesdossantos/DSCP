@@ -23,13 +23,13 @@ public class GeraJSON {
 
         System.out.println("Gerando JSON...");
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             Map dados = new LinkedHashMap();
             dados.put("nome", stringAleatoria());
             dados.put("id", idProfessorAleatorio());
             LinkedList listaAtividades = new LinkedList();
 
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < 10; j++) {
                 LinkedHashMap objetoAtividade = new LinkedHashMap();
                 LinkedList parametrosAtividade = new LinkedList();
                 //objetoAtividade.put("codAtividade", "II - 1 - 1 - 1.2");

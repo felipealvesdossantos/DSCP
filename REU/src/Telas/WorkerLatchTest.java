@@ -35,7 +35,8 @@ public class WorkerLatchTest extends JApplet {
     private JButton startButton = new JButton(new StartAction("Do work"));
     public static JSON inst = new JSON();
     static DefaultTableModel adm = (DefaultTableModel) inst.getjTable1().getModel();
-    JButton btnAvaliar = (JButton) inst.getBtnAvaliar();
+    public static JButton btnAvaliar = (JButton) inst.getBtnAvaliar();
+    static JTextField txtCaminho = (JTextField) inst.getTxtCaminho();
     static int i;
 
     public static void main(String[] args) {
@@ -43,13 +44,16 @@ public class WorkerLatchTest extends JApplet {
 
             @Override
             public void run() {
-                JFrame frame = new JFrame();
-                frame.setTitle("Test");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new WorkerLatchTest().createGUI());
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
+//                JFrame frame = new JFrame();
+//                frame.setTitle("Test");
+//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                frame.add(new WorkerLatchTest().createGUI());
+//                frame.pack();
+//                frame.setLocationRelativeTo(null);
+//                frame.setVisible(true);
+ 
+                new WorkerLatchTest().createGUI();
+                inst.setVisible(true);
 
             }
         });
@@ -61,13 +65,12 @@ public class WorkerLatchTest extends JApplet {
 
             @Override
             public void run() {
-                ArraysBanco.jsonLido = ArraysBanco.populaJsonLido("json.json");
                 add(new WorkerLatchTest().createGUI());
             }
         });
     }
 
-    private JPanel createGUI() {
+    public JPanel createGUI() {
 
         for (int i = 0; i < N; i++) {
             JLabel label = new JLabel("0", JLabel.CENTER);
@@ -75,11 +78,12 @@ public class WorkerLatchTest extends JApplet {
             panel.add(label);
             labels.add(label);
         }
+        btnAvaliar.addActionListener(new StartAction("Do work"));
         panel.add(startButton);
         return panel;
     }
 
-    private class StartAction extends AbstractAction {
+    public class StartAction extends AbstractAction {
 
         private StartAction(String name) {
             super(name);
@@ -88,6 +92,7 @@ public class WorkerLatchTest extends JApplet {
         @Override
         public void actionPerformed(ActionEvent e) {
             startButton.setEnabled(false);
+            ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
             CountDownLatch latch = new CountDownLatch(N);
             ExecutorService executor = Executors.newFixedThreadPool(N);
             for (JLabel label : labels) {
@@ -119,7 +124,7 @@ public class WorkerLatchTest extends JApplet {
                 label.setBackground(Color.lightGray);
             }
             startButton.setEnabled(true);
-            //panel.removeAll(); panel.revalidate(); panel.repaint();
+            
         }
     }
 
@@ -135,13 +140,13 @@ public class WorkerLatchTest extends JApplet {
 
         @Override
         protected Void doInBackground() throws Exception {
-            ArraysBanco.jsonLido = ArraysBanco.populaJsonLido("json.json");
-
+            //ArraysBanco.jsonLido = ArraysBanco.populaJsonLido("json.json");
+            
             Pontuador pontuador = new Pontuador();
 
             ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
-
-            inst.setVisible(true);
+            
+                        //inst.setVisible(true);
 
             profs = (ArrayList<ProfessorJSON>) pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
 
@@ -156,7 +161,7 @@ public class WorkerLatchTest extends JApplet {
 
         @Override
         protected void process(List<ProfessorJSON> values) {
-            //adm.setNumRows(4);
+
             for (int j = 0; j < values.size(); j++) {
                 adm.setNumRows(j);
                 adm.addRow(new Object[]{values.get(j).getIdProfessor(), values.get(j).getNomeProfessor(),
@@ -167,9 +172,6 @@ public class WorkerLatchTest extends JApplet {
                     values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(4))});
             }
             
-
-            //inst.setVisible(true);
-            //label.setText(values.get(values.size() - 1).toString());
         }
 
         @Override
