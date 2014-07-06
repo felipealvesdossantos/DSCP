@@ -5,6 +5,8 @@ import dtoConcorrencia.Pontuador;
 import dtoConcorrencia.ProfessorJSON;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -122,7 +124,7 @@ public class JSON extends javax.swing.JFrame {
         ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
         
         List<ProfessorJSON> list = new ArrayList<ProfessorJSON>();
-        list = (List<ProfessorJSON>) new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
+        list = (List<ProfessorJSON>) new Pontuador();
         AtualizaTabela atlza = new AtualizaTabela();
         atlza.atualizaTabela(txtCaminho.getText());
         
@@ -179,5 +181,21 @@ public class JSON extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField txtCaminho;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getBtnAvaliar() {
+        return btnAvaliar;
+    }
+
+    public void setBtnAvaliar(JButton btnAvaliar) {
+        this.btnAvaliar = btnAvaliar;
+    }
+
+    public JTable getjTable1() {
+        return jTable1;
+    }
+
+    public void setjTable1(JTable jTable1) {
+        this.jTable1 = jTable1;
+    }
 
 }

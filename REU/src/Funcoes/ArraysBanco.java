@@ -23,6 +23,8 @@ public class ArraysBanco {
     public static List<Atividade> listaAtividades = listaAtv();
     /* Armazena todas as fórmulas do banco */
     public static List<Formula> listaFormulas = listaFor();
+    public static List<Integer> listaIdAreas = new ArrayList<Integer>();
+    
     /* Faz um mapa de todas as áreas existentes no banco.
        O mapa contém o idAtividade como chave e um int como valor */
     public static final Map<Integer,Integer> mapaAreas = new HashMap<Integer, Integer>();
@@ -63,6 +65,7 @@ public class ArraysBanco {
         for (int i = 0; i < listaAtividades.size(); i++) {
             if (listaAtividades.get(i).getIdAtividadeMae() == 0) {
                 mapaAreas.put(listaAtividades.get(i).getIdAtividade(), new Integer(0));
+                listaIdAreas.add(listaAtividades.get(i).getIdAtividade());
             }
         }
     }

@@ -24,11 +24,11 @@ public class Pontuador {
 
     private ProfessorJSON professor;
 
-    public Pontuador(List<ProfessorJSON> jsonLido, int i, int size) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Pontuador() {
+       
     }
 
-    public List<ProfessorJSON> Pontuador(List<ProfessorJSON> jsonLido, int inicio, int fim) {
+    public List<ProfessorJSON> calcula(List<ProfessorJSON> jsonLido, int inicio, int fim) {
         
         /* Para cada professor, há uma iteração */
         for (int i = inicio; i < fim; i++) {
