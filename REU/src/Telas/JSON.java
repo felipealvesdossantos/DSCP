@@ -122,8 +122,29 @@ public class JSON extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
- 
+        ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
+        //Pontuador pontuador1 = new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), JSON.this);
+        Pontuador pontuador1 = new Pontuador(ArraysBanco.jsonLido, 0, 9, JSON.this);
+        Pontuador pontuador2 = new Pontuador(ArraysBanco.jsonLido, 10, 19, JSON.this);
+        Pontuador pontuador3 = new Pontuador(ArraysBanco.jsonLido, 20, 29, JSON.this);
+        Pontuador pontuador4 = new Pontuador(ArraysBanco.jsonLido, 30, 39, JSON.this);
+        Pontuador pontuador5 = new Pontuador(ArraysBanco.jsonLido, 40, ArraysBanco.jsonLido.size(), JSON.this);
         
+        Thread t1 = new Thread(pontuador1);
+        Thread t2 = new Thread(pontuador2);
+        Thread t3 = new Thread(pontuador3);
+        Thread t4 = new Thread(pontuador4);
+        Thread t5 = new Thread(pontuador5);
+        
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+        
+        
+        //pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), JSON.this);
+
     }//GEN-LAST:event_btnAvaliarActionPerformed
  
     

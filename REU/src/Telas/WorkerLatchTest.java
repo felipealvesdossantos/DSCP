@@ -38,13 +38,16 @@ public class WorkerLatchTest extends JApplet {
     public static JButton btnAvaliar = (JButton) inst.getBtnAvaliar();
     static JTextField txtCaminho = (JTextField) inst.getTxtCaminho();
     static int i;
+    static int posicaoJaLida = 0;
+    static ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
 
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
- 
+
                 new WorkerLatchTest().createGUI();
                 inst.setVisible(true);
 
@@ -118,7 +121,7 @@ public class WorkerLatchTest extends JApplet {
             }
 
             btnAvaliar.setEnabled(true);
-            
+
         }
     }
 
@@ -132,43 +135,68 @@ public class WorkerLatchTest extends JApplet {
             this.latch = latch;
         }
 
-        
         @Override
         protected Void doInBackground() throws Exception {
+
             
-            Pontuador pontuador = new Pontuador();
-
-            ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();          
-
-            profs = (ArrayList<ProfessorJSON>) pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
-
-            int latency = rand.nextInt(42) + 10;
-            for (i = 0; i < profs.size(); i++) {
-                publish(profs.get(i));
-                //Thread.sleep(latency);
-            }
-
+            //Pontuador pontuador = new Pontuador();
+            //pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), inst);
+            //ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
+            
+            //ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
+            //synchronized(this) {
+//            for (int cont = 0; cont < ArraysBanco.jsonLido.size(); cont++) {
+//                    //int p = getPosicaoJaLida();
+//                    //setPosicaoJaLida(p+1);
+//                    //profs = (ArrayList<ProfessorJSON>) pontuador.calcula(ArraysBanco.jsonLido, posicaoJaLida, posicaoJaLida + 1);
+//                posicaoJaLida++;
+//                //int latency = rand.nextInt(42) + 10;
+//                //for (i = 0; i < profs.size(); i++) {
+//                    publish(profs.get(i));
+//                //publish(profs.get(cont));
+//                
+//                //Thread.sleep(latency);
+//                }
+           //}//}
+            
+            // profs = (ArrayList<ProfessorJSON>) pontuador.calcula(ArraysBanco.jsonLido, posicaoJaLida, ArraysBanco.jsonLido.size());
+//            int latency = rand.nextInt(42) + 10;
+//            for (i = 0; i < profs.size(); i++) {
+//                publish(profs.get(i));
+//                //Thread.sleep(latency);
+//            }
             return null;
+            
         }
 
         //Atualiza a table com os dados do Professor
         @Override
         protected void process(List<ProfessorJSON> values) {
-            
-            for (int j = 0; j < values.size(); j++) {
-                adm.setNumRows(j);
-                adm.addRow(new Object[]{values.get(j).getIdProfessor(), values.get(j).getNomeProfessor(),
-                    values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(0)),
-                    values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(1)),
-                    values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(2)),
-                    values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(3)),
-                    values.get(j).pontosAreas.get(ArraysBanco.listaIdAreas.get(4))});
-            }
-            
+
+            //for (int j = 0; j < values.size(); j++) {
+//            for (ProfessorJSON row : values) {
+//                adm.addRow(new Object[]{values.get(i).getIdProfessor(), values.get(i).getNomeProfessor(),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(0)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(1)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(2)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(3)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(4))});
+//            }
+
+//            for (int i = 0; i < ArraysBanco.jsonLido.size(); i++) {
+//                adm.setNumRows(i);
+//                adm.addRow(new Object[]{values.get(i).getIdProfessor(), values.get(i).getNomeProfessor(),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(0)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(1)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(2)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(3)),
+//                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(4))});
+//            }
         }
 
         @Override
         protected void done() {
+            
             label.setBackground(Color.green);
             latch.countDown();
         }
