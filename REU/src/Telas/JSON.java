@@ -122,41 +122,12 @@ public class JSON extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
-        //ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
-        
-       // List<ProfessorJSON> list = new ArrayList<ProfessorJSON>();
-       // list = (List<ProfessorJSON>) new Pontuador();
-        AtualizaTabela atlza = new AtualizaTabela();
-        atlza.atualizaTabela(txtCaminho.getText());
-        
-        //insereTabela(atlza.getPJSON());
+ 
         
     }//GEN-LAST:event_btnAvaliarActionPerformed
  
     
-    private void insereTabela(ArrayList<ProfessorJSON> json){
-         long idProfessor;
-         String nomeProfessor;
-         
-       
-        
-        DefaultTableModel adm = (DefaultTableModel) jTable1.getModel();
-        
-       for(int i=0; i< json.size();i++){
-           
-        idProfessor = json.get(i).getIdProfessor();
-        nomeProfessor = json.get(i).getNomeProfessor();
-        
-        adm.setNumRows(i);
-        
-        adm.addRow(new Object[]{
-                        idProfessor,
-                        nomeProfessor,
-                            
-                        });
-       }
-        //jTable1.setValueAt(nomeProfessor, 0,1);
-    }
+ 
     /**
      * @param args the command line arguments
      */

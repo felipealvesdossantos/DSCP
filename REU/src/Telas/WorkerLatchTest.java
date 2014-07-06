@@ -44,13 +44,6 @@ public class WorkerLatchTest extends JApplet {
 
             @Override
             public void run() {
-//                JFrame frame = new JFrame();
-//                frame.setTitle("Test");
-//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//                frame.add(new WorkerLatchTest().createGUI());
-//                frame.pack();
-//                frame.setLocationRelativeTo(null);
-//                frame.setVisible(true);
  
                 new WorkerLatchTest().createGUI();
                 inst.setVisible(true);
@@ -79,7 +72,7 @@ public class WorkerLatchTest extends JApplet {
             labels.add(label);
         }
         btnAvaliar.addActionListener(new StartAction("Do work"));
-        panel.add(startButton);
+        //panel.add(startButton);
         return panel;
     }
 
@@ -123,7 +116,8 @@ public class WorkerLatchTest extends JApplet {
                 label.setText("Fin!");
                 label.setBackground(Color.lightGray);
             }
-            startButton.setEnabled(true);
+
+            btnAvaliar.setEnabled(true);
             
         }
     }
@@ -138,15 +132,13 @@ public class WorkerLatchTest extends JApplet {
             this.latch = latch;
         }
 
+        
         @Override
         protected Void doInBackground() throws Exception {
-            //ArraysBanco.jsonLido = ArraysBanco.populaJsonLido("json.json");
             
             Pontuador pontuador = new Pontuador();
 
-            ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
-            
-                        //inst.setVisible(true);
+            ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();          
 
             profs = (ArrayList<ProfessorJSON>) pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size());
 
@@ -159,9 +151,10 @@ public class WorkerLatchTest extends JApplet {
             return null;
         }
 
+        //Atualiza a table com os dados do Professor
         @Override
         protected void process(List<ProfessorJSON> values) {
-
+            
             for (int j = 0; j < values.size(); j++) {
                 adm.setNumRows(j);
                 adm.addRow(new Object[]{values.get(j).getIdProfessor(), values.get(j).getNomeProfessor(),
