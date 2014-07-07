@@ -20,7 +20,6 @@ public class CalculaPontos implements Runnable {
     /* Constante NUM_VEZES_ATIVIDADE representa o parametro responsável por 
      * dizer quantas vezes a atividade foi feita (ou seja, o primeiro parametro)
      */
-    //private List<ProfessorJSON> listProf = new ArrayList<ProfessorJSON>();
     private static final int NUM_VEZES_ATIVIDADE = 0;
     private static final int ID_AREA_I = 1;
     private static final int ID_AREA_II = 8;
@@ -116,6 +115,7 @@ public class CalculaPontos implements Runnable {
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_III)),
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_IV)),
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_V))
+            //professor.getSomaAreas()
         });
     }
 
@@ -125,9 +125,6 @@ public class CalculaPontos implements Runnable {
         for (int i = inicio; i < fim; i++) {
             professor = new ProfessorJson();
             professor = listaJson.get(i);
-//            System.out.println("\nNome: " + professor.getNomeProfessor());
-//            System.out.println("Id: " + professor.getIdProfessor());
-//            System.out.println("Atividades: ");
 
             /* Para cada atividade, há uma iteração */
             for (int j = 0; j < professor.getListaAtividades().size(); j++) {
@@ -145,11 +142,6 @@ public class CalculaPontos implements Runnable {
                 /* Procura a área da atividade */
                 Atividade area = ArraysBanco.buscaAreaMae(at.getIdAtividade());
 
-//                System.out.println("\tidAtividade: " + at.getIdAtividade());
-//                System.out.println("\tidArea: " + area.getIdAtividade());
-//                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
-//                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
-
                 /* Manda calcular a fórmula, se houver.
                  * Caso contrário, chama o valor da pontuação e o multiplica pela
                  * quantidade (primeiro parametro vindo do TelaInicial).
@@ -163,7 +155,6 @@ public class CalculaPontos implements Runnable {
                     int quantidade = dadosAtividadeJSON.getParametros().get(NUM_VEZES_ATIVIDADE).intValue();
                     resultadoCalculoAtividade = pontosAtividade * quantidade;
                 }
-//                System.out.println("\tResultado: " + resultadoCalculoAtividade);
 
                 /* Adiciona a pontuação da atividade à sua área */
                 idArea = area.getIdAtividade();
@@ -172,8 +163,8 @@ public class CalculaPontos implements Runnable {
                 } else {
                     System.out.println("\tErro: Map não contem a chave!");
                 }
+                //professor.setSomaAreas(idArea);
                 professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
-                System.out.println("\tPontosAreaDepois: " + professor.pontosAreas.get(idArea));
             }
             imprimeLinhaNaTela(professor);
 

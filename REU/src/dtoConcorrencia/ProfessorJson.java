@@ -17,7 +17,6 @@ public class ProfessorJson {
     public List<DadosAtividadeJson> listaAtividades;
     public List<Integer> listaAreas;
     public Map<Integer, Integer> pontosAreas;
-    private int somaAreas = 0;
 
     public ProfessorJson() {
         this.listaAtividades = new ArrayList<DadosAtividadeJson>();
@@ -51,19 +50,4 @@ public class ProfessorJson {
     public List<DadosAtividadeJson> getListaAtividades() {
         return listaAtividades;
     }
-
-    public int getSomaAreas() {
-        calculaSomaAreas();
-        return somaAreas;
-    }
-
-    private int calculaSomaAreas() {
-        int totalVolts = 0;
-        for (int val : pontosAreas.values()) {
-            totalVolts += val;
-        }
-        System.out.println("\tSOMA AREAS: "+somaAreas);;
-        return totalVolts;
-    }
-
 }
