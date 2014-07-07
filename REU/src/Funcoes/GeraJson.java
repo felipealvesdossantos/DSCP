@@ -14,6 +14,8 @@ import org.json.simple.JSONValue;
  */
 public class GeraJson {
 
+    static int cont = 1;
+    
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
 
@@ -26,7 +28,8 @@ public class GeraJson {
         for (int i = 0; i < 10000; i++) {
             Map dados = new LinkedHashMap();
             dados.put("nome", stringAleatoria());
-            dados.put("id", idProfessorAleatorio());
+            dados.put("id", cont);
+            cont++;
             LinkedList listaAtividades = new LinkedList();
 
             for (int j = 0; j < 100; j++) {

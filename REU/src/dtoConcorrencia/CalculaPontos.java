@@ -125,9 +125,9 @@ public class CalculaPontos implements Runnable {
         for (int i = inicio; i < fim; i++) {
             professor = new ProfessorJson();
             professor = listaJson.get(i);
-            System.out.println("\nNome: " + professor.getNomeProfessor());
-            System.out.println("Id: " + professor.getIdProfessor());
-            System.out.println("Atividades: ");
+//            System.out.println("\nNome: " + professor.getNomeProfessor());
+//            System.out.println("Id: " + professor.getIdProfessor());
+//            System.out.println("Atividades: ");
 
             /* Para cada atividade, há uma iteração */
             for (int j = 0; j < professor.getListaAtividades().size(); j++) {
@@ -145,11 +145,10 @@ public class CalculaPontos implements Runnable {
                 /* Procura a área da atividade */
                 Atividade area = ArraysBanco.buscaAreaMae(at.getIdAtividade());
 
-                System.out.println("\tidAtividade: " + at.getIdAtividade());
-                System.out.println("\tidArea: " + area.getIdAtividade());
-
-                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
-                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
+//                System.out.println("\tidAtividade: " + at.getIdAtividade());
+//                System.out.println("\tidArea: " + area.getIdAtividade());
+//                System.out.println("\tCod Atividade: " + dadosAtividadeJSON.getCodAtividade());
+//                System.out.println("\tParametros: " + dadosAtividadeJSON.getParametros().get(0).intValue());
 
                 /* Manda calcular a fórmula, se houver.
                  * Caso contrário, chama o valor da pontuação e o multiplica pela
@@ -164,7 +163,7 @@ public class CalculaPontos implements Runnable {
                     int quantidade = dadosAtividadeJSON.getParametros().get(NUM_VEZES_ATIVIDADE).intValue();
                     resultadoCalculoAtividade = pontosAtividade * quantidade;
                 }
-                System.out.println("\tResultado: " + resultadoCalculoAtividade);
+//                System.out.println("\tResultado: " + resultadoCalculoAtividade);
 
                 /* Adiciona a pontuação da atividade à sua área */
                 idArea = area.getIdAtividade();

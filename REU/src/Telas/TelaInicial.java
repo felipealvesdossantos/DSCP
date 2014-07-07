@@ -117,11 +117,11 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
         ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
-        CalculaPontos pontuador1 = new CalculaPontos(ArraysBanco.jsonLido, 0, 9, TelaInicial.this);
-        CalculaPontos pontuador2 = new CalculaPontos(ArraysBanco.jsonLido, 10, 19, TelaInicial.this);
-        CalculaPontos pontuador3 = new CalculaPontos(ArraysBanco.jsonLido, 20, 29, TelaInicial.this);
-        CalculaPontos pontuador4 = new CalculaPontos(ArraysBanco.jsonLido, 30, 39, TelaInicial.this);
-        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 40, ArraysBanco.jsonLido.size(), TelaInicial.this);
+        CalculaPontos pontuador1 = new CalculaPontos(ArraysBanco.jsonLido, 0, 1999, TelaInicial.this);
+        CalculaPontos pontuador2 = new CalculaPontos(ArraysBanco.jsonLido, 2000, 3999, TelaInicial.this);
+        CalculaPontos pontuador3 = new CalculaPontos(ArraysBanco.jsonLido, 4000, 5999, TelaInicial.this);
+        CalculaPontos pontuador4 = new CalculaPontos(ArraysBanco.jsonLido, 6000, 7999, TelaInicial.this);
+        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 8000, 9999, TelaInicial.this);
 
         Thread t1 = new Thread(pontuador1);
         Thread t2 = new Thread(pontuador2);
