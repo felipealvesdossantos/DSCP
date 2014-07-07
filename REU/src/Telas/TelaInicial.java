@@ -1,29 +1,24 @@
 package Telas;
 
 import Funcoes.ArraysBanco;
-import dtoConcorrencia.Pontuador;
-import dtoConcorrencia.ProfessorJSON;
-import java.util.ArrayList;
-import java.util.List;
+import dtoConcorrencia.CalculaPontos;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Henrique
  */
-public class JSON extends javax.swing.JFrame {
+public class TelaInicial extends javax.swing.JFrame {
 
     long idProfessor;
     String nomeProfessor;
-    
-    public JSON() {
+
+    public TelaInicial() {
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -80,7 +75,7 @@ public class JSON extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtCaminho)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE))
@@ -110,57 +105,45 @@ public class JSON extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarActionPerformed
-        BuscaCaminho bscCaminho = new BuscaCaminho();
+        TelaBuscaCaminhoJason bscCaminho = new TelaBuscaCaminhoJason();
         
-        
-      if (!bscCaminho.flagJSON){
-        txtCaminho.setText(bscCaminho.nomeArquivo);
-      }else{
-         //nada
-      }
-      
+        if (!bscCaminho.flagJSON) {
+            txtCaminho.setText(bscCaminho.nomeArquivo);
+        } else {
+            //nada
+        }
+
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
         ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
-        //Pontuador pontuador1 = new Pontuador(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), JSON.this);
-        Pontuador pontuador1 = new Pontuador(ArraysBanco.jsonLido, 0, 9, JSON.this);
-        Pontuador pontuador2 = new Pontuador(ArraysBanco.jsonLido, 10, 19, JSON.this);
-        Pontuador pontuador3 = new Pontuador(ArraysBanco.jsonLido, 20, 29, JSON.this);
-        Pontuador pontuador4 = new Pontuador(ArraysBanco.jsonLido, 30, 39, JSON.this);
-        Pontuador pontuador5 = new Pontuador(ArraysBanco.jsonLido, 40, ArraysBanco.jsonLido.size(), JSON.this);
-        
+        CalculaPontos pontuador1 = new CalculaPontos(ArraysBanco.jsonLido, 0, 9, TelaInicial.this);
+        CalculaPontos pontuador2 = new CalculaPontos(ArraysBanco.jsonLido, 10, 19, TelaInicial.this);
+        CalculaPontos pontuador3 = new CalculaPontos(ArraysBanco.jsonLido, 20, 29, TelaInicial.this);
+        CalculaPontos pontuador4 = new CalculaPontos(ArraysBanco.jsonLido, 30, 39, TelaInicial.this);
+        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 40, ArraysBanco.jsonLido.size(), TelaInicial.this);
+
         Thread t1 = new Thread(pontuador1);
         Thread t2 = new Thread(pontuador2);
         Thread t3 = new Thread(pontuador3);
         Thread t4 = new Thread(pontuador4);
         Thread t5 = new Thread(pontuador5);
-        
+
         t1.start();
         t2.start();
         t3.start();
         t4.start();
         t5.start();
-        
-        
-        //pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), JSON.this);
-
     }//GEN-LAST:event_btnAvaliarActionPerformed
- 
-    
- 
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-//          JSON frame = new JSON ();
-//          frame.setSize(400, 300);
-//          frame.setLocation(200, 100);
-//          frame.setVisible(true);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JSON().setVisible(true);
+                new TelaInicial().setVisible(true);
             }
         });
     }

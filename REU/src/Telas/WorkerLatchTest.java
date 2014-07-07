@@ -6,8 +6,8 @@
 package Telas;
 
 import Funcoes.ArraysBanco;
-import dtoConcorrencia.Pontuador;
-import dtoConcorrencia.ProfessorJSON;
+import dtoConcorrencia.CalculaPontos;
+import dtoConcorrencia.ProfessorJson;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -33,13 +33,13 @@ public class WorkerLatchTest extends JApplet {
     private Queue<JLabel> labels = new LinkedList<JLabel>();
     private JPanel panel = new JPanel(new GridLayout(0, 1));
     private JButton startButton = new JButton(new StartAction("Do work"));
-    public static JSON inst = new JSON();
+    public static TelaInicial inst = new TelaInicial();
     static DefaultTableModel adm = (DefaultTableModel) inst.getjTable1().getModel();
     public static JButton btnAvaliar = (JButton) inst.getBtnAvaliar();
     static JTextField txtCaminho = (JTextField) inst.getTxtCaminho();
     static int i;
     static int posicaoJaLida = 0;
-    static ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
+    static ArrayList<ProfessorJson> profs = new ArrayList<ProfessorJson>();
 
     
     public static void main(String[] args) {
@@ -125,7 +125,7 @@ public class WorkerLatchTest extends JApplet {
         }
     }
 
-    private static class Counter extends SwingWorker<Void, ProfessorJSON> {
+    private static class Counter extends SwingWorker<Void, ProfessorJson> {
 
         private JLabel label;
         CountDownLatch latch;
@@ -139,7 +139,7 @@ public class WorkerLatchTest extends JApplet {
         protected Void doInBackground() throws Exception {
 
             
-            //Pontuador pontuador = new Pontuador();
+            //Pontuador pontuador = new CalculaPontos();
             //pontuador.calcula(ArraysBanco.jsonLido, 0, ArraysBanco.jsonLido.size(), inst);
             //ArrayList<ProfessorJSON> profs = new ArrayList<ProfessorJSON>();
             
@@ -171,10 +171,10 @@ public class WorkerLatchTest extends JApplet {
 
         //Atualiza a table com os dados do Professor
         @Override
-        protected void process(List<ProfessorJSON> values) {
+        protected void process(List<ProfessorJson> values) {
 
             //for (int j = 0; j < values.size(); j++) {
-//            for (ProfessorJSON row : values) {
+//            for (ProfessorJson row : values) {
 //                adm.addRow(new Object[]{values.get(i).getIdProfessor(), values.get(i).getNomeProfessor(),
 //                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(0)),
 //                    values.get(i).pontosAreas.get(ArraysBanco.listaIdAreas.get(1)),

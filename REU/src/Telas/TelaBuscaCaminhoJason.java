@@ -15,12 +15,12 @@ import javax.swing.JOptionPane;
  *
  * @author Henrique
  */
-public class BuscaCaminho extends JFrame {
+public class TelaBuscaCaminhoJason extends JFrame {
     JFileChooser busca;
     String nomeArquivo;
     Boolean flagJSON;
     
-    public BuscaCaminho() {
+    public TelaBuscaCaminhoJason() {
     flagJSON = false;
     busca = new JFileChooser();
     int r = busca.showOpenDialog(new JFrame());

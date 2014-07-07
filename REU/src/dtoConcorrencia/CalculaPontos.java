@@ -1,24 +1,21 @@
 package dtoConcorrencia;
 
 import Funcoes.ArraysBanco;
-import Telas.JSON;
+import Telas.TelaInicial;
 import dtoAtividades.Atividade;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.eclipse.persistence.jaxb.JAXBContextProperties;
 
 /**
  * Classe responsável por calcular os pontos das atividades de cada professor.
  *
  * @author eric
  */
-public class Pontuador implements Runnable {
+public class CalculaPontos implements Runnable {
 
     /* Constante NUM_VEZES_ATIVIDADE representa o parametro responsável por 
      * dizer quantas vezes a atividade foi feita (ou seja, o primeiro parametro)
@@ -30,23 +27,23 @@ public class Pontuador implements Runnable {
     private static final int ID_AREA_III = 106;
     private static final int ID_AREA_IV = 135;
     private static final int ID_AREA_V = 156;
-    private List<ProfessorJSON> listaJson = new ArrayList<ProfessorJSON>();
+    private List<ProfessorJson> listaJson = new ArrayList<ProfessorJson>();
     private int inicio;
     private int fim;
     private String formula = "";
     DefaultTableModel tableModel = new DefaultTableModel();
     int idArea;
 
-    private ProfessorJSON professor;
+    private ProfessorJson professor;
 
-    public Pontuador(List<ProfessorJSON> jsonLido, int inicio, int fim, JSON tela) {
+    public CalculaPontos(List<ProfessorJson> jsonLido, int inicio, int fim, TelaInicial tela) {
         listaJson = jsonLido;
         this.inicio = inicio;
         this.fim = fim;
         tableModel = (DefaultTableModel) tela.getjTable1().getModel();
     }
 
-    /* Substitui as variáveis vindas do JSON na fórmula */
+    /* Substitui as variáveis vindas do TelaInicial na fórmula */
     public static String preparaCalculo(String formula, String variaveis) {
         /* Split na formula */
         String[] partesFormula = null;
@@ -110,7 +107,7 @@ public class Pontuador implements Runnable {
         return 0;
     }
 
-    public void imprimeLinhaNaTela(ProfessorJSON professor) {
+    public void imprimeLinhaNaTela(ProfessorJson professor) {
         tableModel.addRow(new Object[]{
             professor.getIdProfessor(),
             professor.getNomeProfessor(),
@@ -126,7 +123,7 @@ public class Pontuador implements Runnable {
     public void run() {
         /* Para cada professor, há uma iteração */
         for (int i = inicio; i < fim; i++) {
-            professor = new ProfessorJSON();
+            professor = new ProfessorJson();
             professor = listaJson.get(i);
             System.out.println("\nNome: " + professor.getNomeProfessor());
             System.out.println("Id: " + professor.getIdProfessor());
@@ -134,7 +131,7 @@ public class Pontuador implements Runnable {
 
             /* Para cada atividade, há uma iteração */
             for (int j = 0; j < professor.getListaAtividades().size(); j++) {
-                DadosAtividadeJSON dadosAtividadeJSON = professor.getListaAtividades().get(j);
+                DadosAtividadeJson dadosAtividadeJSON = professor.getListaAtividades().get(j);
 
                 /* Procura a atividade cadastrada */
                 Atividade at = new Atividade();
@@ -156,7 +153,7 @@ public class Pontuador implements Runnable {
 
                 /* Manda calcular a fórmula, se houver.
                  * Caso contrário, chama o valor da pontuação e o multiplica pela
-                 * quantidade (primeiro parametro vindo do JSON).
+                 * quantidade (primeiro parametro vindo do TelaInicial).
                  */
                 int resultadoCalculoAtividade = 0;
                 if (!formula.isEmpty()) {

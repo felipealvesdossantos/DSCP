@@ -13,7 +13,7 @@ public class HibernateFactory {
 
     static{
         AnnotationConfiguration cfg = new AnnotationConfiguration();
-        cfg.configure();
+        cfg.configure("hibernate.cfg.xml");
         
         cfg.addAnnotatedClass(Atividade.class);
         cfg.addAnnotatedClass(Formula.class);

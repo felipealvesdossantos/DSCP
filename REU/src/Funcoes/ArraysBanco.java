@@ -2,8 +2,8 @@ package Funcoes;
 
 import dtoAtividades.Atividade;
 import dtoAtividades.Formula;
-import dtoConcorrencia.LeitorJSON;
-import dtoConcorrencia.ProfessorJSON;
+import dtoConcorrencia.LeitorJson;
+import dtoConcorrencia.ProfessorJson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class ArraysBanco {
        O mapa contém o idAtividade como chave e um int como valor */
     public static final Map<Integer,Integer> mapaAreas = new HashMap<Integer, Integer>();
     /* Armazena todo o conteúdo do JSON lido */
-    public static List<ProfessorJSON> jsonLido;
+    public static List<ProfessorJson> jsonLido;
     
     static Atividade atv = new Atividade();
 
@@ -78,8 +78,8 @@ public class ArraysBanco {
         
     /* Popula o jsonLido */
     public static List populaJsonLido(String arquivoJson) {
-        List<ProfessorJSON> lista = new ArrayList<ProfessorJSON>();
-        LeitorJSON leitor = new LeitorJSON(new File(arquivoJson));
+        List<ProfessorJson> lista = new ArrayList<ProfessorJson>();
+        LeitorJson leitor = new LeitorJson(new File(arquivoJson));
         lista = leitor.getListaProfessoresJSON();
         return lista;
     }
