@@ -87,7 +87,7 @@ public class ArraysBanco {
     /*
      Busca uma atividade em especifico atraves do seu codigo
      */
-    public static Atividade buscaAtividade(String codigo) {
+    public synchronized static Atividade buscaAtividade(String codigo) {
         int id = 0;
         Atividade atv = null;
 
@@ -103,7 +103,7 @@ public class ArraysBanco {
     /*
      Busca uma formula em especifica atraves do seu id
      */
-    public static String buscaFormula(int id) {
+    public synchronized static String buscaFormula(int id) {
         String formula = "";
 
         for (int i = 0; i < ArraysBanco.listaFormulas.size(); i++) {
@@ -117,7 +117,7 @@ public class ArraysBanco {
     /*
      Busca uma area mae recursivamente atraves do id de uma atividade
      */
-    public static Atividade buscaAreaMae(int id) {
+    public synchronized static Atividade buscaAreaMae(int id) {
 
         for (int i = 0; i < ArraysBanco.listaAtividades.size(); i++) {
             if (ArraysBanco.listaAtividades.get(i).getIdAtividade() == id) {

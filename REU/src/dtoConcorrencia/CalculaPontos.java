@@ -43,7 +43,7 @@ public class CalculaPontos implements Runnable {
     }
 
     /* Substitui as variáveis vindas do TelaInicial na fórmula */
-    public static String preparaCalculo(String formula, String variaveis) {
+    public synchronized static String preparaCalculo(String formula, String variaveis) {
         /* Split na formula */
         String[] partesFormula = null;
         partesFormula = formula.split(" ");
@@ -87,7 +87,7 @@ public class CalculaPontos implements Runnable {
     }
 
     /* Realiza o cálculo da fórmula */
-    public static int realizarCalculo(String expressao) {
+    public synchronized static int realizarCalculo(String expressao) {
         /* Cria um Script Engine Manager */
         ScriptEngineManager factory = new ScriptEngineManager();
         /* Cria um JavaScript Engine */
@@ -106,7 +106,7 @@ public class CalculaPontos implements Runnable {
         return 0;
     }
 
-    public void imprimeLinhaNaTela(ProfessorJson professor) {
+    public synchronized void imprimeLinhaNaTela(ProfessorJson professor) {
         tableModel.addRow(new Object[]{
             professor.getIdProfessor(),
             professor.getNomeProfessor(),

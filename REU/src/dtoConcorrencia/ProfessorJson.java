@@ -47,7 +47,7 @@ public class ProfessorJson {
         this.idProfessor = idProfessor;
     }
 
-    public List<DadosAtividadeJson> getListaAtividades() {
+    public synchronized List<DadosAtividadeJson> getListaAtividades() {
         return listaAtividades;
     }
 }
