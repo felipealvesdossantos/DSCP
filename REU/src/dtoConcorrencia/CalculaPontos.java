@@ -5,8 +5,6 @@ import Telas.TelaInicial;
 import dtoAtividades.Atividade;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -34,6 +32,7 @@ public class CalculaPontos implements Runnable {
     private String formula = "";
     DefaultTableModel tableModel = new DefaultTableModel();
     int idArea;
+    int numeroLinhaTableModel = 0;
 
     private ProfessorJson professor;
 
@@ -109,7 +108,7 @@ public class CalculaPontos implements Runnable {
     }
 
     public synchronized void imprimeLinhaNaTela(ProfessorJson professor) {
-        tableModel.addRow(new Object[]{
+        tableModel.insertRow(numeroLinhaTableModel, new Object[]{
             professor.getIdProfessor(),
             professor.getNomeProfessor(),
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_I)),
@@ -120,11 +119,7 @@ public class CalculaPontos implements Runnable {
             professor.getMedia()
         //professor.getSomaAreas()
         });
-        try {
-            Thread.sleep(100);
-        } catch (Exception ex) {
-            System.out.println("Erro: " + ex.getMessage());
-        }
+        numeroLinhaTableModel++;
     }
 
     @Override
@@ -176,8 +171,10 @@ public class CalculaPontos implements Runnable {
                 professor.setPontosAreas(idArea, resultadoCalculoAtividade);
                 //professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
             }
-            double media = (professor.pontosAreas.get(ID_AREA_I) + professor.pontosAreas.get(ID_AREA_II)
-                    + professor.pontosAreas.get(ID_AREA_III) + professor.pontosAreas.get(ID_AREA_IV)
+            double media = (professor.pontosAreas.get(ID_AREA_I) 
+                    + professor.pontosAreas.get(ID_AREA_II)
+                    + professor.pontosAreas.get(ID_AREA_III) 
+                    + professor.pontosAreas.get(ID_AREA_IV)
                     + professor.pontosAreas.get(ID_AREA_V)) / 5;
             professor.setMedia(media);
             imprimeLinhaNaTela(professor);
