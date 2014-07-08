@@ -159,7 +159,8 @@ public class CalculaPontos implements Runnable {
 
                 /* Adiciona a pontuação da atividade à sua área */
                 idArea = area.getIdAtividade();
-                professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
+                professor.setPontosAreas(idArea, resultadoCalculoAtividade);
+                //professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
             }
             double media = (professor.pontosAreas.get(ID_AREA_I) + professor.pontosAreas.get(ID_AREA_II) +
                          professor.pontosAreas.get(ID_AREA_III) + professor.pontosAreas.get(ID_AREA_IV) +

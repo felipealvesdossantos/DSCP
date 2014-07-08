@@ -52,6 +52,14 @@ public class ProfessorJson {
         return listaAtividades;
     }
 
+    public Map<Integer, Integer> getPontosAreas() {
+        return pontosAreas;
+    }
+
+    public synchronized void setPontosAreas(int idArea, int pontos) {
+        pontosAreas.put(idArea, pontosAreas.get(idArea)+pontos);
+    }
+
     public double getMedia() {
         return media;
     }
