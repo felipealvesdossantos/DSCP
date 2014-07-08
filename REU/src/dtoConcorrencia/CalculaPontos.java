@@ -5,6 +5,8 @@ import Telas.TelaInicial;
 import dtoAtividades.Atividade;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -116,8 +118,13 @@ public class CalculaPontos implements Runnable {
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_IV)),
             professor.pontosAreas.get(ArraysBanco.listaIdAreas.get(ID_AREA_V)),
             professor.getMedia()
-            //professor.getSomaAreas()
+        //professor.getSomaAreas()
         });
+        try {
+            Thread.sleep(100);
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -166,13 +173,14 @@ public class CalculaPontos implements Runnable {
 //                }
                 //professor.setSomaAreas(idArea);
                 professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
+                professor.setPontosAreas(idArea, resultadoCalculoAtividade);
+                //professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
             }
-            double media = (professor.pontosAreas.get(ID_AREA_I) + professor.pontosAreas.get(ID_AREA_II) +
-                         professor.pontosAreas.get(ID_AREA_III) + professor.pontosAreas.get(ID_AREA_IV) +
-                         professor.pontosAreas.get(ID_AREA_V)) / 5;
+            double media = (professor.pontosAreas.get(ID_AREA_I) + professor.pontosAreas.get(ID_AREA_II)
+                    + professor.pontosAreas.get(ID_AREA_III) + professor.pontosAreas.get(ID_AREA_IV)
+                    + professor.pontosAreas.get(ID_AREA_V)) / 5;
             professor.setMedia(media);
             imprimeLinhaNaTela(professor);
-
         }
     }
 }
