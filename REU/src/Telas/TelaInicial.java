@@ -121,7 +121,7 @@ public class TelaInicial extends javax.swing.JFrame {
         CalculaPontos pontuador2 = new CalculaPontos(ArraysBanco.jsonLido, 2000, 3999, TelaInicial.this);
         CalculaPontos pontuador3 = new CalculaPontos(ArraysBanco.jsonLido, 4000, 5999, TelaInicial.this);
         CalculaPontos pontuador4 = new CalculaPontos(ArraysBanco.jsonLido, 6000, 7999, TelaInicial.this);
-        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 8000, 9999, TelaInicial.this);
+        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 8000, 10000, TelaInicial.this);
 
         Thread t1 = new Thread(pontuador1);
         Thread t2 = new Thread(pontuador2);
@@ -134,6 +134,7 @@ public class TelaInicial extends javax.swing.JFrame {
         t3.start();
         t4.start();
         t5.start();
+        
         
 //        ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
 //        CalculaPontos pontuador1 = new CalculaPontos(ArraysBanco.jsonLido, 0, 999, TelaInicial.this);

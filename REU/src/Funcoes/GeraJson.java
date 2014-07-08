@@ -26,7 +26,7 @@ public class GeraJson {
 
         System.out.println("Gerando JSON...");
         
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i <= 10000; i++) {
             Map dados = new LinkedHashMap();
             dados.put("nome", stringAleatoria());
             dados.put("id", cont);

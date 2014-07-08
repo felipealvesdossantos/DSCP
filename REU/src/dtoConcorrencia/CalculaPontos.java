@@ -159,6 +159,12 @@ public class CalculaPontos implements Runnable {
 
                 /* Adiciona a pontuação da atividade à sua área */
                 idArea = area.getIdAtividade();
+//                if (professor.pontosAreas.containsKey(idArea)) {
+//                    System.out.println("\tPontosAreaAntes: " + professor.pontosAreas.get(idArea));
+//                } else {
+//                    System.out.println("\tErro: Map não contem a chave!");
+//                }
+                //professor.setSomaAreas(idArea);
                 professor.pontosAreas.put(idArea, (professor.pontosAreas.get(idArea)) + resultadoCalculoAtividade);
             }
             double media = (professor.pontosAreas.get(ID_AREA_I) + professor.pontosAreas.get(ID_AREA_II) +
