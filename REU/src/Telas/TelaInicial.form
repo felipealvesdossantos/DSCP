@@ -99,7 +99,7 @@
                 <Column editable="false" title="Area III" type="java.lang.Object"/>
                 <Column editable="false" title="Area IV" type="java.lang.Object"/>
                 <Column editable="false" title="Area V" type="java.lang.Object"/>
-                <Column editable="false" title="Resultado" type="java.lang.Object"/>
+                <Column editable="false" title="Media Areas" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

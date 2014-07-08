@@ -47,7 +47,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Professor", "Nome Professor", "Area I", "Area II", "Area III", "Area IV", "Area V", "Resultado"
+                "ID Professor", "Nome Professor", "Area I", "Area II", "Area III", "Area IV", "Area V", "Media Areas"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -134,6 +134,40 @@ public class TelaInicial extends javax.swing.JFrame {
         t3.start();
         t4.start();
         t5.start();
+        
+//        ArraysBanco.jsonLido = ArraysBanco.populaJsonLido(txtCaminho.getText());
+//        CalculaPontos pontuador1 = new CalculaPontos(ArraysBanco.jsonLido, 0, 999, TelaInicial.this);
+//        CalculaPontos pontuador2 = new CalculaPontos(ArraysBanco.jsonLido, 1000, 2999, TelaInicial.this);
+//        CalculaPontos pontuador3 = new CalculaPontos(ArraysBanco.jsonLido, 3000, 3999, TelaInicial.this);
+//        CalculaPontos pontuador4 = new CalculaPontos(ArraysBanco.jsonLido, 4000, 4999, TelaInicial.this);
+//        CalculaPontos pontuador5 = new CalculaPontos(ArraysBanco.jsonLido, 5000, 5999, TelaInicial.this);
+//        CalculaPontos pontuador6 = new CalculaPontos(ArraysBanco.jsonLido, 6000, 6999, TelaInicial.this);
+//        CalculaPontos pontuador7 = new CalculaPontos(ArraysBanco.jsonLido, 7000, 7999, TelaInicial.this);
+//        CalculaPontos pontuador8 = new CalculaPontos(ArraysBanco.jsonLido, 8000, 8999, TelaInicial.this);
+//        CalculaPontos pontuador9 = new CalculaPontos(ArraysBanco.jsonLido, 9000, 9999, TelaInicial.this);
+//        CalculaPontos pontuador10 = new CalculaPontos(ArraysBanco.jsonLido, 8000, 9999, TelaInicial.this);
+//       
+//        Thread t1 = new Thread(pontuador1);
+//        Thread t2 = new Thread(pontuador2);
+//        Thread t3 = new Thread(pontuador3);
+//        Thread t4 = new Thread(pontuador4);
+//        Thread t5 = new Thread(pontuador5);
+//        Thread t6 = new Thread(pontuador6);
+//        Thread t7 = new Thread(pontuador7);
+//        Thread t8 = new Thread(pontuador8);
+//        Thread t9 = new Thread(pontuador9);
+//        Thread t10 = new Thread(pontuador10);
+//        
+//        t1.start();
+//        t2.start();
+//        t3.start();
+//        t4.start();
+//        t5.start();
+//        t6.start();
+//        t7.start();
+//        t8.start();
+//        t9.start();
+//        t10.start();
     }//GEN-LAST:event_btnAvaliarActionPerformed
 
     /**

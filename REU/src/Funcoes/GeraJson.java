@@ -14,7 +14,8 @@ import org.json.simple.JSONValue;
  */
 public class GeraJson {
 
-    static int cont = 1;
+    static int cont = 1; 
+    static final int QTD_VEZES_ATIVIDADE = 1;
     
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
@@ -44,7 +45,7 @@ public class GeraJson {
                     parametrosAtividade.add(new Integer(parametroAleatorio()));
                     parametrosAtividade.add(new Integer(parametroAleatorio()));
                 } else {
-                    parametrosAtividade.add(new Integer(100));
+                    parametrosAtividade.add(new Integer(QTD_VEZES_ATIVIDADE));
                 }
                 objetoAtividade.put("param", parametrosAtividade);
                 listaAtividades.add(objetoAtividade);

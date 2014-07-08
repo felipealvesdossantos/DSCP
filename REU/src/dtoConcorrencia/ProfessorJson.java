@@ -14,6 +14,7 @@ public class ProfessorJson {
 
     private String nomeProfessor;
     private long idProfessor;
+    private double media;
     public List<DadosAtividadeJson> listaAtividades;
     public List<Integer> listaAreas;
     public Map<Integer, Integer> pontosAreas;
@@ -49,5 +50,13 @@ public class ProfessorJson {
 
     public synchronized List<DadosAtividadeJson> getListaAtividades() {
         return listaAtividades;
+    }
+
+    public double getMedia() {
+        return media;
+    }
+
+    public void setMedia(double media) {
+        this.media = media;
     }
 }
